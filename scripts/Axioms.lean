@@ -15,3 +15,8 @@ open LocallyConvex.LieGroups
 #print axioms MBLieGroup.IsHom.comp
 -- The group `Diff(K)` (`Diffeomorphism/Basic.lean`)
 #print axioms smooth_inv
+#print axioms isVaryingLieGroup_diffeos
+#print axioms Diffeo.instMBLieGroup
+-- Lie groups from atlases with varying models (`LieGroup/OfVaryingAtlas.lean`)
+#print axioms IsVaryingLieGroup.hasGroupoid
+#print axioms IsVaryingLieGroup.mbLieGroup

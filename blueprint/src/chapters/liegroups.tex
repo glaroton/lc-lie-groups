@@ -67,6 +67,32 @@ Throughout, $E$ and $F$ denote real Hausdorff locally convex spaces, not assumed
   The chain rule.
 \end{proof}
 
+\section{Lie groups from atlases with varying models}
+
+Groups of mappings carry atlases whose model spaces vary from chart to chart.
+
+\begin{theorem}[Translated charts]
+  \label{thm:of-varying-atlas}
+  \lean{LocallyConvex.LieGroups.IsVaryingLieGroup.hasGroupoid,
+    LocallyConvex.LieGroups.IsVaryingLieGroup.mbLieGroup}
+  \leanok
+  \uses{def:lie-group}
+  Let $G$ be a group with an atlas with varying models for which the multiplication and the
+  inversion are smooth, and let $\varphi$ be a chart at $e$, modeled on $E$. Then the charts
+  $\varphi_g(x) = \varphi(g^{-1}x)$, $g \in G$, form a smooth atlas modeled on $E$, for which $G$ is
+  a Lie group.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  The transition maps $\varphi_h \circ \varphi_g^{-1}(a) = \varphi(h^{-1}g\,\varphi^{-1}(a))$ are local
+  representatives of a left translation in the chart $\varphi$, as in the proof of
+  \cite[Theorem 5.3.1]{GN26}. In the translated charts, the multiplication at $(a, b)$ reads
+  $(u, v) \mapsto \varphi\big((ab)^{-1}(a\varphi^{-1}u)(b\varphi^{-1}v)\big)$, a local representative
+  in $\varphi$ of a map built from the multiplication and left translations; similarly for the
+  inversion.
+\end{proof}
+
 \section{The group of diffeomorphisms of a compact manifold}
 
 Let $K$ be a compact manifold with a local addition. The diffeomorphisms of $K$ form an open
@@ -90,4 +116,22 @@ subset $\mathrm{Diff}(K)$ of the manifold $C^\infty(K, K)$ \cite[Proposition 13.
   its graph is closed and $K$ is compact. The implicit function theorem with locally convex
   parameters and finite-dimensional values \cite{LCA} then gives smoothness
   \cite[Lemma 13.1.8]{GN26}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{Diff}(K)$ is a Lie group]
+  \label{thm:diff-lie}
+  \lean{LocallyConvex.LieGroups.isVaryingLieGroup_diffeos,
+    LocallyConvex.LieGroups.Diffeo.instMBLieGroup}
+  \leanok
+  \uses{thm:diff-inv, thm:of-varying-atlas}
+  For a compact manifold $K$ with a local addition, $\mathrm{Diff}(K)$ is a Lie group, modeled on
+  the space of smooth sections of $TK$ along the identity \cite[Proposition 13.1.10(e)]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  The composition is smooth on $C^\infty(K, K) \times C^\infty(K, K)$
+  \cite[Proposition 13.1.2(a)]{GN26}, hence on the open subset $\mathrm{Diff}(K) \times
+  \mathrm{Diff}(K)$, and the inversion is smooth by Theorem~\ref{thm:diff-inv}; both take values in
+  $\mathrm{Diff}(K)$. Apply Theorem~\ref{thm:of-varying-atlas}.
 \end{proof}

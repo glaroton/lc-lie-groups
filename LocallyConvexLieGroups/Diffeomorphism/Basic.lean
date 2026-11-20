@@ -7,6 +7,8 @@ module
 
 public import LocallyConvexManifolds.MappingSpace.Diffeomorphism.Inverse
 public import LocallyConvexManifolds.Manifold.VaryingAtlasRestrict
+public import LocallyConvexManifolds.MappingSpace.CompositionMap
+public import LocallyConvexLieGroups.LieGroup.OfVaryingAtlas
 
 /-!
 # The group of diffeomorphisms of a compact manifold
@@ -20,11 +22,16 @@ manifold (`diffeoAtlas`). Here we prove that the inversion is smooth ([GN26, Pro
 ## Main definitions
 
 * `SmoothMap.IsDiffeo.inv`: the inverse of a diffeomorphism.
-* `diffeos H K`: the set `Diff(K) ⊆ C^∞(K, K)`; `diffeoAtlas A`: its manifold structure.
+* `diffeos H K`: the set `Diff(K) ⊆ C^∞(K, K)`, a group under composition; `diffeoAtlas A`: its
+  manifold structure.
+* `Diffeo A`: `Diff(K)` as a Lie group, modeled on the model `DiffeoModel A` of the chart of
+  `C^∞(K, K)` at the identity (the smooth sections along `id`, i.e. the vector fields on `K`).
 
 ## Main results
 
 * `smooth_inv`: the inversion `Diff(K) → C^∞(K, K)` is smooth.
+* `isVaryingLieGroup_diffeos`: composition and inversion are smooth on `Diff(K)`.
+* `Diffeo.instMBLieGroup`: **`Diff(K)` is a Lie group** ([GN26, Proposition 13.1.10(e)]).
 
 ## Implementation notes
 
@@ -102,5 +109,73 @@ theorem smooth_inv (A : LocalAddition H K) :
     (fun γ ↦ γ.1.2 1) (fun γ ↦ (SmoothMap.IsDiffeo.inv γ.2).2 1)
     (fun γ x ↦ SmoothMap.IsDiffeo.inv_apply_apply γ.2 x)
     (fun γ y ↦ SmoothMap.IsDiffeo.apply_inv_apply γ.2 y) k ℓ
+
+/-! ### `Diff(K)` is a Lie group -/
+
+/-- `Diff(K)` is a group under composition. -/
+instance : Group (diffeos H K) where
+  mul γ η := ⟨SmoothMap.comp γ.1 η.1, γ.2.comp η.2⟩
+  one := ⟨⟨id, fun k ↦ smoothMBMOn_id isOpen_univ k⟩, SmoothMap.isDiffeo_id⟩
+  inv γ := ⟨SmoothMap.IsDiffeo.inv γ.2, SmoothMap.IsDiffeo.symm
+    (SmoothMap.IsDiffeo.inv_apply_apply γ.2) (SmoothMap.IsDiffeo.apply_inv_apply γ.2)⟩
+  mul_assoc _ _ _ := Subtype.ext (SmoothMap.ext fun _ ↦ rfl)
+  one_mul _ := Subtype.ext (SmoothMap.ext fun _ ↦ rfl)
+  mul_one _ := Subtype.ext (SmoothMap.ext fun _ ↦ rfl)
+  inv_mul_cancel γ := Subtype.ext (SmoothMap.ext fun x ↦ SmoothMap.IsDiffeo.inv_apply_apply γ.2 x)
+
+omit [CompactSpace K] [T2Space K] in
+@[simp]
+theorem diffeos_coe_mul (γ η : diffeos H K) :
+    ((γ * η : diffeos H K) : SmoothMap H H K K) = SmoothMap.comp γ.1 η.1 :=
+  rfl
+
+omit [CompactSpace K] [T2Space K] in
+@[simp]
+theorem diffeos_coe_inv (γ : diffeos H K) :
+    ((γ⁻¹ : diffeos H K) : SmoothMap H H K K) = SmoothMap.IsDiffeo.inv γ.2 :=
+  rfl
+
+/-- **Composition and inversion are smooth on `Diff(K)`** ([GN26, Proposition 13.1.10(a), (b)],
+`ℓ = k = ∞`): composition by [GN26, Proposition 13.1.2(a)] (lc-manifolds,
+`LocalAddition.smooth_compSm`), inversion by `smooth_inv`. -/
+theorem isVaryingLieGroup_diffeos (A : LocalAddition H K) :
+    IsVaryingLieGroup (diffeoAtlas A) := by
+  set M := A.mappingAtlasSm (H := H) (M := K)
+  have hval := VaryingAtlas.smooth_val M SmoothMap.isOpen_setOf_isDiffeo
+  have hpair : ((diffeoAtlas A).prod (diffeoAtlas A)).Smooth (M.prod M)
+      (fun p : diffeos H K × diffeos H K ↦
+        ((p.1 : SmoothMap H H K K), (p.2 : SmoothMap H H K K))) :=
+    VaryingAtlas.Smooth.prodMk (hval.comp (VaryingAtlas.smooth_fst _ _))
+      (hval.comp (VaryingAtlas.smooth_snd _ _))
+  have hcomp := (LocalAddition.smooth_compSm A A).comp hpair
+  refine ⟨fun k ↦ ?_, fun k ↦ ?_⟩
+  · exact (M.contMDiffOn_restrict_iff SmoothMap.isOpen_setOf_isDiffeo).2 (hcomp k)
+  · exact (M.contMDiffOn_restrict_iff SmoothMap.isOpen_setOf_isDiffeo).2 (smooth_inv A k)
+
+/-- The model space of the Lie group `Diff(K)`: the model of the chart of `C^∞(K, K)` at the
+identity, the space of smooth sections of `TK` along `id`, that is, of vector fields on `K`. -/
+abbrev DiffeoModel (A : LocalAddition H K) : Type u :=
+  (diffeoAtlas A).model ((diffeoAtlas A).chartAt 1)
+
+/-- **The Lie group `Diff(K)`** of diffeomorphisms of the compact manifold `K`, with the manifold
+structure given by the local addition `A` (the type does not depend on `A`, its charts do). -/
+def Diffeo (_A : LocalAddition H K) : Type u := diffeos H K
+
+namespace Diffeo
+
+variable (A : LocalAddition H K)
+
+instance : Group (Diffeo A) := inferInstanceAs (Group (diffeos H K))
+
+instance : TopologicalSpace (Diffeo A) := inferInstanceAs (TopologicalSpace (diffeos H K))
+
+instance : ChartedSpace (DiffeoModel A) (Diffeo A) := (isVaryingLieGroup_diffeos A).chartedSpace
+
+/-- **[GN26, Proposition 13.1.10(e)]: `Diff(K)` is a Lie group**, for every compact manifold `K`
+with a local addition, modeled on the space of vector fields on `K`. -/
+instance instMBLieGroup : MBLieGroup (DiffeoModel A) (Diffeo A) :=
+  (isVaryingLieGroup_diffeos A).mbLieGroup
+
+end Diffeo
 
 end LocallyConvex.LieGroups
