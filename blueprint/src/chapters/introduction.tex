@@ -1,0 +1,17 @@
+\chapter{Introduction}
+\label{chap:introduction}
+
+This blueprint describes the mathematics formalized in the Lean library
+\href{https://github.com/glaroton/lc-lie-groups}{lc-lie-groups}: Lie groups modeled on locally
+convex spaces. Every definition and theorem below is linked to its Lean counterpart. All the
+statements are proved in Lean, with no \texttt{sorry}, and the main theorems depend only on the
+standard axioms of Lean.
+
+The library rests on two companion libraries: lc-analysis \cite{LCA}, which provides the
+Michal--Bastiani calculus on locally convex spaces, and lc-manifolds \cite{LCM}, which provides
+manifolds modeled on locally convex spaces, manifolds of mappings, and the fact that the
+diffeomorphisms of a compact manifold $K$ form an open subset of $C^\ell(K, K)$. We follow
+Glöckner and Neeb \cite{GN26} and Neeb \cite{Nee06}.
+
+As in the companion libraries, \textbf{model spaces need not be complete}, following
+\cite{GN26}. Whenever a result needs completeness, it is part of the statement.

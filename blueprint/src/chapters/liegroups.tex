@@ -1,0 +1,68 @@
+\chapter{Lie groups}
+\label{chap:liegroups}
+
+Throughout, $E$ and $F$ denote real Hausdorff locally convex spaces, not assumed complete.
+
+\section{The definition}
+
+\begin{definition}[Lie groups]
+  \label{def:lie-group}
+  \lean{LocallyConvex.LieGroups.MBLieGroup}
+  \leanok
+  A \emph{Lie group} modeled on $E$ is a manifold $G$ modeled on $E$, endowed with a group
+  structure such that the multiplication $m_G\colon G \times G \to G$ and the inversion
+  $\eta_G\colon G \to G$ are smooth \cite[Definition 5.1.1(b)]{GN26}.
+\end{definition}
+
+\begin{proposition}[Translations and conjugations]
+  \label{prop:translations}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.smoothMBM_mul_left,
+    LocallyConvex.LieGroups.MBLieGroup.smoothMBM_mul_right,
+    LocallyConvex.LieGroups.MBLieGroup.smoothMBM_conj}
+  \leanok
+  \uses{def:lie-group}
+  For $g \in G$, the left multiplication $\lambda_g(x) = gx$, the right multiplication
+  $\rho_g(x) = xg$ and the conjugation $x \mapsto gxg^{-1}$ are smooth.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  $\lambda_g = m_G \circ (x \mapsto (g, x))$, and a pair of smooth maps is smooth; similarly for
+  $\rho_g$, and the conjugation is $\rho_{g^{-1}} \circ \lambda_g$.
+\end{proof}
+
+\begin{proposition}[Lie groups are topological groups]
+  \label{prop:topological-group}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.isTopologicalGroup}
+  \leanok
+  \uses{def:lie-group}
+  Every Lie group is a topological group.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Smooth maps are continuous, and the topology of the manifold $G \times G$ is the product
+  topology.
+\end{proof}
+
+\begin{definition}[Morphisms]
+  \label{def:lie-hom}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsHom}
+  \leanok
+  \uses{def:lie-group}
+  A \emph{morphism of Lie groups} is a smooth group homomorphism \cite[Definition
+  5.1.1(c)]{GN26}.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:lie-hom-cat}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsHom.id, LocallyConvex.LieGroups.MBLieGroup.IsHom.comp}
+  \leanok
+  \uses{def:lie-hom}
+  Identities are morphisms of Lie groups, and composites of morphisms are morphisms.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  The chain rule.
+\end{proof}
