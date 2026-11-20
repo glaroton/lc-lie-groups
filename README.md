@@ -26,6 +26,7 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 | Folder | Contents |
 |---|---|
 | `LieGroup/` | Lie groups and their morphisms |
+| `Diffeomorphism/` | the group `Diff(K)` of a compact manifold `K` |
 
 ## Contents
 
@@ -39,12 +40,22 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 * `MBLieGroup.IsHom`: morphisms of Lie groups, i.e. smooth homomorphisms
   [GN26, Definition 5.1.1(c)]; `IsHom.id`, `IsHom.comp`.
 
+### `Diffeomorphism/Basic.lean`
+
+* `diffeos H K`, `diffeoAtlas A`: `Diff(K)` as an open subset of `C^∞(K, K)`, with the restricted
+  manifold structure (`K` compact, `A` a local addition on `K`).
+* `smooth_inv`: the inversion `Diff(K) → C^∞(K, K)`, `γ ↦ γ⁻¹`, is smooth
+  [GN26, Proposition 13.1.10(a)]. By the exponential law this is [GN26, Lemma 13.1.8] for the
+  evaluation map (lc-manifolds, `ContMDiffMB₂.inverse`), which rests on an implicit function
+  theorem with locally convex parameters and finite-dimensional values (lc-analysis,
+  `contDiffMBOn_of_implicit`).
+
 ## Planned
 
 1. Examples: vector groups [GN26, Example 5.1.2], unit groups of continuous inverse algebras,
    products, `Diff(K)` for compact `K` [GN26, Proposition 13.1.10(e)] (smoothness of the
-   composition, part (b), is in lc-manifolds; smoothness of the inversion, part (a), is still to
-   be done), `Diff⁺(S¹)`.
+   composition, part (b), is in lc-manifolds, and of the inversion, part (a), here; what remains
+   is the Lie group structure itself, see `Diffeomorphism/Basic.lean`), `Diff⁺(S¹)`.
 2. The Lie algebra of a Lie group: left invariant vector fields and the bracket
    [GN26, §5.1], the Lie functor; `V(K)` with the opposite bracket as the Lie algebra of
    `Diff(K)`.

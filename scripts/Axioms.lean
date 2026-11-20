@@ -13,3 +13,5 @@ open LocallyConvex.LieGroups
 #print axioms MBLieGroup.smoothMBM_conj
 #print axioms MBLieGroup.isTopologicalGroup
 #print axioms MBLieGroup.IsHom.comp
+-- The group `Diff(K)` (`Diffeomorphism/Basic.lean`)
+#print axioms smooth_inv

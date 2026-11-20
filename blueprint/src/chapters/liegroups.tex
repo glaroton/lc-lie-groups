@@ -66,3 +66,28 @@ Throughout, $E$ and $F$ denote real Hausdorff locally convex spaces, not assumed
   \leanok
   The chain rule.
 \end{proof}
+
+\section{The group of diffeomorphisms of a compact manifold}
+
+Let $K$ be a compact manifold with a local addition. The diffeomorphisms of $K$ form an open
+subset $\mathrm{Diff}(K)$ of the manifold $C^\infty(K, K)$ \cite[Proposition 13.1.10]{GN26}
+(proved in \cite{LCM}), hence a manifold.
+
+\begin{theorem}[Smoothness of the inversion]
+  \label{thm:diff-inv}
+  \lean{LocallyConvex.LieGroups.smooth_inv, LocallyConvex.LieGroups.diffeoAtlas}
+  \leanok
+  The inversion $\mathrm{Diff}(K) \to C^\infty(K, K)$, $\gamma \mapsto \gamma^{-1}$, is smooth
+  \cite[Proposition 13.1.10(a)]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  By the exponential law it suffices that $(\gamma, y) \mapsto \gamma^{-1}(y)$ is $C^{k,\ell}$ on
+  $\mathrm{Diff}(K) \times K$ for all $k$, $\ell$. In charts, $\gamma^{-1}(y)$ solves the equation
+  $c(\gamma(e^{-1}(z))) = c(y)$ for $z$, with parameters $(\gamma, y)$ in a locally convex space
+  and the unknown $z$ in the finite-dimensional model of $K$; the solution is continuous, since
+  its graph is closed and $K$ is compact. The implicit function theorem with locally convex
+  parameters and finite-dimensional values \cite{LCA} then gives smoothness
+  \cite[Lemma 13.1.8]{GN26}.
+\end{proof}

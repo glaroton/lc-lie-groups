@@ -5,4 +5,5 @@ Authors: glaroton
 -/
 module
 
+public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.LieGroup.Basic
