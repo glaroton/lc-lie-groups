@@ -169,3 +169,50 @@ needs the multiplication of $G$ near the identity, read in the chart.
   \leanok
   Proposition~\ref{prop:local-comm}.
 \end{proof}
+
+\section{The Lie algebra of \texorpdfstring{$\mathrm{Diff}(K)$}{Diff(K)}}
+
+\begin{lemma}[Evaluating the bracket]
+  \label{lem:clm-xl}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.clm_dMB_xl}
+  \leanok
+  \uses{def:local-group-law}
+  For a continuous linear map $\mathrm{ev}$,
+  $\mathrm{ev}(d\tilde y_l(1)\,x) = \partial_t \partial_s\, \mathrm{ev}\bigl((1 + sx) * (1 + ty)\bigr)$
+  at $s = t = 0$.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  $d\tilde y_l(1)\,x$ is a second derivative of the multiplication; $\mathrm{ev}$ commutes with
+  derivatives, and Schwarz's theorem exchanges $\partial_s$ and $\partial_t$.
+\end{proof}
+
+\begin{theorem}[$\mathbf{L}(\mathrm{Diff}(K)) = \mathcal{V}(K)^{\mathrm{op}}$]
+  \label{thm:lie-diff}
+  \lean{LocallyConvex.LieGroups.Diffeo.law_mul_apply,
+    LocallyConvex.LieGroups.Diffeo.evalAt_dMB_xl,
+    LocallyConvex.LieGroups.Diffeo.evalAt_lie,
+    LocallyConvex.LieGroups.Diffeo.toField_lie}
+  \leanok
+  \uses{thm:diff-lie, thm:lie-algebra, lem:clm-xl}
+  Let $K$ be a compact manifold with a normalized local addition $\Sigma$. Identify the model
+  space $\Gamma_{\mathrm{id}}$ of $\mathrm{Diff}(K)$ with the space of vector fields on $K$. Then
+  the bracket of $\mathbf{L}(\mathrm{Diff}(K))$ is the opposite of the Lie bracket of vector
+  fields: $[x, y] = [Y, X]$ \cite[Example 5.4.3]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the chart at the identity, $(a * b)(p) = \theta^{-1}(p, \Sigma(a(q)))$ with
+  $q = \Sigma(b(p))$. Evaluating at $p$ and using Lemma~\ref{lem:clm-xl},
+  $(d\tilde y_l(0)\,x)(p)$ is the mixed derivative at $0$ of
+  $G(s, t) = \Theta_p\bigl(\tilde\Sigma(Q(t), s\,\tilde x(Q(t)))\bigr)$, where
+  $Q(t) = \varphi_p \Sigma(p, t\,y(p))$, $\Theta_p$ inverts $\Sigma(p, \cdot)$, and $\tilde\Sigma$,
+  $\tilde x$ are read in the chart $\varphi_p$ of $K$ at $p$. Since $\Sigma$ is normalized,
+  $\tilde\Sigma(z, 0) = z$ and $\partial_v \tilde\Sigma(z, 0) = \mathrm{id}$ near $\varphi_p(p)$,
+  and $d\Theta_p(\varphi_p p) = \mathrm{id}$, so the chain rule gives
+  $d^2\Theta_p(x(p), y(p)) + d\tilde x \cdot y(p)$. The first term is symmetric in $x$ and
+  $y$, hence $[x, y](p) = d\tilde x\cdot \tilde y - d\tilde y \cdot \tilde x = [Y, X](p)$.
+  Glöckner and Neeb obtain the formula from the derived action of $\mathrm{Diff}(K)$ on $K$.
+\end{proof}

@@ -32,3 +32,9 @@ open LocallyConvex.LieGroups
 #print axioms MBLieGroup.IsHom.lieHom
 #print axioms MBLieGroup.IsHom.continuous_lieHom
 #print axioms MBLieGroup.IsHom.lieHom_comp
+-- The Lie algebra of `Diff(K)` (`Diffeomorphism/LieAlgebra.lean`)
+#print axioms LocalGroupLaw.clm_dMB_xl
+#print axioms Diffeo.law_mul_apply
+#print axioms Diffeo.evalAt_dMB_xl
+#print axioms Diffeo.evalAt_lie
+#print axioms Diffeo.toField_lie

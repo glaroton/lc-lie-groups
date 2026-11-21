@@ -80,7 +80,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest. That th
 with the bracket of the global left invariant vector fields (lc-manifolds, `lieBracket`) is not
 proved yet.
 
-### `Diffeomorphism/Basic.lean`
+### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
 * `diffeos H K`, `diffeoAtlas A`: `Diff(K)` as an open subset of `C^∞(K, K)`, with the restricted
   manifold structure (`K` compact, `A` a local addition on `K`).
@@ -93,6 +93,12 @@ proved yet.
 * `Diffeo A`, `Diffeo.instMBLieGroup`: **`Diff(K)` is a Lie group**
   [GN26, Proposition 13.1.10(e)], modeled on `DiffeoModel A`, the smooth sections of `TK` along
   the identity (vector fields on `K`, in fiber coordinates).
+* `Diffeo.toField_lie`: **`L(Diff(K))` is `V(K)` with the opposite bracket**
+  [GN26, Example 5.4.3]: for a normalized local addition, `[x, y] = [Y, X]` for the vector fields
+  `X`, `Y` with fiber coordinates `x`, `y` (lc-manifolds' `lieBracket`). Evaluation at a point
+  commutes with the derivatives, so the bracket is a mixed second derivative of
+  `(s, t) ↦ (s x ∗ t y)(p)`, computed in a chart of `K` (`Diffeo.evalAt_dMB_xl`); the
+  normalization makes the second derivative of the local addition drop out.
 
 ## Planned
 
@@ -102,8 +108,8 @@ proved yet.
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: agreement of `L(G)` with the bracket of global left invariant vector fields
    [GN26, Definition 5.1.6]; the Taylor expansion of the multiplication [GN26, Remark 5.1.8];
-   unit groups of continuous inverse algebras [GN26, Example 5.1.9(b)]; `L(Diff(K))` is `V(K)`
-   with the opposite bracket [GN26, Example 5.4.3].
+   unit groups of continuous inverse algebras [GN26, Example 5.1.9(b)]; `L(Diff(K))` as a Lie
+   algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie algebra type in lc-manifolds.
 3. Exponential functions [GN26, §5.6] and regular Lie groups [GN26, Ch. 6], with the
    completeness hypotheses they need.
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the

@@ -6,6 +6,7 @@ Authors: glaroton
 module
 
 public import LocallyConvexManifolds.VectorField.Basic
+public import LocallyConvexAnalysis.MappingSpace.CkSuperposition
 
 /-!
 # Local group laws and their Lie brackets
@@ -39,6 +40,9 @@ the local bracket of these fields at the identity,
   preserves brackets ([GN26, Proposition 5.1.10]).
 * `LocalGroupLaw.bracket_eq_zero_of_comm`: commutative local group laws have vanishing bracket
   ([GN26, Example 5.1.9(a)]).
+* `LocalGroupLaw.clm_dMB_xl`: evaluated by a continuous linear map, `dỹ_l(1) x` is a mixed second
+  derivative of `(s, t) ↦ (1 + s x) ∗ (1 + t y)`; this is how the bracket of `Diff(K)` is
+  computed pointwise.
 
 ## Implementation notes
 
@@ -268,6 +272,68 @@ theorem continuous_bracket : Continuous fun p : E × E ↦ L.bracket p.1 p.2 := 
   refine (hβ.sub hβ').congr fun p ↦ ?_
   rw [bracket_eq, dMB_xl, dMB_xl]
   rfl
+
+/-! ### Evaluating the bracket -/
+
+/-- **The derivatives of the left invariant fields, evaluated by a continuous linear map**, are
+mixed second derivatives of the multiplication along lines:
+`ev(dỹ_l(1) x) = ∂_t ∂_s ev((1 + s x) ∗ (1 + t y))` at `s = t = 0`. -/
+theorem clm_dMB_xl {F' : Type*} [AddCommGroup F'] [Module ℝ F'] [TopologicalSpace F']
+    [IsTopologicalAddGroup F'] [ContinuousSMul ℝ F'] [LocallyConvexSpace ℝ F'] [T2Space F']
+    (ev : E →L[ℝ] F') (x y : E) :
+    ev (dMB (L.xl y) (L.one, x)) =
+      dMB (fun t : ℝ ↦ dMB (fun s : ℝ ↦ ev (L.mul (L.one + s • x, L.one + t • y))) (0, 1))
+        (0, 1) := by
+  set Λ : ℝ × ℝ →L[ℝ] E × E :=
+    ((ContinuousLinearMap.fst ℝ ℝ ℝ).smulRight x).prod ((ContinuousLinearMap.snd ℝ ℝ ℝ).smulRight y)
+  have hΛ : ∀ q : ℝ × ℝ, Λ q = (q.1 • x, q.2 • y) := fun _ ↦ rfl
+  set c : E × E := (L.one, L.one)
+  set f : E × E → F' := fun w ↦ ev (L.mul w)
+  set g : ℝ × ℝ → F' := fun q ↦ f (c + Λ q)
+  have hf : ContDiffMBOn 2 f L.dom :=
+    ContDiffMBOn.comp (g := ⇑ev) (f := L.mul) L.isOpen_dom isOpen_univ (ev.contDiffMBOn 2 univ)
+      (L.smooth 2) (mapsTo_univ _ _)
+  -- `g` is `C²` near `0`
+  set U : Set (ℝ × ℝ) := (fun q ↦ c + Λ q) ⁻¹' L.dom
+  have hU : IsOpen U := L.isOpen_dom.preimage (by fun_prop)
+  have h0U : ((0 : ℝ), (0 : ℝ)) ∈ U := by
+    change c + Λ 0 ∈ L.dom
+    rw [map_zero, add_zero]
+    exact L.one_one_mem
+  have hg : ContDiffMBOn 2 g U :=
+    ContDiffMBOn.comp (g := f) (f := fun q ↦ c + Λ q) hU L.isOpen_dom hf
+      (contDiffMBOn_const_add_clm c Λ 2 U) fun _ hq ↦ hq
+  -- the second derivative of `g` is that of `f`
+  have hd1 : dMB g = fun p : (ℝ × ℝ) × (ℝ × ℝ) ↦ dMB f (Λ p.1 + c, Λ p.2) := by
+    funext p
+    have h := dMB_comp_affine f Λ.toLinearMap c p.1 p.2
+    simp only [ContinuousLinearMap.coe_coe] at h
+    rw [← h]
+    simp only [g, add_comm c]
+  have hd2 : dMB (dMB g) ((((0 : ℝ), (0 : ℝ)), ((0 : ℝ), (1 : ℝ))), (((1 : ℝ), (0 : ℝ)), 0)) =
+      dMB (dMB f) (((L.one, L.one), ((0 : E), y)), ((x, (0 : E)), 0)) := by
+    rw [hd1]
+    have h := dMB_comp_affine (dMB f) (Λ.toLinearMap.prodMap Λ.toLinearMap) (c, (0 : E × E))
+      (((0 : ℝ), (0 : ℝ)), ((0 : ℝ), (1 : ℝ))) (((1 : ℝ), (0 : ℝ)), 0)
+    simp only [LinearMap.prodMap_apply, ContinuousLinearMap.coe_coe, Prod.mk_add_mk,
+      add_zero] at h
+    rw [h]
+    simp [hΛ, c]
+    rfl
+  -- `ev` commutes with the derivatives of `L.mul`
+  have hP : (((L.one, L.one), ((0 : E), y)) : (E × E) × (E × E)) ∈ L.dom ×ˢ univ :=
+    ⟨L.one_one_mem, mem_univ _⟩
+  have hev : dMB f =ᶠ[𝓝 ((L.one, L.one), ((0 : E), y))] fun q ↦ ev (dMB L.mul q) :=
+    eventuallyEq_of_mem ((L.isOpen_dom.prod isOpen_univ).mem_nhds hP) fun q hq ↦
+      (((L.smooth 1).hasDirDerivAt (k := 0) hq.1 q.2).clm_comp_real ev).dMB_eq
+  have hd3 : dMB (dMB f) (((L.one, L.one), ((0 : E), y)), ((x, (0 : E)), 0)) =
+      ev (dMB (dMB L.mul) (((L.one, L.one), ((0 : E), y)), ((x, (0 : E)), 0))) := by
+    rw [dMB_congr_of_eventuallyEq hev]
+    exact (((L.smooth 2).2.2.hasDirDerivAt (k := 0) hP _).clm_comp_real ev).dMB_eq
+  -- Schwarz, and slices
+  rw [dMB_xl, ← hd3, ← hd2, hg.dMB_dMB_symm hU h0U, dMB_slice, dMB_slice₂]
+  simp only [dMB_slice]
+  simp [g, f, c, hΛ]
 
 /-! ### Homomorphisms -/
 
