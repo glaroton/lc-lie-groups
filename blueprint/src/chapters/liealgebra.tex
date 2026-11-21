@@ -157,6 +157,32 @@ needs the multiplication of $G$ near the identity, read in the chart.
   apply Proposition~\ref{prop:local-hom}. Functoriality is the chain rule.
 \end{proof}
 
+
+\begin{theorem}[Left invariant vector fields]
+  \label{thm:left-fields}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.leftField,
+    LocallyConvex.LieGroups.MBLieGroup.tangentMap_leftField,
+    LocallyConvex.LieGroups.MBLieGroup.lieBracket_leftField,
+    LocallyConvex.LieGroups.MBLieGroup.lieBracket_leftField_one}
+  \leanok
+  \uses{thm:lie-algebra}
+  For $x \in \mathbf{L}(G)$, the vector field $x_l(g) = T_1(\lambda_g)x$ is left invariant,
+  $T(\lambda_h) x_l(g) = x_l(hg)$ \cite[(5.2)]{GN26}, and $[x_l, y_l] = [x, y]_l$ for the Lie
+  bracket of vector fields \cite[(5.3)]{GN26}. In particular $[x_l, y_l](1) = [x, y]$: the bracket
+  of $\mathbf{L}(G)$ is the bracket of left invariant vector fields at the identity
+  \cite[Definition 5.1.6]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the chart $\psi$ at $g$, $x_l$ reads $w \mapsto d(b \mapsto \psi(\psi^{-1}(w)\varphi^{-1}(b)))
+  (\varphi(1))\,x$. By associativity, the left translation $\tau(b) = \psi(g\varphi^{-1}(b))$
+  relates the fields $\tilde x_l$ of the chart $\varphi$ at the identity to these local
+  representatives, so local brackets of related fields are related (\cite{LCM},
+  \texttt{localBracket\_transition}):
+  $[x_l, y_l](g) = d\tau(\varphi 1)[x, y] = [x, y]_l(g)$ \cite[Lemma 3.4.17]{GN26}.
+\end{proof}
+
 \begin{proposition}[Abelian Lie groups]
   \label{prop:lie-abelian}
   \lean{LocallyConvex.LieGroups.MBLieGroup.LieAlg.lie_eq_zero_of_comm}

@@ -8,6 +8,7 @@ module
 public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra
 public import LocallyConvexLieGroups.LieAlgebra.Basic
+public import LocallyConvexLieGroups.LieAlgebra.LeftInvariant
 public import LocallyConvexLieGroups.LieAlgebra.Local
 public import LocallyConvexLieGroups.LieGroup.Basic
 public import LocallyConvexLieGroups.LieGroup.OfVaryingAtlas

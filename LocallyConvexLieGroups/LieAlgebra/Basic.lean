@@ -43,8 +43,8 @@ definition of the bracket on `E` (the local theory is in `LieAlgebra/Local.lean`
 
 The definition depends on the chart at the identity, `chartAt E 1`, which is fixed by the
 manifold structure. That the bracket agrees with the bracket of the global left invariant vector
-fields on `G` (lc-manifolds, `lieBracket`) is the related vector field lemma
-[GN26, Lemma 3.4.17] applied to the chart, and is not proved here.
+fields on `G` (lc-manifolds, `lieBracket`) is proved in `LieAlgebra/LeftInvariant.lean`
+(`MBLieGroup.lieBracket_leftField`).
 
 ## References
 

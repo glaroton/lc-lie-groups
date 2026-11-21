@@ -38,3 +38,7 @@ open LocallyConvex.LieGroups
 #print axioms Diffeo.evalAt_dMB_xl
 #print axioms Diffeo.evalAt_lie
 #print axioms Diffeo.toField_lie
+-- Left invariant vector fields (`LieAlgebra/LeftInvariant.lean`)
+#print axioms MBLieGroup.lieBracket_leftField
+#print axioms MBLieGroup.lieBracket_leftField_one
+#print axioms MBLieGroup.tangentMap_leftField

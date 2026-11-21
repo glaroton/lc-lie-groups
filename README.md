@@ -76,9 +76,18 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 
 The proofs never use the tangent bundle of `G`: left translations relate the local fields
 `x̃_l` to themselves, and lc-manifolds' transformation rule and Jacobi identity for local
-brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest. That this bracket agrees
-with the bracket of the global left invariant vector fields (lc-manifolds, `lieBracket`) is not
-proved yet.
+brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
+
+### `LieAlgebra/LeftInvariant.lean`
+
+* `MBLieGroup.leftField E x`: the left invariant vector field `x_l(g) = T_1(λ_g) x`
+  [GN26, Definition 5.1.6] (`leftField_eq_tangentMap`, `leftField_one`), left invariant
+  (`tangentMap_leftField`, [GN26, (5.2)]).
+* `MBLieGroup.lieBracket_leftField`: **`[x_l, y_l] = [x, y]_l`** for lc-manifolds' bracket of
+  vector fields [GN26, (5.3)], so the bracket of `L(G)` is the bracket of left invariant vector
+  fields at the identity (`lieBracket_leftField_one`). In the chart at `g`, the left translation
+  by `g` relates the fields `x̃_l` of the chart at the identity to `x_l`, which is the related
+  vector field lemma [GN26, Lemma 3.4.17] in the form needed.
 
 ### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
@@ -106,8 +115,7 @@ proved yet.
    products, `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
-2. Lie algebras: agreement of `L(G)` with the bracket of global left invariant vector fields
-   [GN26, Definition 5.1.6]; the Taylor expansion of the multiplication [GN26, Remark 5.1.8];
+2. Lie algebras: the Taylor expansion of the multiplication [GN26, Remark 5.1.8];
    unit groups of continuous inverse algebras [GN26, Example 5.1.9(b)]; `L(Diff(K))` as a Lie
    algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie algebra type in lc-manifolds.
 3. Exponential functions [GN26, §5.6] and regular Lie groups [GN26, Ch. 6], with the
