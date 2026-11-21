@@ -20,3 +20,15 @@ open LocallyConvex.LieGroups
 -- Lie groups from atlases with varying models (`LieGroup/OfVaryingAtlas.lean`)
 #print axioms IsVaryingLieGroup.hasGroupoid
 #print axioms IsVaryingLieGroup.mbLieGroup
+-- The Lie algebra (`LieAlgebra/Local.lean`, `LieAlgebra/Basic.lean`)
+#print axioms LocalGroupLaw.bracket_jacobi
+#print axioms LocalGroupLaw.continuous_bracket
+#print axioms LocalGroupLaw.dMB_bracket_of_hom
+#print axioms LocalGroupLaw.bracket_eq_zero_of_comm
+#print axioms MBLieGroup.LieAlg.instLieRing
+#print axioms MBLieGroup.LieAlg.instLieAlgebraReal
+#print axioms MBLieGroup.LieAlg.continuous_lie
+#print axioms MBLieGroup.LieAlg.lie_eq_zero_of_comm
+#print axioms MBLieGroup.IsHom.lieHom
+#print axioms MBLieGroup.IsHom.continuous_lieHom
+#print axioms MBLieGroup.IsHom.lieHom_comp

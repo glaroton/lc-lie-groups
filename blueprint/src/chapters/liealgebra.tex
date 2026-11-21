@@ -1,0 +1,171 @@
+\chapter{The Lie algebra of a Lie group}
+\label{chap:liealgebra}
+
+The Lie algebra $\mathbf{L}(G)$ of a Lie group $G$ is $T_1 G$ with the bracket
+$[x, y] = [x_l, y_l](1)$ of the left invariant vector fields with values $x$, $y$ at the
+identity \cite[Definition 5.1.6]{GN26}. We compute it in the chart $\varphi$ of $G$ at the
+identity, which identifies $T_1 G$ with the model space $E$, as in \cite[(5.5)]{GN26}. This only
+needs the multiplication of $G$ near the identity, read in the chart.
+
+\section{Local group laws}
+
+\begin{definition}[Local group laws]
+  \label{def:local-group-law}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw}
+  \leanok
+  A \emph{local group law} on $E$ is a smooth map $(a, b) \mapsto a * b$ defined on an open set
+  $D \subseteq E \times E$, with an element $1$ such that $(1, 1) \in D$, $1 * b = b$ and
+  $a * 1 = a$ whenever defined, and $(a * b) * c = a * (b * c)$ whenever both sides are
+  defined. For $x \in E$, the \emph{left invariant field} with value $x$ at $1$ is
+  $\tilde x_l(z) = d(b \mapsto z * b)(1)\,x$ \cite[(5.4)]{GN26}, and the \emph{bracket} is the
+  local bracket of these fields at the identity,
+  \[
+    [x, y] = [\tilde x_l, \tilde y_l](1) = d\tilde y_l(1)\,x - d\tilde x_l(1)\,y .
+  \]
+\end{definition}
+
+\begin{lemma}[Left invariance]
+  \label{lem:xl-mul}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.xl_mul,
+    LocallyConvex.LieGroups.LocalGroupLaw.xl_one}
+  \leanok
+  \uses{def:local-group-law}
+  $\tilde x_l(1) = x$, and $\tilde x_l(a * w) = d(b \mapsto a * b)(w)\,\tilde x_l(w)$
+  whenever $a * w$, $w * 1$ and $(a * w) * 1$ are defined.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  Differentiate $(a * w) * c = a * (w * c)$ in $c$ at $c = 1$ in the direction $x$, with the
+  chain rule.
+\end{proof}
+
+\begin{proposition}[Brackets of left invariant fields]
+  \label{prop:local-bracket-xl}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.localBracket_xl}
+  \leanok
+  \uses{lem:xl-mul}
+  Near the identity, $[\tilde x_l, \tilde y_l] = \widetilde{[x, y]}_l$ \cite[(5.3)]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  By Lemma~\ref{lem:xl-mul}, the left translation $b \mapsto a * b$ relates $\tilde x_l$ and
+  $\tilde y_l$ to themselves. Local brackets of related fields are related (the second
+  derivatives of the translation cancel by Schwarz's theorem; \cite{LCM},
+  \texttt{localBracket\_transition}), so
+  $[\tilde x_l, \tilde y_l](a) = d(b \mapsto a * b)(1)\,[x, y] = \widetilde{[x, y]}_l(a)$.
+\end{proof}
+
+\begin{theorem}[The bracket is a continuous Lie bracket]
+  \label{thm:local-lie}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.bracket_jacobi,
+    LocallyConvex.LieGroups.LocalGroupLaw.bracket_swap,
+    LocallyConvex.LieGroups.LocalGroupLaw.add_bracket,
+    LocallyConvex.LieGroups.LocalGroupLaw.bracket_smul,
+    LocallyConvex.LieGroups.LocalGroupLaw.continuous_bracket}
+  \leanok
+  \uses{prop:local-bracket-xl}
+  The bracket of a local group law is bilinear, alternating, continuous, and satisfies the
+  Jacobi identity.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Bilinearity: $x \mapsto \tilde x_l$ is linear and differentials are linear. Continuity:
+  $d\tilde y_l(1)\,x = d^2 m\bigl((1, 1)\bigr)\bigl((0, y), (x, 0)\bigr)$ is jointly continuous
+  in $(x, y)$. Jacobi: by Proposition~\ref{prop:local-bracket-xl},
+  $[x, [y, z]] = [\tilde x_l, [\tilde y_l, \tilde z_l]](1)$, and local brackets of vector fields
+  satisfy the Jacobi identity (\cite{LCM}, \texttt{localBracket\_jacobi}).
+\end{proof}
+
+\begin{proposition}[Local homomorphisms]
+  \label{prop:local-hom}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.dMB_bracket_of_hom}
+  \leanok
+  \uses{prop:local-bracket-xl}
+  Let $f$ be $C^2$ near $1$, with $f(1) = 1'$ and $f(a * b) = f(a) *' f(b)$ whenever both
+  sides are defined. Then $df(1)[x, y] = [df(1)\,x, df(1)\,y]$.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Differentiating $f(z * b) = f(z) *' f(b)$ in $b$ at $1$ shows that $f$ relates $\tilde x_l$
+  and $\widetilde{(df(1)x)}_l$; brackets of related fields are related.
+\end{proof}
+
+\begin{proposition}[Commutative local group laws]
+  \label{prop:local-comm}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.bracket_eq_zero_of_comm}
+  \leanok
+  \uses{def:local-group-law}
+  If $a * b = b * a$ whenever defined, the bracket vanishes.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  $d\tilde y_l(1)\,x = d^2 m((1, 1))((0, y), (x, 0))$; commutativity and Schwarz's theorem make
+  this symmetric in $x$ and $y$.
+\end{proof}
+
+\section{The Lie functor}
+
+\begin{definition}[The Lie algebra of a Lie group]
+  \label{def:lie-algebra}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.localGroupLaw,
+    LocallyConvex.LieGroups.MBLieGroup.LieAlg}
+  \leanok
+  \uses{def:lie-group, def:local-group-law}
+  Let $\varphi$ be the chart of $G$ at the identity. Then
+  $a * b = \varphi(\varphi^{-1}(a)\,\varphi^{-1}(b))$ is a local group law on $E$
+  \cite[Remark 5.1.8]{GN26}, and $\mathbf{L}(G)$ is $E \cong T_1 G$ with its bracket
+  \cite[Definition 5.1.6]{GN26}.
+\end{definition}
+
+\begin{theorem}[$\mathbf{L}(G)$ is a locally convex Lie algebra]
+  \label{thm:lie-algebra}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.LieAlg.instLieRing,
+    LocallyConvex.LieGroups.MBLieGroup.LieAlg.instLieAlgebraReal,
+    LocallyConvex.LieGroups.MBLieGroup.LieAlg.continuous_lie}
+  \leanok
+  \uses{def:lie-algebra, thm:local-lie}
+  $\mathbf{L}(G)$ is a real Lie algebra with a continuous bracket \cite[Definition 5.1.6]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Theorem~\ref{thm:local-lie}.
+\end{proof}
+
+\begin{theorem}[The Lie functor]
+  \label{thm:lie-functor}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsHom.lieHom,
+    LocallyConvex.LieGroups.MBLieGroup.IsHom.continuous_lieHom,
+    LocallyConvex.LieGroups.MBLieGroup.IsHom.lieHom_id,
+    LocallyConvex.LieGroups.MBLieGroup.IsHom.lieHom_comp}
+  \leanok
+  \uses{thm:lie-algebra, def:lie-hom, prop:local-hom}
+  For a morphism of Lie groups $\varphi\colon G \to H$, $\mathbf{L}(\varphi) = T_1(\varphi)$ is a
+  continuous homomorphism of Lie algebras \cite[Proposition 5.1.10]{GN26}, and
+  $\mathbf{L}(\mathrm{id}) = \mathrm{id}$, $\mathbf{L}(\psi \circ \varphi) = \mathbf{L}(\psi)
+  \circ \mathbf{L}(\varphi)$ \cite[Corollary 5.1.11]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the charts at the identities, $\varphi$ is a local homomorphism of the local group laws;
+  apply Proposition~\ref{prop:local-hom}. Functoriality is the chain rule.
+\end{proof}
+
+\begin{proposition}[Abelian Lie groups]
+  \label{prop:lie-abelian}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.LieAlg.lie_eq_zero_of_comm}
+  \leanok
+  \uses{thm:lie-algebra, prop:local-comm}
+  The Lie algebra of an abelian Lie group is abelian \cite[Example 5.1.9(a)]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Proposition~\ref{prop:local-comm}.
+\end{proof}
