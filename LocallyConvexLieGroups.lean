@@ -17,6 +17,7 @@ public import LocallyConvexLieGroups.Exponential.Unique
 public import LocallyConvexLieGroups.LieAlgebra.Basic
 public import LocallyConvexLieGroups.LieAlgebra.LeftInvariant
 public import LocallyConvexLieGroups.LieAlgebra.Local
+public import LocallyConvexLieGroups.LieAlgebra.Morphisms
 public import LocallyConvexLieGroups.LieAlgebra.Taylor
 public import LocallyConvexLieGroups.LieGroup.Basic
 public import LocallyConvexLieGroups.LieGroup.OfVaryingAtlas

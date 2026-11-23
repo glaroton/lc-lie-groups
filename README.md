@@ -111,6 +111,16 @@ The proofs never use the tangent bundle of `G`: left translations relate the loc
 `x̃_l` to themselves, and lc-manifolds' transformation rule and Jacobi identity for local
 brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
+### `LieAlgebra/Morphisms.lean`
+
+* `MBLieGroup.IsHom.eq_of_lieHom_eq`: **morphisms of connected Lie groups are determined by their
+  Lie algebra morphisms** [GN26, Proposition 5.5.7]; `eventuallyEq_of_lieHom_eq`: without
+  connectedness, they agree near the identity. In the charts at the identities,
+  `P = θ ∘ (φ₁ φ₂⁻¹) ∘ χ⁻¹` has `dP(χ(1)) = L(φ₁) − L(φ₂) = 0` (the multiplication has derivative
+  `(a, b) ↦ a + b` and the inversion `−id` at the identity), and
+  `P(z ∗ w) = (P₁(z) ∗ P(w)) ∗ ι(P₂(z))` gives `dP(z) ∘ d(z ∗ ·)(1) = 0` with `d(z ∗ ·)(1)` onto; so `P`
+  is constant on a convex neighborhood, and the equalizer is an open, hence closed, subgroup.
+
 ### `LieAlgebra/LeftInvariant.lean`
 
 * `MBLieGroup.leftField E x`: the left invariant vector field `x_l(g) = T_1(λ_g) x`

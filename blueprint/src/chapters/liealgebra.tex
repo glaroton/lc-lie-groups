@@ -548,3 +548,30 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $\exp_1$, $\exp_2$ apply this to $t \mapsto \exp_i(tx)$; for naturality, to
   $t \mapsto \varphi(\exp_G(tx))$ and $t \mapsto \exp_H(t\,\mathbf{L}(\varphi)x)$.
 \end{proof}
+
+\begin{theorem}[Morphisms of connected Lie groups]
+  \label{thm:hom-unique}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsHom.dMB_P_eq_zero,
+    LocallyConvex.LieGroups.MBLieGroup.IsHom.eventuallyEq_of_lieHom_eq,
+    LocallyConvex.LieGroups.MBLieGroup.IsHom.eq_of_lieHom_eq}
+  \leanok
+  \uses{def:lie-algebra, lem:taylor-mul, thm:taylor-inverse, thm:exp-unique}
+  If $G$ is connected and $\varphi_1, \varphi_2 \colon G \to H$ are morphisms of Lie groups with
+  $\mathbf{L}(\varphi_1) = \mathbf{L}(\varphi_2)$, then $\varphi_1 = \varphi_2$
+  \cite[Proposition 5.5.7]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Let $\chi$, $\theta$ be the charts at the identities and $P = \theta \circ \psi \circ \chi^{-1}$
+  for $\psi = \varphi_1 \varphi_2^{-1}$. Since the multiplication of $H$ has derivative
+  $(a, b) \mapsto a + b$ and the inversion $-\mathrm{id}$ at the identity
+  (Lemma~\ref{lem:taylor-mul}, Theorem~\ref{thm:taylor-inverse}),
+  $dP(\chi(1)) = \mathbf{L}(\varphi_1) - \mathbf{L}(\varphi_2) = 0$. From
+  $\psi(k k') = \varphi_1(k)\,\psi(k')\,\varphi_2(k)^{-1}$,
+  $P(z * w) = (P_1(z) * P(w)) * \iota(P_2(z))$ near $w = \chi(1)$, so
+  $dP(z) \circ d(z * \cdot)(\chi(1)) = 0$; and $d(z * \cdot)(\chi(1))$ is onto, with right inverse
+  $d(z^{-1} * \cdot)(z)$. Hence $dP = 0$ near $\chi(1)$, $P$ is constant on a convex neighborhood, and
+  $\varphi_1 = \varphi_2$ near $1$. The subgroup where they agree is then open, hence closed, and
+  equal to $G$ by connectedness.
+\end{proof}

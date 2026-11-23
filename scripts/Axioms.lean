@@ -81,3 +81,6 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.IsOneParam.eq
 #print axioms MBLieGroup.IsExp.unique
 #print axioms MBLieGroup.IsExp.map_hom
+-- Morphisms of connected Lie groups (`LieAlgebra/Morphisms.lean`)
+#print axioms MBLieGroup.IsHom.eventuallyEq_of_lieHom_eq
+#print axioms MBLieGroup.IsHom.eq_of_lieHom_eq
