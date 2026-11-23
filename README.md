@@ -127,6 +127,10 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `c_g(x) = g x g⁻¹` [GN26, Definition 5.2.4]; `Ad_one`, `Ad_mul`.
 * `MBLieGroup.Ad_eq_id_iff`: **for connected `G`, `Ad(g) = id` iff `g` is central**
   [GN26, Corollary 5.5.8], from the uniqueness of morphisms with a given Lie algebra morphism.
+* `MBLieGroup.dMB_Ad`: **`L(Ad) = ad`**, the derivative of `g ↦ Ad(g) y` at the identity in the
+  direction `x` is `[x, y]` [GN26, Proposition 5.2.5]: in the chart, `Ad(g) y` is a derivative of
+  the local conjugation `(a ∗ b) ∗ ι(a)`, whose mixed second derivative is `[x, y]` by polarization
+  of the Taylor expansion (5.7).
 * `UnitGroup.Ad_apply`: for unit groups of continuous inverse algebras, `Ad(g) x = g x g⁻¹`
   [GN26, Example 5.2.6(a)].
 

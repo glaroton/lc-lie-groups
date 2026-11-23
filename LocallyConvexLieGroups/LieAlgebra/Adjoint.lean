@@ -27,8 +27,18 @@ center of `G` ([GN26, Corollary 5.5.8]).
 * `MBLieGroup.Ad_one`, `MBLieGroup.Ad_mul`: `Ad` is a representation ([GN26, Definition 5.2.4]).
 * `MBLieGroup.Ad_eq_id_iff`: **for connected `G`, `Ad(g) = id` iff `g` is central**
   ([GN26, Corollary 5.5.8]).
+* `MBLieGroup.dMB_Ad`: **`L(Ad) = ad`**: the derivative of `g ↦ Ad(g) y` at the identity in
+  the direction `x` is `[x, y]` ([GN26, Proposition 5.2.5]).
 * `UnitGroup.Ad_apply`: for the unit group of a continuous inverse algebra, `Ad(g) x = g x g⁻¹`
   ([GN26, Example 5.2.6(a)]).
+
+## Implementation notes
+
+For `L(Ad) = ad` we use the conjugation `C(a, b) = (a ∗ b) ∗ ι(a)` of the local group law in the
+chart at the identity: `Ad(g) y = ∂_b C(z, 1) y` for `z = φ(g)`, so the derivative in `x` is the
+mixed second derivative of `C`. Since `C(a, 1) = 1` and `C(1, b) = b`, the pure second
+derivatives vanish, and `d²C((x, y), (x, y)) = 2 [x, y]` (`LocalGroupLaw.LocalInverse.
+dMB_dMB_conj_one`) gives the mixed derivative by polarization.
 
 ## References
 
@@ -106,6 +116,170 @@ theorem Ad_eq_id_iff [PreconnectedSpace G] (g : G) :
     ext x
     simp only [conjHom_apply, MonoidHom.id_apply]
     rw [(Subgroup.mem_center_iff.1 h x).symm, mul_inv_cancel_right]
+
+end MBLieGroup
+
+
+/-! ### The mixed second derivative of the conjugation -/
+
+namespace LocalGroupLaw.LocalInverse
+
+variable {E : Type u} [AddCommGroup E] [Module ℝ E] [TopologicalSpace E]
+  [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [LocallyConvexSpace ℝ E] [T2Space E]
+  {L : LocalGroupLaw E} (ι : L.LocalInverse)
+
+theorem conj_apply (q : E × E) : ι.conj q = L.mul (L.mul q, ι.inv q.1) := rfl
+
+/-- **The mixed second derivative of the conjugation is the bracket**:
+`∂_a ∂_b ((a ∗ b) ∗ ι(a)) (x, y) = [x, y]` at `(1, 1)`. -/
+theorem dMB_dMB_conj_mixed (x y : E) :
+    dMB (dMB ι.conj) (((L.one, L.one), ((0 : E), y)), ((x, (0 : E)), 0)) = L.bracket x y := by
+  set C := ι.conj
+  set P : E × E := (L.one, L.one)
+  set D : E × E → E × E → E := fun h k ↦ dMB (dMB C) ((P, h), (k, 0))
+  have hC := ι.contDiffMBOn_conj
+  have hU := ι.isOpen_conjDom
+  have hP : P ∈ ι.conjDom := ι.one_one_mem_conjDom
+  have hs : ∀ h k, D h k = D k h := fun h k ↦ hC.dMB_dMB_symm hU hP h k
+  have hdir : ∀ h, ContDiffMBOn 1 (fun z ↦ dMB C (z, h)) ι.conjDom := fun h ↦
+    ContDiffMBOn.comp (g := dMB C) (f := fun z ↦ (z, h)) hU (hU.prod isOpen_univ) hC.2.2
+      ((smoothMBOn_id _ 1).prodMk hU (contDiffMBOn_const 1 h _)) fun _ hz ↦ ⟨hz, mem_univ _⟩
+  have hR : ∀ h k k', D h (k + k') = D h k + D h k' := by
+    intro h k k'
+    simp only [D, dMB_slice]
+    exact (hdir h).dMB_add hU hP k k'
+  have hL : ∀ h h' k, D (h + h') k = D h k + D h' k := by
+    intro h h' k
+    rw [hs, hs h, hs h', hR]
+  -- pure terms
+  have hxx : D (x, 0) (x, 0) = 0 := by
+    set V : Set E := {a | (a, L.one) ∈ L.dom ∧ a ∈ ι.dom ∧ (a, L.one) ∈ ι.conjDom}
+    have hV : IsOpen V := (L.isOpen_dom.preimage (by fun_prop)).inter
+      (ι.isOpen_dom.inter (hU.preimage (by fun_prop)))
+    have h1V : L.one ∈ V := ⟨L.one_one_mem, ι.one_mem, hP⟩
+    have hconst : ∀ a ∈ V, dMB C ((a, L.one), (x, (0 : E))) = 0 := by
+      intro a ha
+      rw [dMB_slice]
+      refine dMB_eq_zero_of_eqOn_const (c := L.one) hV ha (fun a' ha' ↦ ?_) x
+      change L.mul (L.mul (a', L.one), ι.inv a') = L.one
+      rw [L.mul_one a' ha'.1]
+      exact ι.mul_inv a' ha'.2.1
+    have h := dMB_comp_affine (fun z : E × E ↦ dMB C (z, (x, (0 : E))))
+      (LinearMap.inl ℝ E E) ((0 : E), L.one) L.one x
+    simp only [LinearMap.inl_apply, Prod.mk_add_mk, add_zero, zero_add] at h
+    simp only [D, dMB_slice]
+    rw [← h]
+    exact dMB_eq_zero_of_eqOn_const hV h1V hconst x
+  have hyy : D (0, y) (0, y) = 0 := by
+    set W : Set E := {b | (L.one, b) ∈ L.dom ∧ (b, L.one) ∈ L.dom ∧ (L.one, b) ∈ ι.conjDom}
+    have hW : IsOpen W := (L.isOpen_dom.preimage (by fun_prop)).inter
+      ((L.isOpen_dom.preimage (by fun_prop)).inter (hU.preimage (by fun_prop)))
+    have h1W : L.one ∈ W := ⟨L.one_one_mem, L.one_one_mem, hP⟩
+    have hconst : ∀ b ∈ W, dMB C ((L.one, b), ((0 : E), y)) = y := by
+      intro b hb
+      rw [dMB_slice₂]
+      have hev : (fun b' ↦ C (L.one, b')) =ᶠ[𝓝 b] fun b' ↦ (ContinuousLinearMap.id ℝ E) b' :=
+        eventuallyEq_of_mem (hW.mem_nhds hb) fun b' hb' ↦ by
+          change L.mul (L.mul (L.one, b'), ι.inv L.one) = b'
+          rw [L.one_mul b' hb'.1, ι.inv_one, L.mul_one b' hb'.2.1]
+      rw [dMB_congr_of_eventuallyEq hev]
+      exact ((ContinuousLinearMap.id ℝ E).hasDirDerivAt b y).dMB_eq
+    have h := dMB_comp_affine (fun z : E × E ↦ dMB C (z, ((0 : E), y)))
+      (LinearMap.inr ℝ E E) (L.one, (0 : E)) L.one y
+    simp only [LinearMap.inr_apply, Prod.mk_add_mk, add_zero, zero_add] at h
+    simp only [D, dMB_slice]
+    rw [← h]
+    exact dMB_eq_zero_of_eqOn_const hW h1W hconst y
+  -- polarization
+  have hv := ι.dMB_dMB_conj_one (x, y)
+  have hsplit : ((x, y) : E × E) = (x, 0) + (0, y) := by simp
+  change D (x, y) (x, y) = (2 : ℝ) • L.bracket x y at hv
+  rw [hsplit, hL, hR, hR, hxx, hyy, hs (x, 0) (0, y), zero_add, add_zero, ← two_smul ℝ] at hv
+  exact smul_right_injective E two_ne_zero hv
+
+end LocalGroupLaw.LocalInverse
+
+
+/-! ### The derived representation -/
+
+namespace MBLieGroup
+
+variable {E : Type u} [AddCommGroup E] [Module ℝ E] [TopologicalSpace E]
+  [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [LocallyConvexSpace ℝ E] [T2Space E]
+  {G : Type*} [Group G] [TopologicalSpace G] [ChartedSpace E G] [MBLieGroup E G]
+
+/-- In the chart `φ` at the identity, `Ad(g) y = ∂_b ((z ∗ b) ∗ ι(z))(1) y` for `z = φ(g)`. -/
+theorem Ad_eq_dMB_conj {z : E} (hz : z ∈ (chartAt E (1 : G)).target)
+    (hz' : ((chartAt E (1 : G)).symm z)⁻¹ ∈ (chartAt E (1 : G)).source) (y : E) :
+    LieAlg.toModel (Ad E ((chartAt E (1 : G)).symm z) y) =
+      dMB (localInverse E G).conj ((z, (localGroupLaw E G).one), ((0 : E), y)) := by
+  have := isTopologicalGroup E G
+  have hg : (chartAt E (1 : G)).symm z ∈ (chartAt E (1 : G)).source :=
+    (chartAt E (1 : G)).map_target hz
+  have h1 := mem_chart_source E (1 : G)
+  rw [dMB_slice₂]
+  change dMB (IsHom.localRep (E := E) (F := E) (conjHom ((chartAt E (1 : G)).symm z)))
+    (chartAt E (1 : G) 1, y) = dMB (fun w ↦ (localInverse E G).conj (z, w))
+      (chartAt E (1 : G) 1, y)
+  refine dMB_congr_of_eventuallyEq ?_ y
+  set O : Set G := {k | (chartAt E (1 : G)).symm z * k ∈ (chartAt E (1 : G)).source ∧
+    (chartAt E (1 : G)).symm z * k * ((chartAt E (1 : G)).symm z)⁻¹ ∈ (chartAt E (1 : G)).source}
+  have hO : IsOpen O :=
+    ((chartAt E (1 : G)).open_source.preimage (continuous_const.mul continuous_id)).inter
+      ((chartAt E (1 : G)).open_source.preimage
+        ((continuous_const.mul continuous_id).mul continuous_const))
+  have hmem : (chartAt E (1 : G)).target ∩ (chartAt E (1 : G)).symm ⁻¹' O ∈
+      𝓝 (chartAt E (1 : G) 1) :=
+    ((chartAt E (1 : G)).isOpen_inter_preimage_symm hO).mem_nhds
+      ⟨(chartAt E (1 : G)).map_source h1, by
+        change (chartAt E (1 : G)).symm (chartAt E (1 : G) 1) ∈ O
+        rw [(chartAt E (1 : G)).left_inv h1]
+        exact ⟨by rwa [mul_one], by rw [mul_one, mul_inv_cancel]; exact h1⟩⟩
+  filter_upwards [hmem] with w hw
+  obtain ⟨hwt, hw1, hw2⟩ := hw
+  have hwg : (chartAt E (1 : G)).symm w ∈ (chartAt E (1 : G)).source :=
+    (chartAt E (1 : G)).map_target hwt
+  have e1 : (localGroupLaw E G).mul (z, w) =
+      chartAt E (1 : G) ((chartAt E (1 : G)).symm z * (chartAt E (1 : G)).symm w) := by
+    have h := chart_mul_eq (E := E) (G := G) hg hwg
+    rwa [(chartAt E (1 : G)).right_inv hz, (chartAt E (1 : G)).right_inv hwt] at h
+  change chartAt E (1 : G) ((chartAt E (1 : G)).symm z * (chartAt E (1 : G)).symm w *
+      ((chartAt E (1 : G)).symm z)⁻¹) =
+    (localGroupLaw E G).mul ((localGroupLaw E G).mul (z, w),
+      chartAt E (1 : G) ((chartAt E (1 : G)).symm z)⁻¹)
+  rw [e1, chart_mul_eq hw1 hz']
+
+/-- **The derived representation of `Ad` is `ad`** ([GN26, Proposition 5.2.5]): the derivative of
+`g ↦ Ad(g) y` at the identity in the direction `x` is `[x, y]`. -/
+theorem dMB_Ad (x y : LieAlg E G) :
+    dMB (fun z : E ↦ LieAlg.toModel (Ad E ((chartAt E (1 : G)).symm z) y))
+      (chartAt E (1 : G) 1, LieAlg.toModel x) = LieAlg.toModel ⁅x, y⁆ := by
+  have := isTopologicalGroup E G
+  set L := localGroupLaw E G
+  set ι := localInverse E G
+  have h1 := mem_chart_source E (1 : G)
+  set Φ : E → E := fun z ↦ dMB ι.conj ((z, L.one), ((0 : E), LieAlg.toModel y))
+  have hev : (fun z : E ↦ LieAlg.toModel (Ad E ((chartAt E (1 : G)).symm z) y)) =ᶠ[𝓝 L.one]
+      Φ := by
+    have hO : IsOpen {g : G | g⁻¹ ∈ (chartAt E (1 : G)).source} :=
+      (chartAt E (1 : G)).open_source.preimage continuous_inv
+    have hmem : (chartAt E (1 : G)).target ∩ (chartAt E (1 : G)).symm ⁻¹'
+        {g : G | g⁻¹ ∈ (chartAt E (1 : G)).source} ∈ 𝓝 L.one :=
+      ((chartAt E (1 : G)).isOpen_inter_preimage_symm hO).mem_nhds
+        ⟨(chartAt E (1 : G)).map_source h1, by
+          change ((chartAt E (1 : G)).symm (chartAt E (1 : G) 1))⁻¹ ∈ (chartAt E (1 : G)).source
+          rw [(chartAt E (1 : G)).left_inv h1, inv_one]; exact h1⟩
+    filter_upwards [hmem] with z hz
+    exact Ad_eq_dMB_conj hz.1 hz.2 _
+  change dMB _ (L.one, LieAlg.toModel x) = _
+  rw [dMB_congr_of_eventuallyEq hev]
+  have h := dMB_comp_affine (dMB ι.conj)
+    ((LinearMap.inl ℝ (E × E) (E × E)).comp (LinearMap.inl ℝ E E))
+    (((0 : E), L.one), ((0 : E), LieAlg.toModel y)) L.one (LieAlg.toModel x)
+  simp only [LinearMap.comp_apply, LinearMap.inl_apply, Prod.mk_add_mk, zero_add,
+    add_zero] at h
+  rw [show Φ = fun z ↦ dMB ι.conj ((z, L.one), ((0 : E), LieAlg.toModel y)) from rfl, h]
+  exact ι.dMB_dMB_conj_mixed _ _
 
 end MBLieGroup
 

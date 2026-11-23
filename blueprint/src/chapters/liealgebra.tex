@@ -607,3 +607,24 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   Theorem~\ref{thm:hom-unique}. For $A^\times$, in the chart $u \mapsto u - 1$ the conjugation is
   the continuous linear map $z \mapsto gzg^{-1}$.
 \end{proof}
+
+\begin{proposition}[The derived representation of $\mathrm{Ad}$]
+  \label{prop:L-Ad}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_dMB_conj_mixed,
+    LocallyConvex.LieGroups.MBLieGroup.Ad_eq_dMB_conj,
+    LocallyConvex.LieGroups.MBLieGroup.dMB_Ad}
+  \leanok
+  \uses{def:Ad, thm:taylor-inverse}
+  The derivative of $g \mapsto \mathrm{Ad}(g)y$ at the identity in the direction $x$ is $[x, y]$,
+  i.e.\ $\mathbf{L}(\mathrm{Ad}) = \mathrm{ad}$ \cite[Proposition 5.2.5]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  In the chart at the identity, with $C(a, b) = (a * b) * \iota(a)$,
+  $\mathrm{Ad}(g)y = \partial_b C(z, 1)\,y$ for $z = \varphi(g)$, so the derivative in the direction $x$
+  is the mixed second derivative $\partial_a \partial_b C(1, 1)(x, y)$. Since $C(a, 1) = 1$ and
+  $C(1, b) = b$ near $1$, the pure second derivatives vanish, and by Schwarz's theorem
+  $d^2 C(1, 1)((x, y), (x, y)) = 2\,\partial_a \partial_b C(1, 1)(x, y)$, which is $2[x, y]$ by
+  Theorem~\ref{thm:taylor-inverse}.
+\end{proof}
