@@ -91,3 +91,6 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.dMB_Ad
 #print axioms MBLieGroup.comm_iff_lie_eq_zero
 #print axioms MBLieGroup.smoothMBM_AdAction
+-- Semidirect products (`LieGroup/Semidirect.lean`)
+#print axioms SDProd.mbLieGroup
+#print axioms MBLieGroup.isSmoothAction_AdMulAut

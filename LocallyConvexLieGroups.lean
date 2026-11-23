@@ -25,5 +25,6 @@ public import LocallyConvexLieGroups.LieGroup.Basic
 public import LocallyConvexLieGroups.LieGroup.OfVaryingAtlas
 public import LocallyConvexLieGroups.LieGroup.OpenSubgroup
 public import LocallyConvexLieGroups.LieGroup.Prod
+public import LocallyConvexLieGroups.LieGroup.Semidirect
 public import LocallyConvexLieGroups.LieGroup.Units
 public import LocallyConvexLieGroups.LieGroup.Vector

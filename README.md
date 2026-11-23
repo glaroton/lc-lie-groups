@@ -69,6 +69,16 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
   componentwise brackets; `MBLieGroup.LieAlg.prodEquiv`: **`L(G × H) ≅ L(G) × L(H)`** as Lie
   algebras.
 
+### `LieGroup/Semidirect.lean`
+
+* `SDProd α`, `SDProd.mbLieGroup`: **semidirect products** `N ⋊_α G` of Lie groups, for a smooth
+  action `α` of `G` on `N` [GN26, Definition 5.2.7], on the product manifold `N × G` (a type
+  synonym, with the group structure of Mathlib's `SemidirectProduct`).
+* `MBLieGroup.AdMulAut`, `MBLieGroup.isSmoothAction_AdMulAut`, `MBLieGroup.TangentGroup`: the
+  adjoint action on the vector group `L(G)` is smooth, and `L(G) ⋊_Ad G` is a Lie group, the
+  tangent group `T(G)` of [GN26, Example 5.2.12] (the identification with the tangent bundle is
+  not formalized).
+
 ### `LieGroup/Units.lean`
 
 * `UnitGroup A`, `UnitGroup.instMBLieGroup`: **the unit group of a continuous inverse algebra is a

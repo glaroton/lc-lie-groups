@@ -152,6 +152,30 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   \texttt{smoothMBM\_fst}, \texttt{ContMDiffMBOn.prodMk}).
 \end{proof}
 
+\section{Semidirect products}
+
+\begin{theorem}[Semidirect products]
+  \label{thm:semidirect}
+  \lean{LocallyConvex.LieGroups.SDProd,
+    LocallyConvex.LieGroups.SDProd.mbLieGroup,
+    LocallyConvex.LieGroups.MBLieGroup.isSmoothAction_AdMulAut,
+    LocallyConvex.LieGroups.MBLieGroup.TangentGroup}
+  \leanok
+  \uses{def:lie-group, prop:prod-group, prop:Ad-smooth}
+  If $\alpha\colon G \to \mathrm{Aut}(N)$ defines a smooth action of the Lie group $G$ on the Lie
+  group $N$, then $N \times G$ with $(n, g)(n', g') = (n\,\alpha(g)(n'), gg')$ is a Lie group, the
+  semidirect product $N \rtimes_\alpha G$ \cite[Definition 5.2.7]{GN26}. In particular
+  $\mathbf{L}(G) \rtimes_{\mathrm{Ad}} G$ is a Lie group, the tangent group of
+  \cite[Example 5.2.12]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Multiplication and inversion are built from those of $N$ and $G$, the action and the
+  projections of the product manifold. The adjoint action is smooth by
+  Proposition~\ref{prop:Ad-smooth}.
+\end{proof}
+
 \section{Unit groups of continuous inverse algebras}
 
 \begin{theorem}[Unit groups]
