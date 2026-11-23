@@ -260,3 +260,20 @@ available as locally convex spaces.
   and the local criterion concludes.
 \end{proof}
 
+\begin{corollary}
+  \label{cor:regular-open-subgroup}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.isC0Regular_openSubgroup_iff,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_identityComponent_iff}
+  \leanok
+  \uses{prop:regular-hom, prop:regular-lift, thm:open-subgroup}
+  An open subgroup $U$ of a Lie group $G$ is $C^0$-regular if and only if $G$ is. In particular,
+  $G$ is $C^0$-regular if and only if its identity component $G_0$ is.
+\end{corollary}
+
+\begin{proof}
+  \leanok
+  In the charts at $1$ the inclusion $U \to G$ is the identity, so $\mathbf{L}$ of the inclusion is
+  the identity and $g \mapsto g$ on $U$ is a smooth local inverse. Apply
+  Propositions~\ref{prop:regular-hom} and~\ref{prop:regular-lift}.
+\end{proof}
+

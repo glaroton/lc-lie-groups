@@ -287,6 +287,10 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   domain `V` of the local inverse `ρ` (`Γ(s) = evol(S(L(φ)ξ, s))` with `S(η, s)(t) = s η(st)`,
   small for balanced neighborhoods), and `ρ ∘ Γ` is the evolution of `ξ`, since
   `ρ(Γ t)⁻¹ ρ(Γ r) = ρ(Γ(t)⁻¹ Γ(r))` by injectivity of `φ` near `1` and `dρ(1) L(φ) = id`.
+* `MBLieGroup.isC0Regular_openSubgroup_iff`, `MBLieGroup.isC0Regular_identityComponent_iff`
+  (`Regular/OpenSubgroup.lean`): **an open subgroup, in particular the identity component `G₀`, is
+  `C⁰`-regular if and only if `G` is**. The inclusion is the identity in the charts at `1`, so both
+  directions of [GN26, Proposition 6.1.5] apply.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
