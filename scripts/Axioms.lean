@@ -103,4 +103,5 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 -- Regular Lie groups (`Regular/`)
 #print axioms MBLieGroup.eq_of_hasLogDerivAt
 #print axioms MBLieGroup.IsC0Regular.isExp
+#print axioms MBLieGroup.isC0Regular_of_nhds
 #print axioms VectorGroup.isC0Regular

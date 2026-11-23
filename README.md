@@ -262,6 +262,11 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
   `evol(ξ) = ∫₀¹ ξ` [GN26, Proposition 6.1.3].
+* `MBLieGroup.isC0Regular_of_nhds` (`Regular/Local.lean`): **the local regularity criterion**
+  [GN26, Lemma 6.1.4]: evolutions that exist and depend smoothly on `ξ` near `0` exist and depend
+  smoothly on all `ξ`. Instead of cutting `ξ` into `N` pieces, we halve it repeatedly
+  (`IsEvol.concat`, `evol(ξ) = evol(ξ₀) evol(ξ₁)`): if `ξ([0, 1]) ⊆ 2ᵐ W`, its halves take values in
+  `2^{m-1} W`, and every `ξ` has compact, hence bounded, image.
 
 ### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
@@ -297,7 +302,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
    inverse algebras [GN26, Example 5.6.9]. Regularity: `C^k`-regularity for `k ≥ 1` (needs the
-   spaces `C^k([0, 1], 𝔤)`), the local regularity criterion [GN26, Lemma 6.1.4], Banach–Lie
+   spaces `C^k([0, 1], 𝔤)`), Banach–Lie
    groups and `\widetilde{Diff}⁺(S¹)` are regular [GN26, Theorem 6.3.4, Ch. 13], and the
    Fundamental Theorem for Lie group-valued functions [GN26, §6.1.2].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the

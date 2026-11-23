@@ -33,4 +33,5 @@ public import LocallyConvexLieGroups.LieGroup.Units
 public import LocallyConvexLieGroups.LieGroup.Vector
 public import LocallyConvexLieGroups.Regular.Basic
 public import LocallyConvexLieGroups.Regular.Evol
+public import LocallyConvexLieGroups.Regular.Local
 public import LocallyConvexLieGroups.Regular.Vector

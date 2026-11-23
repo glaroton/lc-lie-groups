@@ -98,3 +98,33 @@ available as locally convex spaces.
   The integral is linear, and continuous on $C([0, 1], E)$ because weak integrals of uniformly
   small curves are small.
 \end{proof}
+
+\begin{lemma}[Local regularity criterion]
+  \label{lem:local-regularity}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.HasLogDerivAt.piecewise,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvol.concat,
+    LocallyConvex.LieGroups.MBLieGroup.evol_eq_mul,
+    LocallyConvex.LieGroups.MBLieGroup.exists_mem_valIn,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Semiregular_of_local,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_local,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_nhds}
+  \leanok
+  \uses{def:c0-regular}
+  If every $\xi$ in an open $0$-neighborhood $U \subseteq C([0, 1], \mathfrak g)$ has an evolution
+  and $\mathrm{evol}$ is smooth on $U$, then $G$ is $C^0$-regular \cite[Lemma 6.1.4]{GN26}.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  $U$ contains $\{\xi \mid \xi([0, 1]) \subseteq W\}$ for an open $0$-neighborhood $W \subseteq E$.
+  The halves $\xi_0(t) = \xi(t/2)/2$ and $\xi_1(t) = \xi((1 + t)/2)/2$ of $\xi$ have evolutions
+  $\gamma_0$, $\gamma_1$ if $\xi$ has; then $\gamma_0(2t)$ for $t \leq 1/2$ followed by
+  $\gamma_0(1)\gamma_1(2t - 1)$ is the evolution of $\xi$, the two pieces being glued at $t = 1/2$,
+  where they have the same logarithmic derivative $\xi(1/2)$. Hence
+  $\mathrm{evol}(\xi) = \mathrm{evol}(\xi_0)\,\mathrm{evol}(\xi_1)$. If $\xi$ takes values in
+  $2^m W$, its halves take values in $2^{m-1} W$; by induction on $m$, evolutions exist and
+  $\mathrm{evol}$ is smooth on the open sets $\{\xi \mid \xi([0, 1]) \subseteq 2^m W\}$, which cover
+  $C([0, 1], \mathfrak g)$ since the image of each $\xi$ is compact, hence bounded. Glöckner and
+  Neeb cut $\xi$ into $N$ pieces at once.
+\end{proof}
+
