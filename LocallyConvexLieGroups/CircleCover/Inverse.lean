@@ -217,10 +217,12 @@ theorem contDiffMBOn_G (k : ℕ) : ContDiffMBOn k G (domain ×ˢ univ) :=
 
 section Uncurry
 
-variable {U : Set CInfPer} {F : CInfPer × ℝ → ℝ} {g : CInfPer → CInfPer}
+variable {X : Type} [AddCommGroup X] [Module ℝ X] [TopologicalSpace X] [IsTopologicalAddGroup X]
+  [ContinuousSMul ℝ X] [LocallyConvexSpace ℝ X] [T2Space X]
+  {U : Set X} {F : X × ℝ → ℝ} {g : X → CInfPer}
 
 /-- `F_m(u, y) = ∂_y^m F(u, y)`, as iterated directional derivatives in the direction `(0, 1)`. -/
-def Fd (F : CInfPer × ℝ → ℝ) : ℕ → CInfPer × ℝ → ℝ
+def Fd (F : X × ℝ → ℝ) : ℕ → X × ℝ → ℝ
   | 0 => F
   | m + 1 => fun p ↦ dMB (Fd F m) (p, (0, 1))
 
@@ -230,12 +232,14 @@ theorem smoothMBOn_Fd (hU : IsOpen U) (hF : SmoothMBOn F (U ×ˢ univ)) (m : ℕ
   | zero => exact hF
   | succ m ih => exact ih.dMB_dir (hU.prod isOpen_univ) (0, 1)
 
-theorem Fd_apply (hg : ∀ u ∈ U, ∀ y, g u y = F (u, y)) (m : ℕ) {u : CInfPer} (hu : u ∈ U)
+omit [TopologicalSpace X] [IsTopologicalAddGroup X] [ContinuousSMul ℝ X] [LocallyConvexSpace ℝ X]
+  [T2Space X] in
+theorem Fd_apply (hg : ∀ u ∈ U, ∀ y, g u y = F (u, y)) (m : ℕ) {u : X} (hu : u ∈ U)
     (y : ℝ) : Fd F m (u, y) = iteratedDeriv m (g u) y := by
   induction m generalizing y with
   | zero => exact (hg u hu y).symm
   | succ m ih =>
-    change dMB (Fd F m) (((u, y) : CInfPer × ℝ), ((0 : CInfPer), (1 : ℝ))) = _
+    change dMB (Fd F m) (((u, y) : X × ℝ), ((0 : X), (1 : ℝ))) = _
     rw [dMB_slice₂]
     have hf : (fun y' ↦ Fd F m (u, y')) = iteratedDeriv m (g u) := funext ih
     rw [hf, iteratedDeriv_succ]
@@ -309,34 +313,36 @@ theorem isClosed_range_J' : IsClosed (range J') :=
 
 section Uncurry
 
-variable {U : Set CInfPer} {F : CInfPer × ℝ → ℝ} {g : CInfPer → CInfPer}
+variable {X : Type} [AddCommGroup X] [Module ℝ X] [TopologicalSpace X] [IsTopologicalAddGroup X]
+  [ContinuousSMul ℝ X] [LocallyConvexSpace ℝ X] [T2Space X]
+  {U : Set X} {F : X × ℝ → ℝ} {g : X → CInfPer}
 
 /-- `H̃_m(y, (e, u)) = F_m(u, y)`. -/
-def Ht (F : CInfPer × ℝ → ℝ) (m : ℕ) (q : ℝ × (ℝ × CInfPer)) : ℝ := Fd F m (q.2.2, q.1)
+def Ht (F : X × ℝ → ℝ) (m : ℕ) (q : ℝ × (ℝ × X)) : ℝ := Fd F m (q.2.2, q.1)
 
 theorem component_contDiffMBOn (hU : IsOpen U) (hF : SmoothMBOn F (U ×ˢ univ))
     (hg : ∀ u ∈ U, ∀ y, g u y = F (u, y)) (k m : ℕ) :
     ContDiffMBOn k (fun u ↦ J' (g u) m) U := by
-  set O : Set (ℝ × (ℝ × CInfPer)) := (fun q ↦ (q.2.2, q.1)) ⁻¹' (U ×ˢ univ)
+  set O : Set (ℝ × (ℝ × X)) := (fun q ↦ (q.2.2, q.1)) ⁻¹' (U ×ˢ univ)
   have hO : IsOpen O := (hU.prod isOpen_univ).preimage (by fun_prop)
-  set A : ℝ × (ℝ × CInfPer) →L[ℝ] CInfPer × ℝ :=
-    ((ContinuousLinearMap.snd ℝ ℝ CInfPer).comp (ContinuousLinearMap.snd ℝ ℝ _)).prod
+  set A : ℝ × (ℝ × X) →L[ℝ] X × ℝ :=
+    ((ContinuousLinearMap.snd ℝ ℝ X).comp (ContinuousLinearMap.snd ℝ ℝ _)).prod
       (ContinuousLinearMap.fst ℝ ℝ _)
   have hH : ContDiffMBOn k (Ht F m) O := by
     have := ContDiffMBOn.comp_clm A (hU.prod isOpen_univ) (smoothMBOn_Fd hU hF m k)
     exact this
   have hΩ : IsOpen ((univ : Set ℝ) ×ˢ U) := isOpen_univ.prod hU
   have hS := contDiffMBOn_superposeParam_of_contDiffMBOn (K := I01) (E := ℝ) Subtype.val
-    continuous_subtype_val k (E' := ℝ) (Z := CInfPer) (H := Ht F m) hO hΩ
+    continuous_subtype_val k (E' := ℝ) (Z := X) (H := Ht F m) hO hΩ
     (fun _ x hx ↦ ⟨hx.2, mem_univ _⟩) hH
-  set ι : CInfPer →L[ℝ] C(I01, ℝ) × CInfPer :=
-    ContinuousLinearMap.inr ℝ C(I01, ℝ) CInfPer
+  set ι : X →L[ℝ] C(I01, ℝ) × X :=
+    ContinuousLinearMap.inr ℝ C(I01, ℝ) X
   have hmaps : MapsTo ι U (paramDomain I01 ((univ : Set ℝ) ×ˢ U)) :=
     fun u hu _ ↦ ⟨mem_univ _, hu⟩
   have h := ContDiffMBOn.comp hU (isOpen_paramDomain hΩ) hS (ι.contDiffMBOn k U) hmaps
   refine ContDiffMBOn.congr_of_isOpen hU (fun u hu ↦ ?_) h
   ext s
-  have hH0 : ContinuousOn (fun r : I01 × (ℝ × CInfPer) ↦ Ht F m ((r.1 : ℝ), r.2))
+  have hH0 : ContinuousOn (fun r : I01 × (ℝ × X) ↦ Ht F m ((r.1 : ℝ), r.2))
       (univ ×ˢ ((univ : Set ℝ) ×ˢ U)) :=
     (hH.continuousOn).comp ((continuous_subtype_val.comp continuous_fst).prodMk
       continuous_snd).continuousOn fun r hr ↦ ⟨hr.2.2, mem_univ _⟩

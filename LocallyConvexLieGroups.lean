@@ -10,6 +10,7 @@ public import LocallyConvexLieGroups.CircleCover.Group
 public import LocallyConvexLieGroups.CircleCover.Inverse
 public import LocallyConvexLieGroups.CircleCover.LieGroup
 public import LocallyConvexLieGroups.CircleCover.Periodic
+public import LocallyConvexLieGroups.CircleCover.Regular
 public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.Diffeomorphism.Circle
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra

@@ -245,6 +245,14 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   flows with locally convex parameters [GN26, Theorem 2.4.29] (`CircleCover.smoothMBOn_flow`);
   `CircleCover.smoothMBOn_of_uncurry` turns smoothness of `(x, y) ↦ Fl^x_1(y)` into smoothness
   into `C^∞_per`.
+* `CircleCover.isC0Regular` (`CircleCover/Regular.lean`): **`\widetilde{Diff}⁺(S¹)` is
+  `C⁰`-regular**. For `ξ ∈ C([0, 1], C^∞_per)` with `|ξ(t)'| < 1/4`, the solution of
+  `u' = -ξ(t)(u)`, `u(0) = y` is the fixed point of a Picard operator on `C([0, 1], ℝ)`, a uniform
+  family of contractions smooth in `((ξ, y), u)`, so it is smooth in `(ξ, y)` (lc-analysis,
+  [GN26, Proposition 2.3.27(a)]); the evolution is `γ(t) = u_·(t)⁻¹`. The flow property
+  `u_t = u_{s → t} ∘ u_s` writes `γ(t)⁻¹ γ(r)` as the time-one map of a rescaled field, whose
+  derivative at `r = t` is computed by comparison with `exp`. The local criterion concludes.
+  [GN26, §13.1] leaves the regularity of diffeomorphism groups to be written.
 
 ### `Regular/Basic.lean`, `Regular/Evol.lean` and `Regular/Vector.lean`
 
@@ -335,9 +343,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
    inverse algebras [GN26, Example 5.6.9]. Regularity: `C^k`-regularity for `k ≥ 1` (needs the
-   spaces `C^k([0, 1], 𝔤)`), and
-   groups and `\widetilde{Diff}⁺(S¹)` are regular [GN26, Theorem 6.3.4, Ch. 13], and the
-   Fundamental Theorem for Lie group-valued functions [GN26, §6.1.2].
+   spaces `C^k([0, 1], 𝔤)`), regularity of `Diff(K)`, and the Fundamental Theorem for Lie
+   group-valued functions [GN26, §6.1.2].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

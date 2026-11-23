@@ -277,3 +277,32 @@ available as locally convex spaces.
   Propositions~\ref{prop:regular-hom} and~\ref{prop:regular-lift}.
 \end{proof}
 
+\begin{theorem}
+  \label{thm:circle-cover-regular}
+  \lean{LocallyConvex.LieGroups.CircleCover.Pic,
+    LocallyConvex.LieGroups.CircleCover.smoothMBOn_sol,
+    LocallyConvex.LieGroups.CircleCover.cg_eq_mul,
+    LocallyConvex.LieGroups.CircleCover.hasDirDerivAt_Ψ,
+    LocallyConvex.LieGroups.CircleCover.isEvolOn_evolCurve,
+    LocallyConvex.LieGroups.CircleCover.isC0Regular}
+  \leanok
+  \uses{thm:circle-cover-lie, thm:circle-cover-exp, lem:local-regularity, prop:regular-interval}
+  The universal covering group $\widetilde{\mathrm{Diff}}^+(S^1)$ is $C^0$-regular.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  For $\xi \in C([0, 1], C^\infty_{per})$ with $|\xi(t)'| < 1/4$, the solution of
+  $u' = -\xi(t)(u)$, $u(0) = y$, is the fixed point of
+  $\mathrm{Pic}((\xi, y), u)(t) = y - \int_0^t \xi(r)(u(r))\,dr$ on $C([0, 1], \mathbb R)$, a
+  uniform family of contractions with constant $1/4$, smooth in $((\xi, y), u)$ as a superposition
+  operator followed by the primitive. Hence $u_y$ is smooth in $(\xi, y)$
+  \cite[Proposition 2.3.27(a)]{GN26}; $u_\cdot(t) - \mathrm{id}$ is periodic, smooth in $\xi$
+  with values in $C^\infty_{per}$, and $\partial_y u_y(t) \geq 2/3$, so $u_\cdot(t)$ lies in the
+  group. Put $\gamma(t) = u_\cdot(t)^{-1}$. The flow property $u_t = u_{s \to t} \circ u_s$ writes
+  $\gamma(t)^{-1}\gamma(r)$ as the time-one map $\Psi$ of the field
+  $\zeta_{r \to t}(w) = (t - r)\,\xi(r + w(t - r))$; since $\zeta_{t + h \to t} = h Z_h$ with
+  $Z_h \to -\xi(t)$ (constant), $\delta(\gamma)(t) = d\Psi(0, -\xi(t))$, and comparison with the
+  exponential function gives $d\Psi(0, -x) = x$. The local criterion concludes.
+\end{proof}
+
