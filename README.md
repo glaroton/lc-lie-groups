@@ -329,8 +329,14 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   equation is `δ(f)` for `f(y) = evol(t ↦ α_{t y}(y))`. The uniqueness lemma for `η' = [η, ξ]`
   [GN26, Lemma 6.1.7] (`MBLieGroup.eq_zero_of_hasDirDerivAt_bracket`) uses that `Ad(γ) η` is
   constant; instead of the two-parameter map of [GN26, Lemma 6.1.8] we compare `α` and `δ(f)` along
-  rays (`MBLieGroup.hasDirDerivAt_ray`). The global statements (manifolds, simply connected
-  domains, periods) are not formalized.
+  rays (`MBLieGroup.hasDirDerivAt_ray`).
+* `MBLieGroup.exists_logDeriv_eq_of_simplyConnected` (`Regular/FundamentalGlobal.lean`): **the
+  Fundamental Theorem on simply connected open sets** [GN26, Theorem 6.1.13(i), (ii)(a)], for open
+  subsets of locally convex spaces. As in [GN26, Proposition 6.1.10], the space of germs of
+  primitives over convex open sets (`MBLieGroup.Germs`) covers `U`
+  (`MBLieGroup.isCoveringMap_proj`), and the identity of `U` lifts (Mathlib's lifting theorem for
+  simply connected, locally path connected spaces). The period map and `1`-forms on general
+  manifolds are not formalized.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -374,9 +380,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the global
-   Fundamental Theorem (1-forms on manifolds, simply connected domains, periods)
-   [GN26, Theorem 6.1.13(ii)].
+   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the Fundamental
+   Theorem for `1`-forms on manifolds and the period map [GN26, Theorem 6.1.13(ii)(b)].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

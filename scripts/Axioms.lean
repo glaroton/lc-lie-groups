@@ -86,6 +86,8 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.logDeriv_maurerCartan
 #print axioms MBLieGroup.eq_zero_of_hasDirDerivAt_bracket
 #print axioms MBLieGroup.exists_logDeriv_eq
+#print axioms MBLieGroup.isCoveringMap_proj
+#print axioms MBLieGroup.exists_logDeriv_eq_of_simplyConnected
 #print axioms MBLieGroup.isRegular_of_completeSpace
 -- Exponential functions (`Exponential/Basic.lean`)
 #print axioms MBLieGroup.IsExp.exp_neg

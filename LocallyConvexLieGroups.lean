@@ -38,6 +38,7 @@ public import LocallyConvexLieGroups.Regular.Basic
 public import LocallyConvexLieGroups.Regular.Evol
 public import LocallyConvexLieGroups.Regular.Examples
 public import LocallyConvexLieGroups.Regular.Fundamental
+public import LocallyConvexLieGroups.Regular.FundamentalGlobal
 public import LocallyConvexLieGroups.Regular.Hom
 public import LocallyConvexLieGroups.Regular.Interval
 public import LocallyConvexLieGroups.Regular.Lift
