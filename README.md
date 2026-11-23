@@ -232,6 +232,13 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   modeled on `C^∞_per` [GN26, §13.3], **with Lie algebra `(C^∞_per, x' y − x y')`**. The group law
   printed in [GN26, p. 678], `m(f, g)(x) = f(g(x) + x) − x`, seems to be a misprint for
   `g(x) + f(x + g(x))`.
+* `CircleCover.isExp_exp` (`CircleCover/Exponential.lean`): **`\widetilde{Diff}⁺(S¹)` has an
+  exponential function**, `exp(x) = Fl^x_1`, the time-one flow of the periodic vector field
+  `x ∂_y`. The flow is global by Picard–Lindelöf (Mathlib) with the bounds `|x| ≤ p₀(x)`,
+  `Lip(x) ≤ p₁(x)` (`CircleCover.mem_dom`), and smooth in `(t, y, x)` by lc-analysis's maximal
+  flows with locally convex parameters [GN26, Theorem 2.4.29] (`CircleCover.smoothMBOn_flow`);
+  `CircleCover.smoothMBOn_of_uncurry` turns smoothness of `(x, y) ↦ Fl^x_1(y)` into smoothness
+  into `C^∞_per`.
 
 ### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
@@ -265,9 +272,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
-3. Exponential functions: the exponential function of
-   `\widetilde{Diff}⁺(S¹)` (flows of periodic vector fields) and of unit groups of Mackey complete
-   continuous inverse algebras [GN26, Example 5.6.9]; regular Lie groups [GN26, Ch. 6], with the
+3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
+   inverse algebras [GN26, Example 5.6.9]; regular Lie groups [GN26, Ch. 6], with the
    completeness hypotheses they need.
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).

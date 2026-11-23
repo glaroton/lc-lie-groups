@@ -5,6 +5,7 @@ Authors: glaroton
 -/
 module
 
+public import LocallyConvexLieGroups.CircleCover.Exponential
 public import LocallyConvexLieGroups.CircleCover.Group
 public import LocallyConvexLieGroups.CircleCover.Inverse
 public import LocallyConvexLieGroups.CircleCover.LieGroup

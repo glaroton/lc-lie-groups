@@ -215,26 +215,33 @@ theorem contDiffMBOn_G (k : ℕ) : ContDiffMBOn k G (domain ×ˢ univ) :=
 
 /-! ### Derivatives in `y` -/
 
-/-- `G_m(u, y) = ∂_y^m G(u, y)`, as iterated directional derivatives in the direction `(0, 1)`. -/
-def Gd : ℕ → CInfPer × ℝ → ℝ
-  | 0 => G
-  | m + 1 => fun p ↦ dMB (Gd m) (p, (0, 1))
+section Uncurry
 
-theorem smoothMBOn_Gd (m : ℕ) : SmoothMBOn (Gd m) (domain ×ˢ univ) := by
+variable {U : Set CInfPer} {F : CInfPer × ℝ → ℝ} {g : CInfPer → CInfPer}
+
+/-- `F_m(u, y) = ∂_y^m F(u, y)`, as iterated directional derivatives in the direction `(0, 1)`. -/
+def Fd (F : CInfPer × ℝ → ℝ) : ℕ → CInfPer × ℝ → ℝ
+  | 0 => F
+  | m + 1 => fun p ↦ dMB (Fd F m) (p, (0, 1))
+
+theorem smoothMBOn_Fd (hU : IsOpen U) (hF : SmoothMBOn F (U ×ˢ univ)) (m : ℕ) :
+    SmoothMBOn (Fd F m) (U ×ˢ univ) := by
   induction m with
-  | zero => exact contDiffMBOn_G
-  | succ m ih => exact ih.dMB_dir (isOpen_domain.prod isOpen_univ) (0, 1)
+  | zero => exact hF
+  | succ m ih => exact ih.dMB_dir (hU.prod isOpen_univ) (0, 1)
 
-theorem Gd_apply (m : ℕ) (u : CInfPer) (y : ℝ) :
-    Gd m (u, y) = iteratedDeriv m (η u) y := by
+theorem Fd_apply (hg : ∀ u ∈ U, ∀ y, g u y = F (u, y)) (m : ℕ) {u : CInfPer} (hu : u ∈ U)
+    (y : ℝ) : Fd F m (u, y) = iteratedDeriv m (g u) y := by
   induction m generalizing y with
-  | zero => rfl
+  | zero => exact (hg u hu y).symm
   | succ m ih =>
-    change dMB (Gd m) (((u, y) : CInfPer × ℝ), ((0 : CInfPer), (1 : ℝ))) = _
+    change dMB (Fd F m) (((u, y) : CInfPer × ℝ), ((0 : CInfPer), (1 : ℝ))) = _
     rw [dMB_slice₂]
-    have hf : (fun y' ↦ Gd m (u, y')) = iteratedDeriv m (η u) := funext ih
+    have hf : (fun y' ↦ Fd F m (u, y')) = iteratedDeriv m (g u) := funext ih
     rw [hf, iteratedDeriv_succ]
-    exact (hasDirDerivAt_one ((η u).differentiable_iteratedDeriv m y).hasDerivAt).dMB_eq
+    exact (hasDirDerivAt_one ((g u).differentiable_iteratedDeriv m y).hasDerivAt).dMB_eq
+
+end Uncurry
 
 /-! ### Restriction to `[0, 1]` -/
 
@@ -298,44 +305,58 @@ theorem isEmbedding_J' : Topology.IsEmbedding J' :=
 theorem isClosed_range_J' : IsClosed (range J') :=
   isUniformInducing_J'.isComplete_range.isClosed
 
-/-! ### Smoothness of the inversion -/
+/-! ### Smoothness into `C^∞_per` -/
 
-/-- `H̃_m(y, (e, u)) = G_m(u, y)`. -/
-def Ht (m : ℕ) (q : ℝ × (ℝ × CInfPer)) : ℝ := Gd m (q.2.2, q.1)
+section Uncurry
 
-theorem component_contDiffMBOn (k m : ℕ) :
-    ContDiffMBOn k (fun u ↦ J' (η u) m) domain := by
-  set O : Set (ℝ × (ℝ × CInfPer)) := (fun q ↦ (q.2.2, q.1)) ⁻¹' (domain ×ˢ univ)
-  have hO : IsOpen O := (isOpen_domain.prod isOpen_univ).preimage (by fun_prop)
+variable {U : Set CInfPer} {F : CInfPer × ℝ → ℝ} {g : CInfPer → CInfPer}
+
+/-- `H̃_m(y, (e, u)) = F_m(u, y)`. -/
+def Ht (F : CInfPer × ℝ → ℝ) (m : ℕ) (q : ℝ × (ℝ × CInfPer)) : ℝ := Fd F m (q.2.2, q.1)
+
+theorem component_contDiffMBOn (hU : IsOpen U) (hF : SmoothMBOn F (U ×ˢ univ))
+    (hg : ∀ u ∈ U, ∀ y, g u y = F (u, y)) (k m : ℕ) :
+    ContDiffMBOn k (fun u ↦ J' (g u) m) U := by
+  set O : Set (ℝ × (ℝ × CInfPer)) := (fun q ↦ (q.2.2, q.1)) ⁻¹' (U ×ˢ univ)
+  have hO : IsOpen O := (hU.prod isOpen_univ).preimage (by fun_prop)
   set A : ℝ × (ℝ × CInfPer) →L[ℝ] CInfPer × ℝ :=
     ((ContinuousLinearMap.snd ℝ ℝ CInfPer).comp (ContinuousLinearMap.snd ℝ ℝ _)).prod
       (ContinuousLinearMap.fst ℝ ℝ _)
-  have hH : ContDiffMBOn k (Ht m) O := by
-    have := ContDiffMBOn.comp_clm A (isOpen_domain.prod isOpen_univ) (smoothMBOn_Gd m k)
+  have hH : ContDiffMBOn k (Ht F m) O := by
+    have := ContDiffMBOn.comp_clm A (hU.prod isOpen_univ) (smoothMBOn_Fd hU hF m k)
     exact this
-  have hΩ : IsOpen ((univ : Set ℝ) ×ˢ domain) := isOpen_univ.prod isOpen_domain
+  have hΩ : IsOpen ((univ : Set ℝ) ×ˢ U) := isOpen_univ.prod hU
   have hS := contDiffMBOn_superposeParam_of_contDiffMBOn (K := I01) (E := ℝ) Subtype.val
-    continuous_subtype_val k (E' := ℝ) (Z := CInfPer) (H := Ht m) hO hΩ
+    continuous_subtype_val k (E' := ℝ) (Z := CInfPer) (H := Ht F m) hO hΩ
     (fun _ x hx ↦ ⟨hx.2, mem_univ _⟩) hH
   set ι : CInfPer →L[ℝ] C(I01, ℝ) × CInfPer :=
     ContinuousLinearMap.inr ℝ C(I01, ℝ) CInfPer
-  have hmaps : MapsTo ι domain (paramDomain I01 ((univ : Set ℝ) ×ˢ domain)) :=
+  have hmaps : MapsTo ι U (paramDomain I01 ((univ : Set ℝ) ×ˢ U)) :=
     fun u hu _ ↦ ⟨mem_univ _, hu⟩
-  have h := ContDiffMBOn.comp isOpen_domain (isOpen_paramDomain hΩ) hS
-    (ι.contDiffMBOn k domain) hmaps
-  refine ContDiffMBOn.congr_of_isOpen isOpen_domain (fun u hu ↦ ?_) h
+  have h := ContDiffMBOn.comp hU (isOpen_paramDomain hΩ) hS (ι.contDiffMBOn k U) hmaps
+  refine ContDiffMBOn.congr_of_isOpen hU (fun u hu ↦ ?_) h
   ext s
-  have hH0 : ContinuousOn (fun r : I01 × (ℝ × CInfPer) ↦ Ht m ((r.1 : ℝ), r.2))
-      (univ ×ˢ ((univ : Set ℝ) ×ˢ domain)) :=
+  have hH0 : ContinuousOn (fun r : I01 × (ℝ × CInfPer) ↦ Ht F m ((r.1 : ℝ), r.2))
+      (univ ×ˢ ((univ : Set ℝ) ×ˢ U)) :=
     (hH.continuousOn).comp ((continuous_subtype_val.comp continuous_fst).prodMk
       continuous_snd).continuousOn fun r hr ↦ ⟨hr.2.2, mem_univ _⟩
   simp only [Function.comp_apply]
   rw [superposeParam_apply hH0 (hmaps hu) s]
-  simp [Ht, ι, Gd_apply m]
+  simp [Ht, ι, Fd_apply hg m hu]
+
+/-- **Smoothness into `C^∞_per` from smoothness of the uncurried map**: if `g(u)(y) = F(u, y)`
+with `F` smooth on `U × ℝ`, then `g` is smooth on `U`. -/
+theorem smoothMBOn_of_uncurry (hU : IsOpen U) (hF : SmoothMBOn F (U ×ˢ univ))
+    (hg : ∀ u ∈ U, ∀ y, g u y = F (u, y)) : SmoothMBOn g U := fun k ↦
+  contDiffMBOn_of_isClosedEmbedding J' isEmbedding_J' isClosed_range_J' hU
+    (contDiffMBOn_pi hU fun m ↦ component_contDiffMBOn hU hF hg k m)
+
+end Uncurry
+
+/-! ### Smoothness of the inversion -/
 
 /-- **The inversion `η(u) = (id + u)⁻¹ − id` is smooth on `Ω`.** -/
-theorem smoothMBOn_η : SmoothMBOn η domain := fun k ↦
-  contDiffMBOn_of_isClosedEmbedding J' isEmbedding_J' isClosed_range_J' isOpen_domain
-    (contDiffMBOn_pi isOpen_domain fun m ↦ component_contDiffMBOn k m)
+theorem smoothMBOn_η : SmoothMBOn η domain :=
+  smoothMBOn_of_uncurry isOpen_domain contDiffMBOn_G fun _ _ _ ↦ rfl
 
 end LocallyConvex.LieGroups.CircleCover

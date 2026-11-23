@@ -549,6 +549,39 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $t \mapsto \varphi(\exp_G(tx))$ and $t \mapsto \exp_H(t\,\mathbf{L}(\varphi)x)$.
 \end{proof}
 
+\begin{theorem}[The exponential function of $\widetilde{\mathrm{Diff}}^+(S^1)$]
+  \label{thm:circle-cover-exp}
+  \lean{LocallyConvex.LieGroups.CircleCover.mem_dom,
+    LocallyConvex.LieGroups.CircleCover.smoothMBOn_flow,
+    LocallyConvex.LieGroups.CircleCover.Fl_add,
+    LocallyConvex.LieGroups.CircleCover.Fl_smul,
+    LocallyConvex.LieGroups.CircleCover.Fl_add_one,
+    LocallyConvex.LieGroups.CircleCover.smoothMBOn_of_uncurry,
+    LocallyConvex.LieGroups.CircleCover.smoothMBOn_expMap,
+    LocallyConvex.LieGroups.CircleCover.isExp_exp}
+  \leanok
+  \uses{def:exp, thm:circle-cover-lie}
+  For $x \in C^\infty_{\mathrm{per}}$, the vector field $x\,\partial_y$ on $\mathbb{R}$ has a
+  global flow $\mathrm{Fl}^x$, smooth in $(t, y, x)$, with
+  $\mathrm{Fl}^x_t(y + 1) = \mathrm{Fl}^x_t(y) + 1$. The map
+  $\exp(x) = \mathrm{Fl}^x_1$ is the exponential function of
+  $\widetilde{\mathrm{Diff}}^+(S^1)$ (cf.\ \cite[\S13.3]{GN26}).
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Since $|x| \le p_0(x)$ and $x$ is $p_1(x)$-Lipschitz, the Picard--Lindel\"of theorem gives
+  solutions on every interval $[-T, T]$, so the maximal flow of $y' = x(y)$ with the parameter $x$
+  is global, and it is smooth by the dependence of maximal flows on locally convex parameters
+  \cite[Theorem 2.4.29]{GN26}. Uniqueness of solutions gives the flow property, the rescaling
+  $\mathrm{Fl}^{cx}_t = \mathrm{Fl}^x_{ct}$ and the periodicity. Thus $\mathrm{Fl}^x_1 - \mathrm{id}$
+  is periodic, $\mathrm{Fl}^x_{-1}$ is a differentiable inverse of $\mathrm{Fl}^x_1$ (so
+  $\mathrm{Fl}^x_1 - \mathrm{id} \in \Omega$), and $t \mapsto \exp(tx)$ is a one-parameter group.
+  Smoothness into $C^\infty_{\mathrm{per}}$ follows from that of $(x, y) \mapsto \mathrm{Fl}^x_1(y)$
+  as for the inversion (Theorem~\ref{thm:circle-cover-lie}), and evaluating at each $y$,
+  $d\exp(0)x = \partial_t \mathrm{Fl}^x_t(y)|_{t = 0} = x(y)$.
+\end{proof}
+
 \begin{theorem}[Morphisms of connected Lie groups]
   \label{thm:hom-unique}
   \lean{LocallyConvex.LieGroups.MBLieGroup.IsHom.dMB_P_eq_zero,
