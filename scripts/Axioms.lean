@@ -94,3 +94,6 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 -- Semidirect products (`LieGroup/Semidirect.lean`)
 #print axioms SDProd.mbLieGroup
 #print axioms MBLieGroup.isSmoothAction_AdMulAut
+#print axioms LocalGroupLaw.bracket_semidirect
+#print axioms SDProd.bracket_eq
+#print axioms MBLieGroup.TangentGroup.bracket_eq

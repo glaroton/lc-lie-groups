@@ -79,6 +79,17 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
   tangent group `T(G)` of [GN26, Example 5.2.12] (the identification with the tangent bundle is
   not formalized).
 
+### `LieAlgebra/Semidirect.lean`
+
+* `LocalGroupLaw.b2_semidirect`, `LocalGroupLaw.bracket_semidirect`: a local group law of the
+  form `((x, y), (x', y')) ↦ (x ∗ α̃(y, x'), y ∗ y')` near the identity has
+  `[(a, b), (a', b')] = ([a, a'] + D_b a' − D_{b'} a, [b, b'])`, with `D_b a' = ∂_y ∂_x α̃(1, 1)`.
+* `SDProd.derivedAction`, `SDProd.bracket_eq`: **the Lie algebra of a semidirect product**,
+  `L(N ⋊_α G) ≅ L(N) ⋊_D L(G)` [GN26, Proposition 5.2.8].
+* `MBLieGroup.TangentGroup.derivedAction_eq`, `MBLieGroup.TangentGroup.bracket_eq`: for the
+  adjoint action `D_b = ad b`, so the Lie algebra of the tangent group is `|𝔤| ⋊_ad 𝔤`
+  [GN26, Example 5.2.12].
+
 ### `LieGroup/Units.lean`
 
 * `UnitGroup A`, `UnitGroup.instMBLieGroup`: **the unit group of a continuous inverse algebra is a

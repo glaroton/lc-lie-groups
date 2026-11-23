@@ -176,6 +176,40 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   Proposition~\ref{prop:Ad-smooth}.
 \end{proof}
 
+\begin{proposition}[The Lie algebra of a semidirect product]
+  \label{prop:semidirect-lie}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.b2_semidirect,
+    LocallyConvex.LieGroups.LocalGroupLaw.bracket_semidirect,
+    LocallyConvex.LieGroups.SDProd.derivedAction,
+    LocallyConvex.LieGroups.SDProd.bracket_eq,
+    LocallyConvex.LieGroups.MBLieGroup.TangentGroup.derivedAction_eq,
+    LocallyConvex.LieGroups.MBLieGroup.TangentGroup.bracket_eq}
+  \leanok
+  \uses{thm:semidirect, prop:L-Ad}
+  Let $\tilde\alpha(y, x) = \varphi_N(\alpha(\varphi_G^{-1}(y))(\varphi_N^{-1}(x)))$ be the action
+  in the charts at the identity, and $D_b a = \partial_y \partial_x \tilde\alpha(1, 1)(b, a)$ the
+  derived action of $\mathbf{L}(G)$ on $\mathbf{L}(N)$. Then
+  $\mathbf{L}(N \rtimes_\alpha G) \cong \mathbf{L}(N) \rtimes_D \mathbf{L}(G)$:
+  \[
+    [(a, b), (a', b')] = ([a, a'] + D_b a' - D_{b'} a, [b, b'])
+  \]
+  \cite[Proposition 5.2.8]{GN26}. For the adjoint action, $D_b = \mathrm{ad}\, b$, so
+  $\mathbf{L}(\mathbf{L}(G) \rtimes_{\mathrm{Ad}} G) \cong |\mathfrak g| \rtimes_{\mathrm{ad}}
+  \mathfrak g$ \cite[Example 5.2.12]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Near the identity the chart multiplication is
+  $((x, y), (x', y')) \mapsto (x * \tilde\alpha(y, x'), y * y')$. The left invariant field of
+  $(a', b')$ is then $(\tilde{w}(y)_l(x), \tilde{b}'_l(y))$ with
+  $w(y) = \partial_x \tilde\alpha(y, 1) a'$ and $w(1) = a'$, and its derivative at the identity
+  in the direction $(a, b)$ gives
+  $b_2((a, b), (a', b')) = (b_2(a, a') + D_b a', b_2(b, b'))$; the bracket is the skew-symmetric
+  part. For the adjoint action $w(y) = \mathrm{Ad}(\varphi_G^{-1}(y)) a'$, whose derivative is
+  $[b, a']$ by Proposition~\ref{prop:L-Ad}.
+\end{proof}
+
 \section{Unit groups of continuous inverse algebras}
 
 \begin{theorem}[Unit groups]
