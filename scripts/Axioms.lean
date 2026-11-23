@@ -72,3 +72,9 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms CircleCover.smoothMBOn_η
 #print axioms CircleCover.CoverGroup.instMBLieGroup
 #print axioms CircleCover.CoverGroup.lie_eq
+-- Exponential functions (`Exponential/Basic.lean`)
+#print axioms MBLieGroup.IsExp.exp_neg
+#print axioms MBLieGroup.IsExp.toIdentityComponent
+#print axioms MBLieGroup.IsExp.prod
+#print axioms VectorGroup.isExp
+#print axioms UnitGroup.isExp_exp

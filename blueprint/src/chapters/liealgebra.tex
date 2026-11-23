@@ -479,3 +479,42 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   composites with the inclusion are, and the bracket only depends on the multiplication near the
   identity.
 \end{proof}
+
+\section{Exponential functions}
+
+\begin{definition}[Exponential functions]
+  \label{def:exp}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsExp,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.oneParam,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.exp_zero,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.exp_neg}
+  \leanok
+  \uses{def:lie-algebra}
+  A smooth map $\exp\colon \mathfrak g \to G$ is an \emph{exponential function} if, for each
+  $x \in \mathfrak g$, $t \mapsto \exp(tx)$ is a one-parameter group with derivative $x$ at $0$
+  \cite[Definition 5.6.1]{GN26}; in the chart $\varphi$ at the identity, $d(\varphi \circ \exp)(0) =
+  \mathrm{id}$ \cite[(5.14)]{GN26}. Then $\exp(0) = 1$ and $\exp(-x) = \exp(x)^{-1}$.
+\end{definition}
+
+\begin{proposition}[Examples of exponential functions]
+  \label{prop:exp-examples}
+  \lean{LocallyConvex.LieGroups.VectorGroup.isExp,
+    LocallyConvex.LieGroups.UnitGroup.isExp_exp,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.prod,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.mem_connectedComponent,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.toIdentityComponent}
+  \leanok
+  \uses{def:exp, prop:vector-group, prop:prod-group, thm:unit-group, thm:open-subgroup}
+  The identity is the exponential function of a vector group \cite[Example 5.6.5]{GN26}; the
+  exponential series is the exponential function of the unit group of a real Banach algebra
+  \cite[Example 5.6.6]{GN26}; products of exponential functions are exponential functions; and an
+  exponential function takes values in the identity component and is an exponential function of
+  it.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  For the Banach algebra, $\exp$ is analytic, $\exp(x + y) = \exp(x)\exp(y)$ for commuting $x$,
+  $y$, and $d\exp(0) = \mathrm{id}$; in the chart $x \mapsto x - 1$ the map is $y \mapsto \exp(y) - 1$.
+  For the identity component, $t \mapsto \exp(tx)$ is a continuous curve from $1$ to $\exp(x)$.
+\end{proof}

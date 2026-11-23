@@ -137,6 +137,18 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 * `MBLieGroup.localInverse`, `MBLieGroup.LieAlg.dMB_dMB_commutator`: the inversion of `G` in the
   chart at the identity, and the commutator of `G` to second order.
 
+### `Exponential/Basic.lean`
+
+* `MBLieGroup.IsExp exp`: **exponential functions** [GN26, Definition 5.6.1]: `exp : 𝔤 → G` smooth,
+  each `t ↦ exp(t x)` a one-parameter group (`IsExp.oneParam`), and `d(φ ∘ exp)(0) = id` in the
+  chart `φ` at the identity [GN26, (5.14)]; `IsExp.exp_zero`, `IsExp.exp_neg`.
+* Examples: vector groups, `exp = id` (`VectorGroup.isExp`, [GN26, Example 5.6.5]); unit groups of
+  real Banach algebras, the exponential series (`UnitGroup.isExp_exp`, [GN26, Example 5.6.6]);
+  products (`IsExp.prod`); an exponential function takes values in the identity component and is
+  an exponential function of it (`IsExp.mem_connectedComponent`, `IsExp.toIdentityComponent`).
+* Not yet: uniqueness of exponential functions [GN26, Proposition 5.6.3], which needs the
+  uniqueness of solutions of `γ' = γ x` [GN26, Lemma 5.5.4].
+
 ### `CircleCover/Periodic.lean` and `CircleCover/Group.lean`
 
 * `CInfPer.D`, `CInfPer.smoothMBOn_mul`: on the Fréchet space `C^∞_per` of smooth `1`-periodic
@@ -196,7 +208,10 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
-3. Exponential functions [GN26, §5.6] and regular Lie groups [GN26, Ch. 6], with the
+3. Exponential functions: uniqueness [GN26, Proposition 5.6.3] and naturality
+   [GN26, Proposition 5.6.12] (both need [GN26, Lemma 5.5.4]), the exponential function of
+   `\widetilde{Diff}⁺(S¹)` (flows of periodic vector fields) and of unit groups of Mackey complete
+   continuous inverse algebras [GN26, Example 5.6.9]; regular Lie groups [GN26, Ch. 6], with the
    completeness hypotheses they need.
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
