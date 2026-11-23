@@ -121,6 +121,15 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `P(z ∗ w) = (P₁(z) ∗ P(w)) ∗ ι(P₂(z))` gives `dP(z) ∘ d(z ∗ ·)(1) = 0` with `d(z ∗ ·)(1)` onto; so `P`
   is constant on a convex neighborhood, and the equalizer is an open, hence closed, subgroup.
 
+### `LieAlgebra/Adjoint.lean`
+
+* `MBLieGroup.Ad g`: **the adjoint representation** `Ad(g) = L(c_g)` for the conjugation
+  `c_g(x) = g x g⁻¹` [GN26, Definition 5.2.4]; `Ad_one`, `Ad_mul`.
+* `MBLieGroup.Ad_eq_id_iff`: **for connected `G`, `Ad(g) = id` iff `g` is central**
+  [GN26, Corollary 5.5.8], from the uniqueness of morphisms with a given Lie algebra morphism.
+* `UnitGroup.Ad_apply`: for unit groups of continuous inverse algebras, `Ad(g) x = g x g⁻¹`
+  [GN26, Example 5.2.6(a)].
+
 ### `LieAlgebra/LeftInvariant.lean`
 
 * `MBLieGroup.leftField E x`: the left invariant vector field `x_l(g) = T_1(λ_g) x`

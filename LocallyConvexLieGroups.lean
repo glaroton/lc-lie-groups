@@ -14,6 +14,7 @@ public import LocallyConvexLieGroups.Diffeomorphism.Circle
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra
 public import LocallyConvexLieGroups.Exponential.Basic
 public import LocallyConvexLieGroups.Exponential.Unique
+public import LocallyConvexLieGroups.LieAlgebra.Adjoint
 public import LocallyConvexLieGroups.LieAlgebra.Basic
 public import LocallyConvexLieGroups.LieAlgebra.LeftInvariant
 public import LocallyConvexLieGroups.LieAlgebra.Local

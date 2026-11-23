@@ -84,3 +84,7 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 -- Morphisms of connected Lie groups (`LieAlgebra/Morphisms.lean`)
 #print axioms MBLieGroup.IsHom.eventuallyEq_of_lieHom_eq
 #print axioms MBLieGroup.IsHom.eq_of_lieHom_eq
+-- The adjoint representation (`LieAlgebra/Adjoint.lean`)
+#print axioms MBLieGroup.Ad_mul
+#print axioms MBLieGroup.Ad_eq_id_iff
+#print axioms UnitGroup.Ad_apply

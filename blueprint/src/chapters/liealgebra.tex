@@ -575,3 +575,35 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $\varphi_1 = \varphi_2$ near $1$. The subgroup where they agree is then open, hence closed, and
   equal to $G$ by connectedness.
 \end{proof}
+
+\begin{definition}[The adjoint representation]
+  \label{def:Ad}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.conjHom,
+    LocallyConvex.LieGroups.MBLieGroup.isHom_conjHom,
+    LocallyConvex.LieGroups.MBLieGroup.Ad,
+    LocallyConvex.LieGroups.MBLieGroup.Ad_one,
+    LocallyConvex.LieGroups.MBLieGroup.Ad_mul}
+  \leanok
+  \uses{def:lie-algebra}
+  For $g \in G$ the conjugation $c_g(x) = gxg^{-1}$ is a morphism of Lie groups, and
+  $\mathrm{Ad}(g) = \mathbf{L}(c_g)$; by functoriality, $\mathrm{Ad}(1) = \mathrm{id}$ and
+  $\mathrm{Ad}(g_1 g_2) = \mathrm{Ad}(g_1)\,\mathrm{Ad}(g_2)$ \cite[Definition 5.2.4]{GN26}.
+\end{definition}
+
+\begin{proposition}[Kernel of the adjoint representation]
+  \label{prop:ker-Ad}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.Ad_eq_id_iff,
+    LocallyConvex.LieGroups.UnitGroup.Ad_apply}
+  \leanok
+  \uses{def:Ad, thm:hom-unique, prop:unit-group-lie}
+  If $G$ is connected, then $\mathrm{Ad}(g) = \mathrm{id}$ if and only if $g$ is central
+  \cite[Corollary 5.5.8]{GN26}. For the unit group of a continuous inverse algebra,
+  $\mathrm{Ad}(g)x = gxg^{-1}$ \cite[Example 5.2.6(a)]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  If $\mathrm{Ad}(g) = \mathbf{L}(\mathrm{id})$, then $c_g = \mathrm{id}$ by
+  Theorem~\ref{thm:hom-unique}. For $A^\times$, in the chart $u \mapsto u - 1$ the conjugation is
+  the continuous linear map $z \mapsto gzg^{-1}$.
+\end{proof}
