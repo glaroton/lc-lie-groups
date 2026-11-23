@@ -308,9 +308,15 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `Regular/Examples.lean`: vector groups of sequentially complete spaces, Banach–Lie groups, unit
   groups of Banach algebras and `\widetilde{Diff}⁺(S¹)` are regular.
 * `VectorGroup.isCkRegular`, `VectorGroup.isRegular_of_mackeyComplete` (`Regular/Mackey.lean`):
-  **`(E, +)` is `C^k`-regular (`k ≥ 1`) and regular for `E` Mackey complete** [GN26, Proposition 6.1.3, one
-  direction]: `C^k` curves are Lipschitz by the mean value inclusion on `[0, 1]`, and Mackey
+  **`(E, +)` is `C^k`-regular (`k ≥ 1`) and regular for `E` Mackey complete** [GN26, Proposition
+  6.1.3, one direction]: `C^k` curves are Lipschitz by the mean value inclusion on `[0, 1]`, and Mackey
   complete spaces integrate Lipschitz curves (lc-analysis).
+  `VectorGroup.isCkRegular_iff`, `VectorGroup.isRegular_iff` (`Regular/MackeyConverse.lean`):
+  **[GN26, Proposition 6.1.3]**, the converse included: if smooth curves on `[0, 1]` have weak
+  integrals, `E` is Mackey complete (`MackeyConverse.mackeyComplete_of_integratesSmooth`, the
+  equivalence of [GN26, Remark 1.1.18(c)] with [KM97, Theorem 2.14]), by lc-analysis's proof for
+  Lipschitz curves with smooth bumps instead of tents, the coefficients decaying fast enough for
+  the curve to be smooth where the bumps accumulate.
 * `MBLieGroup.logDeriv`, `MBLieGroup.logDeriv_maurerCartan` (`Regular/MaurerCartan.lean`):
   **left logarithmic derivatives** `δF(q)(h)` of smooth maps `F : O → G` on open subsets of locally
   convex spaces, read in the chart at the identity; they are `C¹` and satisfy **the Maurer–Cartan
@@ -368,9 +374,9 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: the converse of [GN26, Proposition 6.1.3]
-   (`C^k`-regular vector groups are Mackey complete), regularity of `Diff(K)`, and the global Fundamental Theorem
-   (1-forms on manifolds, simply connected domains, periods) [GN26, Theorem 6.1.13(ii)].
+   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the global
+   Fundamental Theorem (1-forms on manifolds, simply connected domains, periods)
+   [GN26, Theorem 6.1.13(ii)].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

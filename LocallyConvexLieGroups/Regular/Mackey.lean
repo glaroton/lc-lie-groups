@@ -14,12 +14,12 @@ public import LocallyConvexAnalysis.Calculus.MackeyLipschitz
 
 If `E` is Mackey complete, the vector group `(E, +)` is `C^k`-regular for every `k ≥ 1`, and
 regular, with `evol(ξ) = ∫₀¹ ξ` ([GN26, Proposition 6.1.3], the implication from Mackey
-completeness). A curve `ξ ∈ C^k([0, 1], E)` with `k ≥ 1` is Lipschitz: by the mean value inclusion on `[0, 1]`
-(lc-analysis, `ContDiffLC.quotient_mem_closure_convexHull_of_convex`), its difference quotients lie
-in the closed convex hull of `0` and its derivatives, a bounded set; the same holds for its
-extension `ξ̃` by constants. Mackey complete spaces integrate Lipschitz curves (lc-analysis,
-`MackeyComplete.exists_hasWeakIntegral_of_isLipschitzCurve`), and the fundamental theorem of
-calculus gives the evolution `t ↦ ∫₀ᵗ ξ̃`.
+completeness). A curve `ξ ∈ C^k([0, 1], E)` with `k ≥ 1` is Lipschitz: by the mean value
+inclusion on `[0, 1]` (lc-analysis, `ContDiffLC.quotient_mem_closure_convexHull_of_convex`), its
+difference quotients lie in the closed convex hull of `0` and its derivatives, a bounded set; the
+same holds for its extension `ξ̃` by constants. Mackey complete spaces integrate Lipschitz
+curves (lc-analysis, `MackeyComplete.exists_hasWeakIntegral_of_isLipschitzCurve`), and the
+fundamental theorem of calculus gives the evolution `t ↦ ∫₀ᵗ ξ̃`.
 
 ## Main results
 
