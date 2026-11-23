@@ -33,8 +33,10 @@ public import LocallyConvexLieGroups.LieGroup.Semidirect
 public import LocallyConvexLieGroups.LieGroup.Units
 public import LocallyConvexLieGroups.LieGroup.Vector
 public import LocallyConvexLieGroups.Regular.Banach
+public import LocallyConvexLieGroups.Regular.Ck
 public import LocallyConvexLieGroups.Regular.Basic
 public import LocallyConvexLieGroups.Regular.Evol
+public import LocallyConvexLieGroups.Regular.Examples
 public import LocallyConvexLieGroups.Regular.Hom
 public import LocallyConvexLieGroups.Regular.Interval
 public import LocallyConvexLieGroups.Regular.Lift

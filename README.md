@@ -299,6 +299,14 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   (`Regular/OpenSubgroup.lean`): **an open subgroup, in particular the identity component `G₀`, is
   `C⁰`-regular if and only if `G` is**. The inclusion is the identity in the charts at `1`, so both
   directions of [GN26, Proposition 6.1.5] apply.
+* `MBLieGroup.IsCkRegular`, `MBLieGroup.IsRegular` (`Regular/Ck.lean`): **`C^k`-regular and
+  regular (Milnor) Lie groups** [GN26, Definition 6.1.1], on `C^k([0, 1], 𝔤)` and
+  `C^∞([0, 1], 𝔤)` with the compact-open `C^k` and `C^∞` topologies (lc-analysis,
+  `ContDiffLCMap`, `SmoothLCMap`). `MBLieGroup.IsCkRegular.mono`, `MBLieGroup.IsCkRegular.isRegular`,
+  `MBLieGroup.IsC0Regular.isCkRegular`, `MBLieGroup.IsC0Regular.isRegular`: `C^k` implies `C^r`
+  for `k ≤ r`, and `C⁰`-regular groups are `C^k`-regular and regular [GN26, Remark 6.1.2(c)].
+  `Regular/Examples.lean`: vector groups of sequentially complete spaces, Banach–Lie groups, unit
+  groups of Banach algebras and `\widetilde{Diff}⁺(S¹)` are regular.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -342,8 +350,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: `C^k`-regularity for `k ≥ 1` (needs the
-   spaces `C^k([0, 1], 𝔤)`), regularity of `Diff(K)`, and the Fundamental Theorem for Lie
+   inverse algebras [GN26, Example 5.6.9]. Regularity: `(E, +)` is `C^k`-regular for Mackey complete `E`
+   ([GN26, Proposition 6.1.3], `k ≥ 1`), regularity of `Diff(K)`, and the Fundamental Theorem for Lie
    group-valued functions [GN26, §6.1.2].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).

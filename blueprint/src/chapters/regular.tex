@@ -62,6 +62,38 @@ available as locally convex spaces.
   \cite[Definition 6.1.1]{GN26}.
 \end{definition}
 
+\begin{definition}
+  \label{def:ck-regular}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.CkCurve,
+    LocallyConvex.LieGroups.MBLieGroup.SmoothCurve,
+    LocallyConvex.LieGroups.MBLieGroup.IsCkRegular,
+    LocallyConvex.LieGroups.MBLieGroup.IsRegular}
+  \leanok
+  \uses{def:c0-regular}
+  $G$ is $C^k$-regular if every $\xi \in C^k([0, 1], \mathfrak g)$ has an evolution and
+  $\mathrm{evol}\colon C^k([0, 1], \mathfrak g) \to G$ is smooth, for the compact-open $C^k$
+  topology; $G$ is regular if the same holds for $C^\infty([0, 1], \mathfrak g)$
+  \cite[Definition 6.1.1]{GN26}.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:ck-regular-mono}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsCkRegular.mono,
+    LocallyConvex.LieGroups.MBLieGroup.IsCkRegular.isRegular,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Regular.isCkRegular,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Regular.isRegular}
+  \leanok
+  \uses{def:ck-regular}
+  $C^k$-regularity implies $C^r$-regularity for $k \leq r$, and regularity; in particular
+  $C^0$-regular Lie groups are $C^k$-regular for all $k$ and regular
+  \cite[Remark 6.1.2(c)]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  The inclusions $C^\infty \subseteq C^r \subseteq C^k \subseteq C^0$ are continuous linear maps.
+\end{proof}
+
 \begin{proposition}[Solutions on {$[0, 1]$}]
   \label{prop:regular-interval}
   \lean{LocallyConvex.LieGroups.MBLieGroup.HasLogDerivWithinAt,
@@ -305,4 +337,17 @@ available as locally convex spaces.
   $Z_h \to -\xi(t)$ (constant), $\delta(\gamma)(t) = d\Psi(0, -\xi(t))$, and comparison with the
   exponential function gives $d\Psi(0, -x) = x$. The local criterion concludes.
 \end{proof}
+
+\begin{corollary}
+  \label{cor:regular-examples}
+  \lean{LocallyConvex.LieGroups.VectorGroup.isRegular,
+    LocallyConvex.LieGroups.MBLieGroup.isRegular_of_completeSpace,
+    LocallyConvex.LieGroups.UnitGroup.isRegular,
+    LocallyConvex.LieGroups.CircleCover.isRegular}
+  \leanok
+  \uses{prop:ck-regular-mono, prop:vector-regular, thm:banach-regular, thm:units-regular,
+    thm:circle-cover-regular}
+  Vector groups of sequentially complete spaces, Banach--Lie groups, unit groups of Banach
+  algebras and $\widetilde{\mathrm{Diff}}^+(S^1)$ are regular.
+\end{corollary}
 
