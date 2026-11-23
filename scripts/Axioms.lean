@@ -68,3 +68,7 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms CInfPer.smoothMBOn_precomp
 #print axioms CInfPer.hasDirDerivAt_precomp
 #print axioms CircleCover.coverLaw_bracket
+#print axioms CircleCover.contDiffMBOn_G
+#print axioms CircleCover.smoothMBOn_η
+#print axioms CircleCover.CoverGroup.instMBLieGroup
+#print axioms CircleCover.CoverGroup.lie_eq

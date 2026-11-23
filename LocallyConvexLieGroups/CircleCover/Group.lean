@@ -38,9 +38,8 @@ this is the opposite bracket, in accordance with `L(Diff(S¹)) = V(S¹)^op`
 ## Implementation notes
 
 The group `\widetilde{Diff}⁺(S¹)` itself is the open subset `Ω = {u : 1 + u' > 0}` (lc-manifolds,
-`DiffCircle.Ω`); the smoothness of its inversion `u ↦ (id + u)⁻¹ − id`, which would make it an
-`MBLieGroup`, is not proved here. The bracket only depends on the multiplication near the
-identity, so it is the bracket of the Lie algebra of `\widetilde{Diff}⁺(S¹)` in its global chart.
+`DiffCircle.Ω`); it is a Lie group by `CircleCover/LieGroup.lean`, whose Lie algebra has the bracket
+of `coverLaw`, since the bracket only depends on the multiplication near the identity.
 
 ## References
 

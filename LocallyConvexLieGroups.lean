@@ -6,6 +6,8 @@ Authors: glaroton
 module
 
 public import LocallyConvexLieGroups.CircleCover.Group
+public import LocallyConvexLieGroups.CircleCover.Inverse
+public import LocallyConvexLieGroups.CircleCover.LieGroup
 public import LocallyConvexLieGroups.CircleCover.Periodic
 public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.Diffeomorphism.Circle

@@ -445,3 +445,37 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $\tilde y_l(z) = y + z' y$, so $b_2(x, y) = d\tilde y_l(0)\, x = x' y$
   (Lemma~\ref{lem:taylor-mul}).
 \end{proof}
+
+\begin{theorem}[The universal cover of $\mathrm{Diff}^+(S^1)$ is a Lie group]
+  \label{thm:circle-cover-lie}
+  \lean{LocallyConvex.LieGroups.CircleCover.contDiffMBOn_G,
+    LocallyConvex.LieGroups.CircleCover.isUniformInducing_J',
+    LocallyConvex.LieGroups.CircleCover.smoothMBOn_η,
+    LocallyConvex.LieGroups.CircleCover.CoverGroup,
+    LocallyConvex.LieGroups.CircleCover.CoverGroup.instMBLieGroup,
+    LocallyConvex.LieGroups.CircleCover.CoverGroup.lie_eq}
+  \leanok
+  \uses{prop:circle-cover, thm:open-subgroup}
+  The inversion $\eta(u) = (\mathrm{id} + u)^{-1} - \mathrm{id}$ is smooth on
+  $\Omega = \{u \in C^\infty_{\mathrm{per}} : 1 + u' > 0\}$. Hence $\Omega$, with the group law
+  of Proposition~\ref{prop:circle-cover}, is a Lie group modeled on $C^\infty_{\mathrm{per}}$, the
+  universal cover of $\mathrm{Diff}^+(S^1)$ \cite[\S 13.3]{GN26}, and its Lie algebra is
+  $C^\infty_{\mathrm{per}}$ with $[x, y] = x' y - x y'$.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  $G(u, y) = \eta(u)(y)$ solves $\Phi((u, y), G(u, y)) = 0$ for
+  $\Phi((u, y), \sigma) = \sigma + u(y + \sigma)$, with $\partial_\sigma \Phi = 1 + u'(y + \sigma) > 0$.
+  $\Phi$ is smooth, and $G$ is continuous: if $c \le 1 + u_0'$, then
+  $c\,|z - z_0| \le p_0(u - u_0) + |y - y_0|$ for $z = y + G(u, y)$, $z_0 = y_0 + G(u_0, y_0)$. By the
+  implicit function theorem with locally convex parameters and finite-dimensional values
+  (\cite{LCA}), $G$ is smooth on $\Omega \times \mathbb{R}$, and so are its $y$-derivatives
+  $G_m$. By the smoothness of superposition operators with parameters (\cite{LCA}),
+  $u \mapsto G_m(u, \cdot)|_{[0,1]} \in C([0, 1])$ is smooth. For periodic functions the sup norms
+  over $\mathbb{R}$ and over $[0, 1]$ agree, so $u \mapsto (u^{(m)}|_{[0,1]})_m$ is a uniform
+  embedding of $C^\infty_{\mathrm{per}}$ into $\prod_m C([0, 1])$, with closed range by completeness;
+  hence $\eta$ is smooth. The group operations of the open subset $\Omega$ are smooth since their
+  composites with the inclusion are, and the bracket only depends on the multiplication near the
+  identity.
+\end{proof}

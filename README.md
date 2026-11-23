@@ -151,6 +151,18 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `Diff⁺(S¹)` in the global chart `id + u ↦ u` [GN26, §13.3], a smooth global group law on
   `C^∞_per`; `CircleCover.coverLaw_bracket`: **its bracket is `[x, y] = x' y − x y'`**, the
   opposite of the bracket of the vector fields `x ∂_θ`, `y ∂_θ`.
+* `CircleCover.smoothMBOn_η` (`CircleCover/Inverse.lean`): **the inversion
+  `u ↦ (id + u)⁻¹ − id` is smooth on `Ω = {1 + u' > 0}`**. `G(u, y) = η(u)(y)` solves
+  `σ + u(y + σ) = 0`, so it is smooth on `Ω × ℝ` by lc-analysis's implicit function theorem
+  with locally convex parameters (`contDiffMBOn_of_implicit`); its `y`-derivatives restricted to
+  `[0, 1]` are smooth by the superposition operators with parameters
+  (`contDiffMBOn_superposeParam_of_contDiffMBOn`), and `u ↦ (u^{(m)}|_{[0,1]})_m` is a closed
+  uniform embedding of `C^∞_per`.
+* `CircleCover.CoverGroup.instMBLieGroup`, `CircleCover.CoverGroup.lie_eq`
+  (`CircleCover/LieGroup.lean`): **the universal cover `\widetilde{Diff}⁺(S¹)` is a Lie group**
+  modeled on `C^∞_per` [GN26, §13.3], **with Lie algebra `(C^∞_per, x' y − x y')`**. The group law
+  printed in [GN26, p. 678], `m(f, g)(x) = f(g(x) + x) − x`, seems to be a misprint for
+  `g(x) + f(x + g(x))`.
 
 ### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
@@ -178,9 +190,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: the smoothness of the inversion of the universal covering group of `Diff⁺(S¹)`
-   on `Ω = {u ∈ C^∞_per : 1 + u' > 0}` (lc-manifolds, `DiffCircle.Ω`), which makes it an
-   `MBLieGroup` [GN26, §13.3], and `Diff⁺(S¹)` as its quotient by `ℤ`. For `Diff(K)`: the finite-order statements of
+1. Examples: `Diff⁺(S¹)` as the quotient of its universal cover by `ℤ` (covering morphisms of
+   Lie groups). For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
