@@ -137,6 +137,21 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 * `MBLieGroup.localInverse`, `MBLieGroup.LieAlg.dMB_dMB_commutator`: the inversion of `G` in the
   chart at the identity, and the commutator of `G` to second order.
 
+### `CircleCover/Periodic.lean` and `CircleCover/Group.lean`
+
+* `CInfPer.D`, `CInfPer.smoothMBOn_mul`: on the Fréchet space `C^∞_per` of smooth `1`-periodic
+  functions (lc-manifolds, `CInfPer`), the derivative is continuous linear and the
+  multiplication is smooth.
+* `CInfPer.smoothMBOn_precomp`, `CInfPer.hasDirDerivAt_precomp`: **the precomposition
+  `(u, w) ↦ u ∘ (id + w)` is smooth**, with derivative `h ∘ (id + w) + (u' ∘ (id + w)) v`. The
+  `O(t)` error of the difference quotients comes from Taylor's formula; higher derivatives
+  follow by induction, and the derivatives of all orders through the closed embedding
+  `C^∞_per → ∏ BC(ℝ)`.
+* `CircleCover.coverLaw`: the group law `m(u, w) = w + u ∘ (id + w)` of the universal cover of
+  `Diff⁺(S¹)` in the global chart `id + u ↦ u` [GN26, §13.3], a smooth global group law on
+  `C^∞_per`; `CircleCover.coverLaw_bracket`: **its bracket is `[x, y] = x' y − x y'`**, the
+  opposite of the bracket of the vector fields `x ∂_θ`, `y ∂_θ`.
+
 ### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
 * `diffeos H K`, `diffeoAtlas A`: `Diff(K)` as an open subset of `C^∞(K, K)`, with the restricted
@@ -163,9 +178,9 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: the universal covering group of `Diff⁺(S¹)` with the global chart
-   `u ↦ id + u` on `{u ∈ C^∞_per : u' > −1}` [GN26, §13.3] (lc-manifolds, `DiffCircle.Ω`), and
-   `Diff⁺(S¹)` as its quotient by `ℤ`. For `Diff(K)`: the finite-order statements of
+1. Examples: the smoothness of the inversion of the universal covering group of `Diff⁺(S¹)`
+   on `Ω = {u ∈ C^∞_per : 1 + u' > 0}` (lc-manifolds, `DiffCircle.Ω`), which makes it an
+   `MBLieGroup` [GN26, §13.3], and `Diff⁺(S¹)` as its quotient by `ℤ`. For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie

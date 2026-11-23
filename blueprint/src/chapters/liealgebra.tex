@@ -412,3 +412,36 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   the bracket only depends on the multiplication near the identity. Then apply
   Theorem~\ref{thm:lie-diff} to the normalized local addition of $S^1$.
 \end{proof}
+
+\begin{proposition}[The universal cover of $\mathrm{Diff}^+(S^1)$]
+  \label{prop:circle-cover}
+  \lean{LocallyConvex.Manifolds.CInfPer.smoothMBOn_mul,
+    LocallyConvex.Manifolds.CInfPer.smoothMBOn_precomp,
+    LocallyConvex.Manifolds.CInfPer.hasDirDerivAt_precomp,
+    LocallyConvex.LieGroups.CircleCover.coverLaw,
+    LocallyConvex.LieGroups.CircleCover.coverLaw_b2,
+    LocallyConvex.LieGroups.CircleCover.coverLaw_bracket}
+  \leanok
+  \uses{lem:taylor-mul}
+  On the Fr\'echet space $C^\infty_{\mathrm{per}}$ of smooth $1$-periodic functions, the
+  precomposition $(u, w) \mapsto u \circ (\mathrm{id} + w)$ is smooth, with derivative
+  $(h, v) \mapsto h \circ (\mathrm{id} + w) + (u' \circ (\mathrm{id} + w))\, v$. Hence
+  $m(u, w) = w + u \circ (\mathrm{id} + w)$, the composition of the universal cover of
+  $\mathrm{Diff}^+(S^1)$ in its global chart $\mathrm{id} + u \mapsto u$ \cite[\S 13.3]{GN26},
+  is a smooth group law on $C^\infty_{\mathrm{per}}$, with $b_2(x, y) = x' y$ and bracket
+  $[x, y] = x' y - x y'$.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  With $a = x + w(x)$, the difference quotient of $P(u, w) = u \circ (\mathrm{id} + w)$ in the
+  direction $(h, v)$ differs from $h(a) + u'(a) v(x)$ by
+  $t^{-1}(u(a + tv) - u(a) - u'(a)\, t v) + (h(a + tv) - h(a))$, which is $O(t)$ uniformly by
+  Taylor's formula and the mean value theorem. Since the derivative is built from $P$, the
+  derivative operator and products, $P$ is smooth into $\mathrm{BC}(\mathbb{R})$ by induction; the
+  $m$-th derivatives $Q_m(u, w, a) = (P(u, w)\, a)^{(m)}$ satisfy
+  $Q_{m+1}(u, w, a) = Q_m(u', w, (1 + w') a) + Q_m(u, w, a')$, and $C^\infty_{\mathrm{per}}$ embeds
+  in $\prod_m \mathrm{BC}(\mathbb{R})$ with closed range. For the bracket,
+  $\tilde y_l(z) = y + z' y$, so $b_2(x, y) = d\tilde y_l(0)\, x = x' y$
+  (Lemma~\ref{lem:taylor-mul}).
+\end{proof}

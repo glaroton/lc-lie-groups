@@ -5,7 +5,7 @@ Run with `lake env lean scripts/Axioms.lean`; every line should read
 -/
 import LocallyConvexLieGroups
 
-open LocallyConvex.LieGroups
+open LocallyConvex.LieGroups LocallyConvex.Manifolds
 
 -- Lie groups (`LieGroup/Basic.lean`)
 #print axioms MBLieGroup.smoothMBM_mul_left
@@ -64,3 +64,7 @@ open LocallyConvex.LieGroups
 #print axioms OpenSubgroup.lieEquiv
 #print axioms MBLieGroup.identityComponent
 #print axioms DiffPlusCircle.toField_lie
+-- The universal cover of `Diff⁺(S¹)` (`CircleCover/Periodic.lean`, `CircleCover/Group.lean`)
+#print axioms CInfPer.smoothMBOn_precomp
+#print axioms CInfPer.hasDirDerivAt_precomp
+#print axioms CircleCover.coverLaw_bracket
