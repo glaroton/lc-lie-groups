@@ -13,3 +13,4 @@ public import LocallyConvexLieGroups.LieAlgebra.Local
 public import LocallyConvexLieGroups.LieAlgebra.Taylor
 public import LocallyConvexLieGroups.LieGroup.Basic
 public import LocallyConvexLieGroups.LieGroup.OfVaryingAtlas
+public import LocallyConvexLieGroups.LieGroup.Units

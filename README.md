@@ -50,6 +50,20 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
   the translates `x ↦ φ(g⁻¹ x)` of the chart `φ` at the identity form an atlas modeled on a single
   space, and `G` is then a Lie group (the charts of the proof of [GN26, Theorem 5.3.1]).
 
+### `LieGroup/Units.lean`
+
+* `UnitGroup A`, `UnitGroup.instMBLieGroup`: **the unit group of a continuous inverse algebra is a
+  Lie group** [GN26, Example 5.1.4], with the global chart `x ↦ x − 1` [GN26, Example 5.1.9(b)].
+  Inversion is smooth by lc-analysis's `smoothMBOn_inverse` [GN26, Corollary 1.3.8].
+  `UnitGroup A` is a type synonym for `Aˣ`, since Mathlib's charted space on the units of a
+  complete normed ring uses the chart `u ↦ u`.
+* `quasiLaw A`: the group law `x ∗ y = x + y + xy` on a (possibly non-unital) locally convex
+  algebra [GN26, Definition 5.1.3(b)]; `quasiLaw_b2`, `quasiLaw_bracket`: `b₂(x, y) = xy` and
+  `[x, y] = xy − yx`.
+* `UnitGroup.lie_eq`: **`L(A^×)` is `A` with the commutator bracket** [GN26, Example 5.1.9(b)],
+  using `LocalGroupLaw.bracket_congr` (the bracket only depends on the multiplication near the
+  identity).
+
 ### `LieAlgebra/Local.lean`
 
 * `LocalGroupLaw E`: a smooth local group law on `E`, such as the multiplication of a Lie group
@@ -126,13 +140,11 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: vector groups [GN26, Example 5.1.2], unit groups of continuous inverse algebras,
-   products, `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
+1. Examples: vector groups [GN26, Example 5.1.2], products, `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
-2. Lie algebras: unit groups of continuous inverse algebras [GN26, Example 5.1.9(b)];
-   `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie algebra type
-   in lc-manifolds.
+2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
+   algebra type in lc-manifolds.
 3. Exponential functions [GN26, §5.6] and regular Lie groups [GN26, Ch. 6], with the
    completeness hypotheses they need.
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the

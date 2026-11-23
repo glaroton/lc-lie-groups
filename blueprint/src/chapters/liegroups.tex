@@ -93,6 +93,30 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   inversion.
 \end{proof}
 
+\section{Unit groups of continuous inverse algebras}
+
+\begin{theorem}[Unit groups]
+  \label{thm:unit-group}
+  \lean{LocallyConvex.LieGroups.UnitGroup,
+    LocallyConvex.LieGroups.UnitGroup.isOpenEmbedding_unitChart,
+    LocallyConvex.LieGroups.UnitGroup.instMBLieGroup}
+  \leanok
+  \uses{def:lie-group}
+  Let $A$ be a continuous inverse algebra: a unital locally convex algebra whose group of units
+  $A^\times$ is open and whose inversion is continuous \cite[Definition 5.1.3(a)]{GN26}. Then
+  $\varphi(x) = x - 1$ is a global chart of $A^\times$, for which $A^\times$ is a Lie group
+  \cite[Example 5.1.4, Example 5.1.9(b)]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Continuity of the inversion makes the inclusion $A^\times \to A$ an embedding, with open image.
+  In the chart, the multiplication is $(x, y) \mapsto (x + 1)(y + 1) - 1 = x + y + xy$, which is
+  smooth because the multiplication of $A$ is continuous and bilinear, and the inversion is
+  $x \mapsto (x + 1)^{-1} - 1$, which is smooth because inversion in a continuous inverse algebra
+  is smooth \cite[Corollary 1.3.8]{GN26} (\cite{LCA}, \texttt{smoothMBOn\_inverse}).
+\end{proof}
+
 \section{The group of diffeomorphisms of a compact manifold}
 
 Let $K$ be a compact manifold with a local addition. The diffeomorphisms of $K$ form an open

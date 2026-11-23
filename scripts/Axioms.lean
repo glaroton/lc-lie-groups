@@ -49,3 +49,7 @@ open LocallyConvex.LieGroups
 #print axioms LocalGroupLaw.LocalInverse.dMB_dMB_conj_one
 #print axioms LocalGroupLaw.LocalInverse.dMB_dMB_commutator_one
 #print axioms MBLieGroup.LieAlg.dMB_dMB_commutator
+-- Unit groups of continuous inverse algebras (`LieGroup/Units.lean`)
+#print axioms UnitGroup.instMBLieGroup
+#print axioms quasiLaw_bracket
+#print axioms UnitGroup.lie_eq

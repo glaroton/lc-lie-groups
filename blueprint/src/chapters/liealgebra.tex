@@ -303,6 +303,29 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   The inversion of $G$ is smooth; apply Theorem~\ref{thm:taylor-inverse}.
 \end{proof}
 
+\begin{proposition}[The Lie algebra of a unit group]
+  \label{prop:unit-group-lie}
+  \lean{LocallyConvex.LieGroups.quasiLaw,
+    LocallyConvex.LieGroups.quasiLaw_b2,
+    LocallyConvex.LieGroups.quasiLaw_bracket,
+    LocallyConvex.LieGroups.LocalGroupLaw.bracket_congr,
+    LocallyConvex.LieGroups.UnitGroup.lie_eq}
+  \leanok
+  \uses{lem:taylor-mul, def:lie-algebra, thm:unit-group}
+  On a locally convex algebra $A$, $x * y = x + y + xy$ is a local group law with identity $0$,
+  with $b_2(x, y) = xy$ and bracket $[x, y] = xy - yx$. If $A$ is a continuous inverse algebra,
+  then $\mathbf{L}(A^\times) = (A, [\cdot, \cdot])$ with this commutator bracket
+  \cite[Example 5.1.9(b)]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  $\tilde y_l(z) = d(b \mapsto z + b + zb)(0)\,y = y + zy$, so $b_2(x, y) = d\tilde y_l(0)\,x = xy$,
+  and Lemma~\ref{lem:taylor-mul} gives the bracket. In the chart $x \mapsto x - 1$ of
+  Theorem~\ref{thm:unit-group}, the multiplication of $A^\times$ is $x * y$ near $(0, 0)$, and the
+  bracket only depends on the multiplication near the identity.
+\end{proof}
+
 \section{The Lie algebra of \texorpdfstring{$\mathrm{Diff}(K)$}{Diff(K)}}
 
 \begin{lemma}[Evaluating the bracket]
