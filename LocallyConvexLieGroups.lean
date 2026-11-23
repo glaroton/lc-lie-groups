@@ -42,6 +42,7 @@ public import LocallyConvexLieGroups.Regular.Hom
 public import LocallyConvexLieGroups.Regular.Interval
 public import LocallyConvexLieGroups.Regular.Lift
 public import LocallyConvexLieGroups.Regular.Local
+public import LocallyConvexLieGroups.Regular.Mackey
 public import LocallyConvexLieGroups.Regular.MaurerCartan
 public import LocallyConvexLieGroups.Regular.OpenSubgroup
 public import LocallyConvexLieGroups.Regular.Primitive

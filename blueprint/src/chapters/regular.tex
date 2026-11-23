@@ -338,6 +338,27 @@ available as locally convex spaces.
   exponential function gives $d\Psi(0, -x) = x$. The local criterion concludes.
 \end{proof}
 
+\begin{proposition}
+  \label{prop:vector-mackey}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.CkCurve.isLipschitzCurve,
+    LocallyConvex.LieGroups.VectorGroup.isEvol_integral_ck,
+    LocallyConvex.LieGroups.VectorGroup.isCkRegular,
+    LocallyConvex.LieGroups.VectorGroup.isRegular_of_mackeyComplete}
+  \leanok
+  \uses{def:ck-regular, prop:vector-regular}
+  If $E$ is Mackey complete, $(E, +)$ is $C^k$-regular for $k \geq 1$, and regular
+  \cite[Proposition 6.1.3]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  By the mean value inclusion on $[0, 1]$, the difference quotients of $\xi \in C^k([0, 1], E)$,
+  $k \geq 1$, lie in the closed convex hull of $0$ and the derivatives of $\xi$, a bounded set; so
+  $\xi$ and its extension by constants are Lipschitz curves, which have weak integrals in a Mackey
+  complete space. The evolution is $t \mapsto \int_0^t \tilde\xi$, and
+  $\xi \mapsto \int_0^1 \xi$ is continuous linear.
+\end{proof}
+
 \begin{corollary}
   \label{cor:regular-examples}
   \lean{LocallyConvex.LieGroups.VectorGroup.isRegular,

@@ -78,6 +78,8 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.IsC0Regular.isRegular
 #print axioms MBLieGroup.IsCkRegular.mono
 #print axioms CircleCover.isRegular
+#print axioms VectorGroup.isCkRegular
+#print axioms VectorGroup.isRegular_of_mackeyComplete
 #print axioms MBLieGroup.logDeriv_maurerCartan
 #print axioms MBLieGroup.eq_zero_of_hasDirDerivAt_bracket
 #print axioms MBLieGroup.exists_logDeriv_eq
