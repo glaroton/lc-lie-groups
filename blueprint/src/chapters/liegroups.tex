@@ -217,6 +217,29 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   $[b, a']$ by Proposition~\ref{prop:L-Ad}.
 \end{proof}
 
+\begin{example}[Affine groups]
+  \label{ex:affine}
+  \lean{LocallyConvex.LieGroups.AffineGroup.action,
+    LocallyConvex.LieGroups.AffineGroup.isSmoothAction,
+    LocallyConvex.LieGroups.AffineGroup,
+    LocallyConvex.LieGroups.AffineGroup.derivedAction_eq,
+    LocallyConvex.LieGroups.AffineGroup.bracket_eq}
+  \leanok
+  \uses{prop:semidirect-lie, thm:unit-group}
+  Let $A$ be a continuous inverse algebra acting continuously on $E$. Then $A^\times$ acts smoothly
+  on $(E, +)$, and $E \rtimes A^\times$ is a Lie group with Lie algebra $E \rtimes A$:
+  $[(a, X), (a', X')] = (Xa' - X'a, XX' - X'X)$. For a Banach space $E$ and $A = L(E)$ this is
+  $\mathrm{Aff}(E) \cong E \rtimes \mathrm{GL}(E)$ with
+  $\mathfrak{aff}(E) \cong E \rtimes \mathfrak{gl}(E)$ \cite[Example 5.2.9]{GN26}.
+\end{example}
+
+\begin{proof}
+  \leanok
+  In the charts the action is $(x, v) \mapsto (x + 1)v$, so $w_a(y) = (y + 1)a$ near $0$ and
+  $D_X a = Xa$; the bracket of $\mathbf{L}(A^\times)$ is the commutator
+  (Theorem~\ref{thm:unit-group}).
+\end{proof}
+
 \section{Unit groups of continuous inverse algebras}
 
 \begin{theorem}[Unit groups]

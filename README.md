@@ -91,6 +91,10 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 * `MBLieGroup.TangentGroup.derivedAction_eq`, `MBLieGroup.TangentGroup.bracket_eq`: for the
   adjoint action `D_b = ad b`, so the Lie algebra of the tangent group is `|𝔤| ⋊_ad 𝔤`
   [GN26, Example 5.2.12].
+* `AffineGroup A E`, `AffineGroup.bracket_eq` (`LieAlgebra/Affine.lean`): for a continuous inverse
+  algebra `A` acting continuously on `E`, **`E ⋊ A^×` is a Lie group with Lie algebra `E ⋊ A`**,
+  `[(a, X), (a', X')] = (X a' − X' a, X X' − X' X)`; for `E` Banach and `A = L(E)` this is
+  `Aff(E) ≅ E ⋊ GL(E)`, `aff(E) ≅ E ⋊ gl(E)` [GN26, Example 5.2.9].
 
 ### `LieGroup/Units.lean`
 

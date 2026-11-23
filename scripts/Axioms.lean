@@ -99,6 +99,7 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms LocalGroupLaw.bracket_semidirect
 #print axioms SDProd.bracket_eq
 #print axioms MBLieGroup.TangentGroup.bracket_eq
+#print axioms AffineGroup.bracket_eq
 -- Regular Lie groups (`Regular/`)
 #print axioms MBLieGroup.eq_of_hasLogDerivAt
 #print axioms MBLieGroup.IsC0Regular.isExp
