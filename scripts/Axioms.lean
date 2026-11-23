@@ -89,3 +89,4 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.Ad_eq_id_iff
 #print axioms UnitGroup.Ad_apply
 #print axioms MBLieGroup.dMB_Ad
+#print axioms MBLieGroup.comm_iff_lie_eq_zero

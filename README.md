@@ -131,6 +131,9 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   direction `x` is `[x, y]` [GN26, Proposition 5.2.5]: in the chart, `Ad(g) y` is a derivative of
   the local conjugation `(a ∗ b) ∗ ι(a)`, whose mixed second derivative is `[x, y]` by polarization
   of the Taylor expansion (5.7).
+* `MBLieGroup.comm_iff_lie_eq_zero`: **a connected Lie group is abelian iff its Lie algebra is
+  abelian** [GN26, Proposition 5.5.9]: if `L(G)` is abelian, `L(Ad) = ad` and
+  `Ad(g k) = Ad(g) Ad(k)` give `Ad = id` near `1`, hence on `G`, and `ker Ad` is the center.
 * `UnitGroup.Ad_apply`: for unit groups of continuous inverse algebras, `Ad(g) x = g x g⁻¹`
   [GN26, Example 5.2.6(a)].
 

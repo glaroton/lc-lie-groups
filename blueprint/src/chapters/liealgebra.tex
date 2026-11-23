@@ -628,3 +628,28 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $d^2 C(1, 1)((x, y), (x, y)) = 2\,\partial_a \partial_b C(1, 1)(x, y)$, which is $2[x, y]$ by
   Theorem~\ref{thm:taylor-inverse}.
 \end{proof}
+
+\begin{theorem}[Abelian Lie groups]
+  \label{thm:abelian}
+  \lean{LocallyConvex.LieGroups.eq_of_dMB_eq_zero,
+    LocallyConvex.LieGroups.MBLieGroup.exists_xl_eq,
+    LocallyConvex.LieGroups.MBLieGroup.eventually_Ad_eq_id,
+    LocallyConvex.LieGroups.MBLieGroup.comm_iff_lie_eq_zero}
+  \leanok
+  \uses{prop:L-Ad, prop:ker-Ad, prop:local-comm}
+  A connected Lie group is abelian if and only if its Lie algebra is abelian
+  \cite[Proposition 5.5.9]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Abelian groups have abelian Lie algebras (Proposition~\ref{prop:local-comm}). Conversely, let
+  $\Phi_y(z) = \mathrm{Ad}(\varphi^{-1}(z))y$ in the chart $\varphi$ at the identity. By
+  Proposition~\ref{prop:L-Ad}, $d\Phi_y(\varphi(1)) = [\cdot, y] = 0$, and
+  $\Phi_y(z * w) = \mathrm{Ad}(\varphi^{-1}(z))\,\Phi_y(w)$ gives
+  $d\Phi_y(z) \circ d(z * \cdot)(1) = 0$, with $d(z * \cdot)(1)$ onto; so $\Phi_y$ is constant on a
+  convex neighborhood of $\varphi(1)$, i.e.\ $\mathrm{Ad} = \mathrm{id}$ near $1$. The subgroup
+  $\{\mathrm{Ad} = \mathrm{id}\}$ is then open, hence closed, hence all of $G$, and every element is
+  central by Proposition~\ref{prop:ker-Ad}. (Glöckner and Neeb differentiate
+  $t \mapsto \mathrm{Ad}(\gamma(t))x$ along smooth curves instead.)
+\end{proof}
