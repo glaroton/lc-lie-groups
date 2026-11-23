@@ -62,6 +62,37 @@ available as locally convex spaces.
   \cite[Definition 6.1.1]{GN26}.
 \end{definition}
 
+\begin{proposition}[Solutions on {$[0, 1]$}]
+  \label{prop:regular-interval}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.HasLogDerivWithinAt,
+    LocallyConvex.LieGroups.MBLieGroup.HasLogDerivWithinAt.hasLogDerivAt_of_Iic_Ici,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvolOn,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvolOn.oneParam,
+    LocallyConvex.LieGroups.MBLieGroup.IsOneParam.isEvol,
+    LocallyConvex.LieGroups.MBLieGroup.evol_eq_of_isEvolOn,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvolOn.exists_isEvol,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0SemiregularGN,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Semiregular_iff,
+    LocallyConvex.LieGroups.MBLieGroup.evolGN_eq,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0RegularGN,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_iff}
+  \leanok
+  \uses{def:c0-regular}
+  $C^0$-semiregularity and $C^0$-regularity agree with the notions of
+  \cite[Definition 6.1.1]{GN26}, where (6.2) is solved on $[0, 1]$ with one-sided derivatives at
+  the endpoints.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Restricting gives one direction. Conversely, a solution $c$ on $[0, 1]$ for a constant curve
+  $x$ gives the one-parameter group $P(t) = c(1)^{\lfloor t\rfloor} c(t - \lfloor t\rfloor)$: at
+  integers, the one-sided logarithmic derivatives are both $x$. A solution $\gamma$ on $[0, 1]$
+  for $\xi$ extends by $P_{\xi(0)}$ on $(-\infty, 0]$ and $\gamma(1)P_{\xi(1)}(t - 1)$ on
+  $[1, \infty)$, glued at $0$ and $1$ by one-sided logarithmic derivatives. By uniqueness on
+  $\mathbb{R}$, every solution on $[0, 1]$ ends at $\mathrm{evol}(\xi)$.
+\end{proof}
+
 \begin{theorem}[Regular Lie groups have exponential functions]
   \label{thm:regular-exp}
   \lean{LocallyConvex.LieGroups.MBLieGroup.IsEvol.comp_mul,

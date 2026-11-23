@@ -37,7 +37,9 @@ particular regularity in the sense of Milnor ([GN26, Remark 6.1.2(c)]).
 * Curves are solved on all of `ℝ`, for the extension `ξ̃` of `ξ` by the constants `ξ(0)` and
   `ξ(1)`; this avoids one-sided derivatives at the endpoints of `[0, 1]`. Since the restriction to
   `[0, 1]` of a solution on `ℝ` solves the problem of [GN26], our `C⁰`-semiregularity implies
-  theirs; the converse holds by concatenating solutions, which we do not formalize.
+  theirs; the converse, by continuing solutions with one-parameter groups, is
+  `MBLieGroup.isC0Semiregular_iff` and `MBLieGroup.isC0Regular_iff`
+  (`LocallyConvexLieGroups.Regular.Interval`).
 * `C^k([0, 1], 𝔤)` for `k ≥ 1` is not yet available as a locally convex space (lc-analysis has
   `C^k(U, F)` for open `U`), so only the case `k = 0`, the strongest, is formalized.
 * The logarithmic derivative is read in the chart at the identity (`MBLieGroup.HasLogDerivAt`).

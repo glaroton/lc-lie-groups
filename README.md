@@ -258,6 +258,11 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `ξ ∈ C([0, 1], 𝔤)` has an evolution (solved on `ℝ` for the extension of `ξ` by constants), and
   `evol : C([0, 1], 𝔤) → G` is smooth. Only `k = 0`, the strongest condition, is formalized:
   `C^k([0, 1], 𝔤)` for `k ≥ 1` is not yet a locally convex space in lc-analysis.
+* `MBLieGroup.isC0Semiregular_iff`, `MBLieGroup.isC0Regular_iff` (`Regular/Interval.lean`):
+  **these agree with the notions of [GN26, Definition 6.1.1]**, with solutions on `[0, 1]` and
+  one-sided derivatives at the endpoints. A solution on `[0, 1]` extends to `ℝ` by the
+  one-parameter groups `P(t) = γ(1)^⌊t⌋ γ(t − ⌊t⌋)` of `ξ(0)` and `ξ(1)`, glued by one-sided
+  logarithmic derivatives (`HasLogDerivWithinAt.hasLogDerivAt_of_Iic_Ici`).
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
