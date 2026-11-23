@@ -39,9 +39,8 @@ derivative `x` at `0` ([GN26, Definition 5.6.1]). Here `𝔤` is the model space
 
 ## Implementation notes
 
-We do not prove that a Lie group has at most one exponential function ([GN26,
-Proposition 5.6.3]): this needs the uniqueness of solutions of `γ' = γ x` ([GN26, Lemma 5.5.4]),
-which is not formalized here.
+Uniqueness and naturality of exponential functions ([GN26, Propositions 5.6.3, 5.6.12]) are in
+`Exponential/Unique.lean`.
 
 ## References
 

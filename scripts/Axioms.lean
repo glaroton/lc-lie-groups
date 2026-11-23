@@ -78,3 +78,6 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.IsExp.prod
 #print axioms VectorGroup.isExp
 #print axioms UnitGroup.isExp_exp
+#print axioms MBLieGroup.IsOneParam.eq
+#print axioms MBLieGroup.IsExp.unique
+#print axioms MBLieGroup.IsExp.map_hom

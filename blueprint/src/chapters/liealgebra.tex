@@ -518,3 +518,33 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $y$, and $d\exp(0) = \mathrm{id}$; in the chart $x \mapsto x - 1$ the map is $y \mapsto \exp(y) - 1$.
   For the identity component, $t \mapsto \exp(tx)$ is a continuous curve from $1$ to $\exp(x)$.
 \end{proof}
+
+\begin{theorem}[Uniqueness and naturality]
+  \label{thm:exp-unique}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsOneParam,
+    LocallyConvex.LieGroups.LocalGroupLaw.dMB_xl_eq_xr,
+    LocallyConvex.LieGroups.MBLieGroup.IsOneParam.eq,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.unique,
+    LocallyConvex.LieGroups.MBLieGroup.IsExp.map_hom}
+  \leanok
+  \uses{def:exp, lem:taylor-mul}
+  Two continuous one-parameter groups $\gamma_1, \gamma_2 \colon \mathbb{R} \to G$ with the same
+  derivative $x$ at $0$ coincide \cite[Remark 5.6.4, Lemma 5.5.4]{GN26}. Hence a Lie group has at
+  most one exponential function \cite[Proposition 5.6.3]{GN26}, and
+  $\varphi \circ \exp_G = \exp_H \circ \mathbf{L}(\varphi)$ for every morphism of Lie groups
+  $\varphi$ \cite[Proposition 5.6.12]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the chart at the identity, with the local group law $*$, the curve $c(t) = \varphi(\gamma(t))$
+  satisfies $c(s + r) = c(s) * c(r) = c(r) * c(s)$, hence $c'(s) = \tilde x_l(c(s)) =
+  \tilde x_r(c(s))$, where $\tilde x_r(z) = d(a \mapsto a * z)(1)\,x$. The curve
+  $e(s) = c_1(-s) * c_2(s)$ has derivative
+  $-dm(a, b)(\tilde x_l(a), 0) + dm(a, b)(0, \tilde x_r(b)) = 0$ ($a = c_1(-s)$, $b = c_2(s)$),
+  since both terms are the derivative at $0$ of $t \mapsto (a * (1 + tx)) * b = a * ((1 + tx) * b)$.
+  So $e$ is constant near $0$ (compose with continuous linear functionals, which separate points),
+  $\gamma_1 = \gamma_2$ near $0$, and everywhere since $\gamma(t) = \gamma(t/n)^n$. For
+  $\exp_1$, $\exp_2$ apply this to $t \mapsto \exp_i(tx)$; for naturality, to
+  $t \mapsto \varphi(\exp_G(tx))$ and $t \mapsto \exp_H(t\,\mathbf{L}(\varphi)x)$.
+\end{proof}

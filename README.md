@@ -146,8 +146,14 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   real Banach algebras, the exponential series (`UnitGroup.isExp_exp`, [GN26, Example 5.6.6]);
   products (`IsExp.prod`); an exponential function takes values in the identity component and is
   an exponential function of it (`IsExp.mem_connectedComponent`, `IsExp.toIdentityComponent`).
-* Not yet: uniqueness of exponential functions [GN26, Proposition 5.6.3], which needs the
-  uniqueness of solutions of `γ' = γ x` [GN26, Lemma 5.5.4].
+* `MBLieGroup.IsOneParam.eq` (`Exponential/Unique.lean`): **one-parameter groups are determined
+  by their derivative at `0`** [GN26, Remark 5.6.4, Lemma 5.5.4]; hence `IsExp.unique`, **a Lie
+  group has at most one exponential function** [GN26, Proposition 5.6.3], and `IsExp.map_hom`,
+  **`φ ∘ exp_G = exp_H ∘ L(φ)`** [GN26, Proposition 5.6.12]. Instead of the logarithmic
+  derivative, the proof works in the chart at the identity: for one-parameter groups `γ₁`, `γ₂`
+  with derivative `x`, `φ(γ₁(−s) γ₂(s))` has derivative
+  `−dm(x̃_l, 0) + dm(0, x̃_r) = 0`, both terms being the derivative of
+  `t ↦ (a ∗ (1 + t x)) ∗ b = a ∗ ((1 + t x) ∗ b)`.
 
 ### `CircleCover/Periodic.lean` and `CircleCover/Group.lean`
 
@@ -208,8 +214,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
-3. Exponential functions: uniqueness [GN26, Proposition 5.6.3] and naturality
-   [GN26, Proposition 5.6.12] (both need [GN26, Lemma 5.5.4]), the exponential function of
+3. Exponential functions: the exponential function of
    `\widetilde{Diff}⁺(S¹)` (flows of periodic vector fields) and of unit groups of Mackey complete
    continuous inverse algebras [GN26, Example 5.6.9]; regular Lie groups [GN26, Ch. 6], with the
    completeness hypotheses they need.
