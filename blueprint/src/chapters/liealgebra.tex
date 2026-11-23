@@ -653,3 +653,24 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   central by Proposition~\ref{prop:ker-Ad}. (Glöckner and Neeb differentiate
   $t \mapsto \mathrm{Ad}(\gamma(t))x$ along smooth curves instead.)
 \end{proof}
+
+\begin{proposition}[The adjoint action is smooth]
+  \label{prop:Ad-smooth}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.smoothMBM_conjMap,
+    LocallyConvex.LieGroups.MBLieGroup.Ad_eq_dMB_conjRep,
+    LocallyConvex.LieGroups.MBLieGroup.AdAction_eq,
+    LocallyConvex.LieGroups.MBLieGroup.smoothMBM_AdAction}
+  \leanok
+  \uses{def:Ad}
+  The adjoint action $G \times \mathfrak g \to \mathfrak g$, $(g, y) \mapsto \mathrm{Ad}(g)y$, is smooth
+  (\cite[after Definition 5.2.4]{GN26}).
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Let $K$ be the local representative in the chart $\varphi$ at the identity of the smooth map
+  $(g, k) \mapsto gkg^{-1}$. Then $\mathrm{Ad}(\varphi^{-1}(z))y = \partial_w K(z, \varphi(1))\,y$, which is
+  smooth in $(z, y)$ near $(\varphi(1), y_0)$. At an arbitrary $g_0$,
+  $\mathrm{Ad}(g)y = \mathrm{Ad}(g_0)\bigl(\mathrm{Ad}(g_0^{-1}g)y\bigr)$, with $\mathrm{Ad}(g_0)$ continuous
+  linear and $g \mapsto \varphi(g_0^{-1}g)$ the local representative of a left translation.
+\end{proof}
