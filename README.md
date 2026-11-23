@@ -268,6 +268,15 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `γ = 1 + c` with `(1 − T_ξ) c = J ξ` in `X = C([0, 1], A)`, where `J η(t) = ∫₀ᵗ η` and
   `T_ξ c = J(c ξ)`, `‖T_ξ‖ ≤ ‖ξ‖`; so `c = (1 − T_ξ)⁻¹ J ξ` is smooth in `ξ` by the smoothness of
   the inversion of the Banach algebra `L(X)`, and the local regularity criterion applies.
+* `MBLieGroup.isC0Regular_of_completeSpace` (`Regular/Banach.lean`): **Banach–Lie groups are
+  `C⁰`-regular** [GN26, Theorem 6.3.4]. In the chart at the identity, with `c = z₀ + u`, the
+  equation is `u = J(ψ(u, ξ))` for `ψ(a, v) = x̃_l(v)(z₀ + a)`; the inverse function theorem
+  (Mathlib) applies to `Φ(ξ, u) = (ξ, u − J(ψ ∘ (u, ξ)))` on `C([0, 1], E)²`, whose derivative at
+  `0` is `(h, k) ↦ (h, k − J h)` since `ψ(a, 0) = 0` and `ψ(0, v) = v`; the superposition operators
+  are lc-analysis's. The logarithmic derivative of `γ = φ⁻¹(z₀ + u)` is computed with the left
+  translation `b ↦ φ(g⁻¹ φ⁻¹(b))`, whose derivative inverts `x̃_l` at `φ(g)`. One-parameter groups
+  come from small constant curves, and `MBLieGroup.isC0Regular_of_local'` (the local criterion
+  with a `0`-neighborhood for each order `k`) concludes.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -312,7 +321,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
    inverse algebras [GN26, Example 5.6.9]. Regularity: `C^k`-regularity for `k ≥ 1` (needs the
-   spaces `C^k([0, 1], 𝔤)`), general Banach–Lie
+   spaces `C^k([0, 1], 𝔤)`), Prop 6.1.5 (coverings), and
    groups and `\widetilde{Diff}⁺(S¹)` are regular [GN26, Theorem 6.3.4, Ch. 13], and the
    Fundamental Theorem for Lie group-valued functions [GN26, §6.1.2].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the

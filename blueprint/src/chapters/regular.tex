@@ -137,6 +137,7 @@ available as locally convex spaces.
     LocallyConvex.LieGroups.MBLieGroup.evol_eq_mul,
     LocallyConvex.LieGroups.MBLieGroup.exists_mem_valIn,
     LocallyConvex.LieGroups.MBLieGroup.isC0Semiregular_of_local,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_local',
     LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_local,
     LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_nhds}
   \leanok
@@ -161,7 +162,7 @@ available as locally convex spaces.
 
 \begin{theorem}[Unit groups of Banach algebras]
   \label{thm:units-regular}
-  \lean{LocallyConvex.LieGroups.UnitGroup.primitiveCLM,
+  \lean{LocallyConvex.LieGroups.primitiveCLM,
     LocallyConvex.LieGroups.UnitGroup.solCLM,
     LocallyConvex.LieGroups.UnitGroup.sol,
     LocallyConvex.LieGroups.UnitGroup.contDiffOn_sol,
@@ -182,5 +183,35 @@ available as locally convex spaces.
   algebra $L(X)$ being smooth. For $\|\xi\| < 1/2$, $\|c_\xi\| < 1$, so $1 + c_\xi(t)$ is a unit,
   and $1 + c_\xi$ solves the equation on $[0, 1]$; it extends to $\mathbb{R}$ by the exponential
   series (Proposition~\ref{prop:regular-interval}). Lemma~\ref{lem:local-regularity} concludes.
+\end{proof}
+
+\begin{theorem}[Banach--Lie groups]
+  \label{thm:banach-regular}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.evolRHS,
+    LocallyConvex.LieGroups.MBLieGroup.hasFDerivAt_evolRHS,
+    LocallyConvex.LieGroups.MBLieGroup.evolMap,
+    LocallyConvex.LieGroups.MBLieGroup.evolMapDerivEquiv,
+    LocallyConvex.LieGroups.MBLieGroup.evolHomeo,
+    LocallyConvex.LieGroups.MBLieGroup.contDiffAt_evolHomeo_symm,
+    LocallyConvex.LieGroups.MBLieGroup.exists_hasFDerivAt_leftRep,
+    LocallyConvex.LieGroups.MBLieGroup.isEvolOn_of_eq_primitive,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_completeSpace}
+  \leanok
+  \uses{lem:local-regularity, prop:regular-interval, def:local-group-law}
+  Lie groups modeled on Banach spaces are $C^0$-regular \cite[Theorem 6.3.4]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Let $z_0 = \varphi(1)$ and $\psi(a, v) = \tilde v_l(z_0 + a)$. For $c = \varphi\circ\gamma = z_0 + u$,
+  $\delta(\gamma) = \xi$ reads $u = J(\psi(u, \xi))$. The map
+  $\Phi(\xi, u) = (\xi, u - J(\psi\circ(u, \xi)))$ on $C([0, 1], E)^2$ is smooth (superposition
+  operators) with $D\Phi(0)(h, k) = (h, k - Jh)$, invertible, since $\psi(a, 0) = 0$ and
+  $\psi(0, v) = v$. By the inverse function theorem, $u_\xi = \Phi^{-1}(\xi, 0)_2$ is defined and
+  $C^k$ near $0$ for each $k$. The logarithmic derivative of $\gamma = \varphi^{-1}(z_0 + u_\xi)$
+  is $d\lambda(c(t))\,c'(t) = \xi(t)$, where $\lambda(b) = \varphi(g^{-1}\varphi^{-1}(b))$,
+  $g = \gamma(t)$, satisfies $\lambda(c(t) * b) = b$, so $d\lambda(c(t))$ inverts
+  $v \mapsto \tilde v_l(c(t))$. Small constant curves give one-parameter groups, and the local
+  criterion concludes.
 \end{proof}
 

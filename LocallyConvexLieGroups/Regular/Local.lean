@@ -297,56 +297,68 @@ theorem isC0Semiregular_of_local (hW : W ∈ 𝓝 (0 : E))
     obtain ⟨m, hm⟩ := exists_mem_valIn hW ξ
     exact exists_isEvol_of_valIn hsol m ξ hm
 
-/-- Smoothness on `{ξ | ξ([0, 1]) ⊆ 2ᵐ W}`, by induction on `m`. -/
-theorem smoothMBMOn_evol_valIn (hWo : IsOpen W)
-    (hsol : ∀ ξ ∈ valIn W, ∃ γ : ℝ → G, IsEvol E (extendCurve ξ) γ)
-    (hsm : SmoothMBMOn C(I, E) E (evol E G) (valIn W)) (m : ℕ) :
-    SmoothMBMOn C(I, E) E (evol E G) (valIn ((2 : ℝ) ^ m • W)) := by
+/-- `C^k` on `{ξ | ξ([0, 1]) ⊆ 2ᵐ W}`, by induction on `m`. -/
+theorem contMDiffMBOn_evol_valIn (hWo : IsOpen W) (hsemi : IsC0Semiregular E G) {k : ℕ}
+    (hsm : ContMDiffMBOn (E := C(I, E)) (F := E) k (evol E G) (valIn W)) (m : ℕ) :
+    ContMDiffMBOn (E := C(I, E)) (F := E) k (evol E G) (valIn ((2 : ℝ) ^ m • W)) := by
   induction m with
   | zero => simpa using hsm
   | succ m ih =>
     have hV : IsOpen (valIn ((2 : ℝ) ^ (m + 1) • W)) :=
       isOpen_valIn (hWo.smul₀ (by positivity))
     have hV' : IsOpen (valIn ((2 : ℝ) ^ m • W)) := isOpen_valIn (hWo.smul₀ (by positivity))
-    have hh : ∀ p, SmoothMBMOn C(I, E) C(I, E) (halfCLM p) (valIn ((2 : ℝ) ^ (m + 1) • W)) :=
-      fun p k ↦ (contMDiffMBOn_iff_contDiffMBOn hV).2 ((halfCLM (E := E) p).contDiffMBOn k _)
+    have hh : ∀ p, ContMDiffMBOn (E := C(I, E)) (F := C(I, E)) k (halfCLM p)
+        (valIn ((2 : ℝ) ^ (m + 1) • W)) :=
+      fun p ↦ (contMDiffMBOn_iff_contDiffMBOn hV).2 ((halfCLM (E := E) p).contDiffMBOn k _)
     have h₀ := ih.comp hV hV' (hh halfMap₀) fun ξ hξ ↦ halfCLM_mem_valIn hξ halfMap₀
     have h₁ := ih.comp hV hV' (hh halfMap₁) fun ξ hξ ↦ halfCLM_mem_valIn hξ halfMap₁
-    intro k
     have hprod := (smoothMBM_mul (E := E) (G := G) k).comp hV isOpen_univ
-      (ContMDiffMBOn.prodMk hV (h₀ k) (h₁ k)) (mapsTo_univ _ _)
-    refine ContMDiffMBOn.congr' hV hprod fun ξ hξ ↦ ?_
-    obtain ⟨γ₀, hγ₀⟩ := exists_isEvol_of_valIn hsol m _ (halfCLM_mem_valIn hξ halfMap₀)
-    obtain ⟨γ₁, hγ₁⟩ := exists_isEvol_of_valIn hsol m _ (halfCLM_mem_valIn hξ halfMap₁)
+      (ContMDiffMBOn.prodMk hV h₀ h₁) (mapsTo_univ _ _)
+    refine ContMDiffMBOn.congr' hV hprod fun ξ _ ↦ ?_
+    obtain ⟨γ₀, hγ₀⟩ := hsemi (halfCLM halfMap₀ ξ)
+    obtain ⟨γ₁, hγ₁⟩ := hsemi (halfCLM halfMap₁ ξ)
     exact evol_eq_mul hγ₀ hγ₁
 
-/-- **The local regularity criterion** ([GN26, Lemma 6.1.4], `k = 0`): if every curve with values
-in an open `0`-neighborhood `W` has an evolution, and `evol` is smooth on these curves, then `G` is
-`C⁰`-regular. -/
-theorem isC0Regular_of_local (hWo : IsOpen W) (hW0 : (0 : E) ∈ W)
-    (hsol : ∀ ξ ∈ valIn W, ∃ γ : ℝ → G, IsEvol E (extendCurve ξ) γ)
-    (hsm : SmoothMBMOn C(I, E) E (evol E G) (valIn W)) : IsC0Regular E G where
-  semiregular := isC0Semiregular_of_local (hWo.mem_nhds hW0) hsol
+/-- **The local regularity criterion, smoothness** ([GN26, Lemma 6.1.4], `k = 0`): for a
+`C⁰`-semiregular group, if for every `k` the evolution map is `C^k` on the curves with values in
+some open `0`-neighborhood `W_k`, then `G` is `C⁰`-regular. -/
+theorem isC0Regular_of_local' (hsemi : IsC0Semiregular E G)
+    (hsm : ∀ k : ℕ, ∃ W : Set E, IsOpen W ∧ (0 : E) ∈ W ∧
+      ContMDiffMBOn (E := C(I, E)) (F := E) k (evol E G) (valIn W)) : IsC0Regular E G where
+  semiregular := hsemi
   smooth k := by
+    obtain ⟨W, hWo, hW0, hsmk⟩ := hsm k
     have hV : ∀ m : ℕ, IsOpen (valIn ((2 : ℝ) ^ m • W)) := fun m ↦
       isOpen_valIn (hWo.smul₀ (by positivity))
-    have hsmooth := smoothMBMOn_evol_valIn hWo hsol hsm
+    have hsmooth := contMDiffMBOn_evol_valIn hWo hsemi hsmk
+    obtain ⟨W₀, hW₀o, hW₀0, hsm₀⟩ := hsm 0
+    have hsmooth₀ := contMDiffMBOn_evol_valIn hW₀o hsemi hsm₀
     have hc : Continuous (evol E G) := continuous_iff_continuousAt.2 fun ξ ↦ by
-      obtain ⟨m, hm⟩ := exists_mem_valIn (hWo.mem_nhds hW0) ξ
-      exact ((hsmooth m 0).1 ξ hm).continuousAt ((hV m).mem_nhds hm)
+      obtain ⟨m, hm⟩ := exists_mem_valIn (hW₀o.mem_nhds hW₀0) ξ
+      exact ((hsmooth₀ m).1 ξ hm).continuousAt
+        ((isOpen_valIn (hW₀o.smul₀ (by positivity))).mem_nhds hm)
     refine contMDiffMB_of_chartAt hc fun ξ ↦ ?_
     obtain ⟨m, hm⟩ := exists_mem_valIn (hWo.mem_nhds hW0) ξ
     set e := chartAt C(I, E) ξ
     set e' := chartAt E (evol E G ξ)
     refine ⟨chartDomain (evol E G) (valIn ((2 : ℝ) ^ m • W)) e e',
-      isOpen_chartDomain (hV m) (hsmooth m 0).1 e e', ?_, fun y hy ↦ ⟨hy.1, mem_univ _, hy.2.2⟩,
-      (hsmooth m k).2 ξ hm⟩
+      isOpen_chartDomain (hV m) (hsmooth m).1 e e', ?_, fun y hy ↦ ⟨hy.1, mem_univ _, hy.2.2⟩,
+      (hsmooth m).2 ξ hm⟩
     refine ⟨e.map_source (mem_chart_source _ ξ), ?_, ?_⟩
     · rw [e.left_inv (mem_chart_source _ ξ)]
       exact hm
     · change evol E G (e.symm (e ξ)) ∈ e'.source
       rw [e.left_inv (mem_chart_source _ ξ)]
       exact mem_chart_source E _
+
+/-- **The local regularity criterion** ([GN26, Lemma 6.1.4], `k = 0`): if every curve with values
+in an open `0`-neighborhood `W` has an evolution, and `evol` is smooth on these curves, then `G` is
+`C⁰`-regular. -/
+theorem isC0Regular_of_local (hWo : IsOpen W) (hW0 : (0 : E) ∈ W)
+    (hsol : ∀ ξ ∈ valIn W, ∃ γ : ℝ → G, IsEvol E (extendCurve ξ) γ)
+    (hsm : SmoothMBMOn C(I, E) E (evol E G) (valIn W)) : IsC0Regular E G :=
+  isC0Regular_of_local' (isC0Semiregular_of_local (hWo.mem_nhds hW0) hsol)
+    fun k ↦ ⟨W, hWo, hW0, hsm k⟩
 
 /-- **The local regularity criterion** in the form of [GN26, Lemma 6.1.4] (`k = 0`): for an open
 `0`-neighborhood `U` of `C([0, 1], 𝔤)` on which evolutions exist and `evol` is smooth. -/
