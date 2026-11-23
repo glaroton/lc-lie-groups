@@ -351,3 +351,65 @@ available as locally convex spaces.
   algebras and $\widetilde{\mathrm{Diff}}^+(S^1)$ are regular.
 \end{corollary}
 
+\begin{lemma}
+  \label{lem:maurer-cartan}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.logDeriv,
+    LocallyConvex.LieGroups.MBLieGroup.contDiffMBOn_logDeriv₂,
+    LocallyConvex.LieGroups.MBLieGroup.logDeriv_maurerCartan}
+  \leanok
+  \uses{def:log-deriv}
+  For a smooth map $F\colon O \to G$ on an open subset of a locally convex space, the logarithmic
+  derivative $\delta F(q)(h)$, the derivative of $r \mapsto \varphi(F(q)^{-1}F(r))$ at $q$ in the
+  direction $h$, is $C^1$ and satisfies the Maurer--Cartan equation
+  $d_k \delta F(h) - d_h \delta F(k) = [\delta F(h), \delta F(k)]$ \cite[Lemma 5.5.5]{GN26}.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  With $c = \varphi(F(p)^{-1}F(\cdot))$, the identity $F(r) = F(q)\,(F(q)^{-1}F(r))$ gives
+  $dc(q)h = \widetilde{(\delta F(q)h)}_l(c(q))$. Differentiate at $p$ in the direction $k$: since
+  $x \mapsto \tilde x_l(z)$ is linear and $\tilde x_l(\varphi(1)) = x$,
+  $d^2c(p)(h, k) = d_k\delta F(h) + d\widetilde{\delta F(h)}_l(\varphi(1))\,\delta F(k)$. Schwarz's
+  theorem and $[x, y] = d\tilde y_l(1)x - d\tilde x_l(1)y$ conclude.
+\end{proof}
+
+\begin{lemma}
+  \label{lem:bracket-ode-unique}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.eq_zero_of_hasDirDerivAt_bracket}
+  \leanok
+  \uses{def:c0-regular}
+  If $\delta(\gamma) = \xi$ on $(a, b)$ and $\eta$ is continuous on $[a, b]$ with
+  $\eta' = [\eta, \xi]$ on $(a, b)$ and $\eta(a) = 0$, then $\eta = 0$ on $[a, b]$
+  \cite[Lemma 6.1.7]{GN26}.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  $t \mapsto \mathrm{Ad}(\gamma(t))\eta(t)$ has derivative
+  $\mathrm{Ad}(\gamma(t))([\xi, \eta] + [\eta, \xi]) = 0$, by $\mathbf{L}(\mathrm{Ad}) = \mathrm{ad}$.
+\end{proof}
+
+\begin{theorem}
+  \label{thm:fundamental}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.rayField,
+    LocallyConvex.LieGroups.MBLieGroup.hasDirDerivAt_ray,
+    LocallyConvex.LieGroups.MBLieGroup.exists_logDeriv_eq}
+  \leanok
+  \uses{lem:maurer-cartan, lem:bracket-ode-unique, prop:regular-lift}
+  Let $G$ be $C^0$-regular and $U \ni 0$ an open convex subset of a locally convex space. A smooth
+  $\mathfrak g$-valued $1$-form $\alpha$ on $U$ satisfying the Maurer--Cartan equation is the
+  logarithmic derivative of a smooth map $f\colon U \to G$ with $f(0) = 1$
+  \cite[Lemma 6.1.9]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Put $f(y) = \mathrm{evol}(\xi_y)$ with $\xi_y(t) = \alpha_{ty}(y)$, smooth as a superposition
+  operator. By rescaling, $f(ty) = \gamma_{\xi_y}(t)$, so $\delta f(ty)(y) = \alpha_{ty}(y)$ for
+  $0 < t < 1$. For a $1$-form $A$ satisfying the Maurer--Cartan equation,
+  $\frac{d}{dt} A_{tx}(th) = [A_{tx}(th), A_{tx}(x)] + \frac{d}{ds}A_{t(x+sh)}(x+sh)|_{s=0}$.
+  Applying this to $\alpha$ and to $\delta f$, whose $s$-derivatives agree, the difference
+  $\eta(t) = \alpha_{tx}(th) - \delta f(tx)(th)$ solves $\eta' = [\eta, \xi_x]$ with $\eta(0) = 0$,
+  so $\eta(1) = 0$ by Lemma~\ref{lem:bracket-ode-unique}.
+\end{proof}
+
