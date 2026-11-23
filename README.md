@@ -50,6 +50,17 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
   the translates `x ↦ φ(g⁻¹ x)` of the chart `φ` at the identity form an atlas modeled on a single
   space, and `G` is then a Lie group (the charts of the proof of [GN26, Theorem 5.3.1]).
 
+### `LieGroup/Vector.lean` and `LieGroup/Prod.lean`
+
+* `VectorGroup.instMBLieGroup`: **vector groups** `(E, +)` (as `Multiplicative E`, with the
+  global chart `toAdd`) are Lie groups [GN26, Example 5.1.2]; `VectorGroup.lie_eq_zero`: their
+  Lie algebras are abelian [GN26, Example 5.1.9(a)].
+* `MBLieGroup.instProd`: **products of Lie groups are Lie groups**, modeled on `E × F`
+  (lc-manifolds' product manifolds).
+* `LocalGroupLaw.prod`, `LocalGroupLaw.bracket_prod`: products of local group laws have
+  componentwise brackets; `MBLieGroup.LieAlg.prodEquiv`: **`L(G × H) ≅ L(G) × L(H)`** as Lie
+  algebras.
+
 ### `LieGroup/Units.lean`
 
 * `UnitGroup A`, `UnitGroup.instMBLieGroup`: **the unit group of a continuous inverse algebra is a
@@ -140,7 +151,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: vector groups [GN26, Example 5.1.2], products, `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
+1. Examples: `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie

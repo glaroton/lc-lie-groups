@@ -93,6 +93,40 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   inversion.
 \end{proof}
 
+\section{Vector groups and products}
+
+\begin{proposition}[Vector groups]
+  \label{prop:vector-group}
+  \lean{LocallyConvex.LieGroups.VectorGroup.instMBLieGroup}
+  \leanok
+  \uses{def:lie-group}
+  Each locally convex space $E$ is an abelian Lie group with respect to addition, with the
+  identity as a global chart \cite[Example 5.1.2]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  In the global chart, the multiplication $(x, y) \mapsto x + y$ and the inversion
+  $x \mapsto -x$ are continuous linear maps.
+\end{proof}
+
+\begin{proposition}[Products]
+  \label{prop:prod-group}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.instProd}
+  \leanok
+  \uses{def:lie-group}
+  If $G$ and $H$ are Lie groups modeled on $E$ and $F$, then $G \times H$ is a Lie group modeled
+  on $E \times F$.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  The multiplication $((g, h), (g', h')) \mapsto (gg', hh')$ and the inversion
+  $(g, h) \mapsto (g^{-1}, h^{-1})$ are built from the operations of $G$ and $H$ and the
+  projections, which are smooth for the product manifold structure (\cite{LCM},
+  \texttt{smoothMBM\_fst}, \texttt{ContMDiffMBOn.prodMk}).
+\end{proof}
+
 \section{Unit groups of continuous inverse algebras}
 
 \begin{theorem}[Unit groups]

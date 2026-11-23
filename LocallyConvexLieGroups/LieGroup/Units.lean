@@ -30,7 +30,6 @@ the second order term of this multiplication is `b₂(x, y) = xy`, so that
 ## Main results
 
 * `quasiLaw_b2`, `quasiLaw_bracket`: `b₂(x, y) = xy` and `[x, y] = xy − yx`.
-* `LocalGroupLaw.bracket_congr`: the bracket depends only on the multiplication near `(1, 1)`.
 * `UnitGroup.instMBLieGroup`: **`A^×` is a Lie group** ([GN26, Example 5.1.4]); inversion is
   smooth by lc-analysis's `smoothMBOn_inverse` ([GN26, Corollary 1.3.8]).
 * `UnitGroup.lie_eq`: **the Lie algebra of `A^×` is `A` with the commutator bracket**
@@ -78,33 +77,6 @@ theorem hasDirDerivAt_of_forall {f : X → F} {x h : X} {y : F}
 
 end Aux
 
-/-! ### Locality of the bracket -/
-
-namespace LocalGroupLaw
-
-variable {E : Type u} [AddCommGroup E] [Module ℝ E] [TopologicalSpace E] [IsTopologicalAddGroup E]
-  [ContinuousSMul ℝ E] [LocallyConvexSpace ℝ E] [T2Space E]
-
-/-- **The bracket depends only on the multiplication near `(1, 1)`**: two local group laws with
-the same identity whose multiplications agree on an open neighborhood of `(1, 1)` have the same
-bracket. -/
-theorem bracket_congr (L L' : LocalGroupLaw E) (h1 : L.one = L'.one) {W : Set (E × E)}
-    (hW : IsOpen W) (hW1 : (L.one, L.one) ∈ W) (heq : EqOn L.mul L'.mul W) (x y : E) :
-    L.bracket x y = L'.bracket x y := by
-  set V := {z : E | (z, L.one) ∈ W}
-  have hV : IsOpen V := hW.preimage (by fun_prop)
-  have hxl : ∀ v : E, EqOn (L.xl v) (L'.xl v) V := by
-    intro v z hz
-    rw [xl_eq, xl_eq, ← h1]
-    refine dMB_congr_of_eventuallyEq (eventuallyEq_of_mem
-      ((hW.preimage (by fun_prop : Continuous fun b : E ↦ (z, b))).mem_nhds hz)
-      fun b hb ↦ heq hb) v
-  have hev : ∀ v : E, L.xl v =ᶠ[𝓝 L.one] L'.xl v := fun v ↦
-    eventuallyEq_of_mem (hV.mem_nhds hW1) (hxl v)
-  rw [bracket_eq, bracket_eq, dMB_congr_of_eventuallyEq (hev y),
-    dMB_congr_of_eventuallyEq (hev x), h1]
-
-end LocalGroupLaw
 
 /-! ### The quasi-multiplication `x ∗ y = x + y + xy` -/
 

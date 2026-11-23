@@ -303,6 +303,27 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   The inversion of $G$ is smooth; apply Theorem~\ref{thm:taylor-inverse}.
 \end{proof}
 
+\begin{proposition}[Vector groups and products]
+  \label{prop:prod-lie}
+  \lean{LocallyConvex.LieGroups.VectorGroup.lie_eq_zero,
+    LocallyConvex.LieGroups.LocalGroupLaw.prod,
+    LocallyConvex.LieGroups.LocalGroupLaw.b2_prod,
+    LocallyConvex.LieGroups.LocalGroupLaw.bracket_prod,
+    LocallyConvex.LieGroups.MBLieGroup.LieAlg.prodEquiv}
+  \leanok
+  \uses{lem:taylor-mul, def:lie-algebra, prop:vector-group, prop:prod-group, prop:local-comm}
+  The Lie algebra of a vector group is abelian \cite[Example 5.1.9(a)]{GN26}, and
+  $\mathbf{L}(G \times H) \cong \mathbf{L}(G) \times \mathbf{L}(H)$ with the componentwise bracket.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Vector groups are abelian (Proposition~\ref{prop:local-comm}). In the charts at the identity,
+  the multiplication of $G \times H$ is the product of the two local group laws; its left
+  invariant fields are $(\tilde y_l, \tilde y'_l)(z, z') = (\tilde y_l(z), \tilde y'_l(z'))$, so
+  $b_2$ and the bracket are componentwise (Lemma~\ref{lem:taylor-mul}).
+\end{proof}
+
 \begin{proposition}[The Lie algebra of a unit group]
   \label{prop:unit-group-lie}
   \lean{LocallyConvex.LieGroups.quasiLaw,

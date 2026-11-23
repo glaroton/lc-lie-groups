@@ -36,6 +36,7 @@ the local bracket of these fields at the identity,
 * `LocalGroupLaw.bracket_jacobi`, `bracket_swap`, `bracket_self`, `add_bracket`, `bracket_add`,
   `smul_bracket`, `bracket_smul`: the bracket is a Lie bracket.
 * `LocalGroupLaw.continuous_bracket`: the bracket is continuous ([GN26, Definition 5.1.6]).
+* `LocalGroupLaw.bracket_congr`: the bracket only depends on the multiplication near `(1, 1)`.
 * `LocalGroupLaw.dMB_bracket_of_hom`: the derivative at the identity of a local homomorphism
   preserves brackets ([GN26, Proposition 5.1.10]).
 * `LocalGroupLaw.bracket_eq_zero_of_comm`: commutative local group laws have vanishing bracket
@@ -272,6 +273,25 @@ theorem continuous_bracket : Continuous fun p : E × E ↦ L.bracket p.1 p.2 := 
   refine (hβ.sub hβ').congr fun p ↦ ?_
   rw [bracket_eq, dMB_xl, dMB_xl]
   rfl
+
+/-- **The bracket depends only on the multiplication near `(1, 1)`**: two local group laws with
+the same identity whose multiplications agree on an open neighborhood of `(1, 1)` have the same
+bracket. -/
+theorem bracket_congr (L L' : LocalGroupLaw E) (h1 : L.one = L'.one) {W : Set (E × E)}
+    (hW : IsOpen W) (hW1 : (L.one, L.one) ∈ W) (heq : EqOn L.mul L'.mul W) (x y : E) :
+    L.bracket x y = L'.bracket x y := by
+  set V := {z : E | (z, L.one) ∈ W}
+  have hV : IsOpen V := hW.preimage (by fun_prop)
+  have hxl : ∀ v : E, EqOn (L.xl v) (L'.xl v) V := by
+    intro v z hz
+    rw [xl_eq, xl_eq, ← h1]
+    refine dMB_congr_of_eventuallyEq (eventuallyEq_of_mem
+      ((hW.preimage (by fun_prop : Continuous fun b : E ↦ (z, b))).mem_nhds hz)
+      fun b hb ↦ heq hb) v
+  have hev : ∀ v : E, L.xl v =ᶠ[𝓝 L.one] L'.xl v := fun v ↦
+    eventuallyEq_of_mem (hV.mem_nhds hW1) (hxl v)
+  rw [bracket_eq, bracket_eq, dMB_congr_of_eventuallyEq (hev y),
+    dMB_congr_of_eventuallyEq (hev x), h1]
 
 /-! ### Evaluating the bracket -/
 

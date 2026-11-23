@@ -53,3 +53,9 @@ open LocallyConvex.LieGroups
 #print axioms UnitGroup.instMBLieGroup
 #print axioms quasiLaw_bracket
 #print axioms UnitGroup.lie_eq
+-- Vector groups and products (`LieGroup/Vector.lean`, `LieGroup/Prod.lean`)
+#print axioms VectorGroup.instMBLieGroup
+#print axioms VectorGroup.lie_eq_zero
+#print axioms MBLieGroup.instProd
+#print axioms LocalGroupLaw.bracket_prod
+#print axioms MBLieGroup.LieAlg.prodEquiv
