@@ -1,0 +1,100 @@
+\chapter{Regular Lie groups}
+\label{chap:regular}
+
+Regularity asks that the differential equation $\gamma^{-1}\dot\gamma = \xi$ for curves
+$\xi$ in the Lie algebra have solutions depending smoothly on $\xi$ \cite[Chapter 6]{GN26}. We
+read the logarithmic derivative in the chart $\varphi$ at the identity, and we formalize the
+case of continuous curves ($k = 0$ in \cite[Definition 6.1.1]{GN26}), the strongest of the
+$C^k$-regularity conditions; the spaces $C^k([0, 1], \mathfrak g)$, $k \geq 1$, are not yet
+available as locally convex spaces.
+
+\section{Logarithmic derivatives}
+
+\begin{definition}[Logarithmic derivatives]
+  \label{def:log-deriv}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.HasLogDerivAt}
+  \leanok
+  \uses{def:lie-group}
+  A curve $\gamma\colon \mathbb{R} \to G$ has logarithmic derivative
+  $\delta(\gamma)(t) = \gamma(t)^{-1}\dot\gamma(t) = x$ at $t$ if it is continuous at $t$ and
+  $s \mapsto \varphi(\gamma(t)^{-1}\gamma(s))$ has derivative $x$ at $s = t$.
+\end{definition}
+
+\begin{lemma}[Uniqueness Lemma]
+  \label{lem:log-deriv-unique}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.HasLogDerivAt.mul_inv,
+    LocallyConvex.LieGroups.MBLieGroup.eq_of_hasLogDerivAt_zero,
+    LocallyConvex.LieGroups.MBLieGroup.eq_of_hasLogDerivAt}
+  \leanok
+  \uses{def:log-deriv}
+  Two curves with the same logarithmic derivative that agree at one point are equal
+  \cite[Lemma 5.5.4]{GN26}.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  If $\delta(\gamma_1)(t) = \delta(\gamma_2)(t) = x$, then near $t$,
+  $(\gamma_2\gamma_1^{-1})(t)^{-1}(\gamma_2\gamma_1^{-1})(s) = g\, w_2(s) w_1(s)^{-1} g^{-1}$ with
+  $g = \gamma_1(t)$ and $w_i(s) = \gamma_i(t)^{-1}\gamma_i(s)$. In the chart this is
+  $K(\varphi w_2(s), \varphi w_1(s))$ for a smooth $K$ with $K(p, p) = \varphi(1)$, so its
+  derivative is $dK((\varphi(1), \varphi(1)), (x, x)) = 0$: $\gamma_2\gamma_1^{-1}$ has vanishing
+  logarithmic derivative. A curve $P$ with vanishing logarithmic derivative is locally constant:
+  near $s_0$, $e(s) = \varphi(P(s_0)^{-1}P(s))$ satisfies
+  $e(s) = e(s_1) * \varphi(P(s_1)^{-1}P(s))$, so $e' = 0$; and $\mathbb{R}$ is connected.
+\end{proof}
+
+\section{$C^0$-regularity}
+
+\begin{definition}[$C^0$-regular Lie groups]
+  \label{def:c0-regular}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.extendCurve,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvol,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvol.unique,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Semiregular,
+    LocallyConvex.LieGroups.MBLieGroup.evol,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Regular}
+  \leanok
+  \uses{lem:log-deriv-unique}
+  $G$ is $C^0$-semiregular if for every $\xi \in C([0, 1], \mathfrak g)$ there is a curve
+  $\gamma_\xi$ with $\gamma_\xi(0) = 1$ and $\delta(\gamma_\xi) = \tilde\xi$, the extension of $\xi$
+  to $\mathbb{R}$ by constants; it is unique. $G$ is $C^0$-regular if moreover
+  $\mathrm{evol}\colon C([0, 1], \mathfrak g) \to G$, $\xi \mapsto \gamma_\xi(1)$, is smooth
+  \cite[Definition 6.1.1]{GN26}.
+\end{definition}
+
+\begin{theorem}[Regular Lie groups have exponential functions]
+  \label{thm:regular-exp}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsEvol.comp_mul,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvol.map_add,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Regular.isExp}
+  \leanok
+  \uses{def:c0-regular, def:exp}
+  If $G$ is $C^0$-regular, $\exp(x) = \mathrm{evol}(x)$ for constant curves $x$ is an exponential
+  function of $G$ \cite[Remark 6.1.2(a)]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  By uniqueness, $\gamma_{cx}(t) = \gamma_x(ct)$, and $\gamma_x(r + a) = \gamma_x(a)\gamma_x(r)$
+  since both sides have logarithmic derivative $x$; hence $t \mapsto \exp(tx) = \gamma_x(t)$ is a
+  one-parameter group with derivative $x$ at $0$. Smoothness follows from that of $\mathrm{evol}$.
+\end{proof}
+
+\begin{proposition}[Vector groups]
+  \label{prop:vector-regular}
+  \lean{LocallyConvex.LieGroups.continuousAt_of_hasDirDerivAt_one,
+    LocallyConvex.LieGroups.VectorGroup.isEvol_integral,
+    LocallyConvex.LieGroups.VectorGroup.integralCLM,
+    LocallyConvex.LieGroups.VectorGroup.isC0Regular}
+  \leanok
+  \uses{def:c0-regular, prop:vector-group}
+  If $E$ is sequentially complete, $(E, +)$ is $C^0$-regular, with
+  $\mathrm{evol}(\xi) = \int_0^1 \xi$ \cite[Proposition 6.1.3]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  $t \mapsto \int_0^t \tilde\xi$ is the evolution of $\xi$ by the fundamental theorem of calculus.
+  The integral is linear, and continuous on $C([0, 1], E)$ because weak integrals of uniformly
+  small curves are small.
+\end{proof}
