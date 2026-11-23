@@ -253,6 +253,18 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `u_t = u_{s → t} ∘ u_s` writes `γ(t)⁻¹ γ(r)` as the time-one map of a rescaled field, whose
   derivative at `r = t` is computed by comparison with `exp`. The local criterion concludes.
   [GN26, §13.1] leaves the regularity of diffeomorphism groups to be written.
+* `CircleCover.isHom_coverHom` (`CircleCover/Rotation.lean`, `CircleCover/Covering.lean`): **the
+  covering morphism `\widetilde{Diff}⁺(S¹) → Diff(S¹)`**, `u ↦ (e^{2πit} ↦ e^{2πi(t + u(t))})`,
+  is a morphism of Lie groups. The action on `S¹ ⊆ ℝ² ≅ ℂ` is `rotU(u, z) = e^{2πi u(arg z/2π)} z`,
+  smooth on `C^∞_per × (ℝ² ∖ 0)`; the exponential law for `C^∞(S¹, S¹)` (lc-manifolds) and
+  lc-manifolds' `smoothMBM_iff_contMDiffMB₂` make `u ↦ rotU(u, ·)` smooth into `Diff(S¹)`.
+* `CircleCover.isC0Regular_diffCircle`, `CircleCover.isC0Regular_diffPlusCircle`,
+  `CircleCover.isRegular_diffCircle`, `CircleCover.isRegular_diffPlusCircle`
+  (`CircleCover/DiffCircleRegular.lean`): **`Diff(S¹)` and `Diff⁺(S¹)` are regular**. In the chart
+  of `Diff(S¹)` at the identity, `⟪p, γ(p)⟫ > 0`, so `ρ(γ)(t) = arg(γ(e^{2πit}) e^{-2πit})/2π`
+  is a smooth local right inverse of the covering morphism (`CircleCover.coverHom_rho`), and
+  `MBLieGroup.IsC0Regular.of_hom_of_rightInverse` (`Regular/Hom.lean`) transfers `C⁰`-regularity
+  from the universal cover.
 
 ### `Regular/Basic.lean`, `Regular/Evol.lean` and `Regular/Vector.lean`
 
@@ -373,8 +385,9 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: `Diff⁺(S¹)` as the quotient of its universal cover by `ℤ` (covering morphisms of
-   Lie groups). For `Diff(K)`: the finite-order statements of
+1. Examples: `Diff⁺(S¹)` as the quotient of its universal cover by `ℤ` (the covering morphism is
+   built, as a Lie group morphism with a local right inverse; its kernel and the quotient are not).
+   For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie

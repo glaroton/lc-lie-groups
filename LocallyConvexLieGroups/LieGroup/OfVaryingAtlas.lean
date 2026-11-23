@@ -30,6 +30,8 @@ given on all of `G`, so the local hypotheses of that theorem are not needed.
 
 * `IsVaryingLieGroup.hasGroupoid`: the translated charts form a smooth atlas.
 * `IsVaryingLieGroup.mbLieGroup`: with this atlas, `G` is a Lie group.
+* `IsVaryingLieGroup.smoothMBM_of_smooth`: maps into `G` that are smooth for `A` are smooth for
+  the translated charts.
 
 ## Implementation notes
 
@@ -208,6 +210,30 @@ theorem mbLieGroup :
       exact hs
     exact (hrep.mono hsub).congr_of_isOpen (isOpen_chartDomain isOpen_univ
       hA.continuous_inv.continuousOn _ _) fun _ _ ↦ rfl
+
+/-- **Maps that are smooth for `A` are smooth for the translated charts**: their local
+representatives in the translated chart `x ↦ φ(g⁻¹ x)` are local representatives, in `φ`, of
+their left translates. -/
+theorem smoothMBM_of_smooth {F : Type u} [AddCommGroup F] [Module ℝ F] [TopologicalSpace F]
+    [IsTopologicalAddGroup F] [ContinuousSMul ℝ F] [LocallyConvexSpace ℝ F] [T2Space F]
+    {M : Type*} [TopologicalSpace M] [ChartedSpace F M] [MBManifold F M] {f : M → G}
+    (hf : (VaryingAtlas.ofChartedSpace F M).Smooth A f) :
+    letI := hA.chartedSpace
+    SmoothMBM F (A.model (A.chartAt 1)) f := by
+  let := hA.chartedSpace
+  intro k
+  refine ⟨(hf k).1, fun x _ ↦ ?_⟩
+  have h := ((hA.smooth_mul_left (f x)⁻¹).comp hf k).2
+    ((VaryingAtlas.ofChartedSpace F M).chartAt x) (A.chartAt 1)
+  have hD : chartDomain f univ (chartAt F x) (hA.transChart (f x)) =
+      chartDomain (fun y ↦ (f x)⁻¹ * f y) univ (chartAt F x) (chartOne (A := A)) := by
+    ext y
+    simp only [chartDomain, mem_inter_iff, mem_preimage, mem_univ, true_and,
+      mem_transChart_source]
+  change ContDiffMBOn k (hA.transChart (f x) ∘ f ∘ (chartAt F x).symm)
+    (chartDomain f univ (chartAt F x) (hA.transChart (f x)))
+  rw [hD]
+  exact h
 
 end IsVaryingLieGroup
 

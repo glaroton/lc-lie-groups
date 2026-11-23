@@ -78,6 +78,15 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.IsC0Regular.isRegular
 #print axioms MBLieGroup.IsCkRegular.mono
 #print axioms CircleCover.isRegular
+#print axioms MBLieGroup.IsC0Regular.of_hom_of_rightInverse
+#print axioms IsVaryingLieGroup.smoothMBM_of_smooth
+#print axioms CircleCover.rotU_relAng
+#print axioms CircleCover.isHom_coverHom
+#print axioms CircleCover.coverHom_rho
+#print axioms CircleCover.isC0Regular_diffCircle
+#print axioms CircleCover.isC0Regular_diffPlusCircle
+#print axioms CircleCover.isRegular_diffCircle
+#print axioms CircleCover.isRegular_diffPlusCircle
 #print axioms VectorGroup.isCkRegular
 #print axioms VectorGroup.isRegular_of_mackeyComplete
 #print axioms MackeyConverse.mackeyComplete_of_integratesSmooth

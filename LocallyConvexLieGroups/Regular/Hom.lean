@@ -19,6 +19,9 @@ isomorphism ([GN26, Proposition 6.1.5], one direction).
 
 * `MBLieGroup.HasLogDerivAt.map`: `δ(φ ∘ γ) = L(φ) δ(γ)`.
 * `MBLieGroup.IsC0Regular.of_hom`: regularity passes to `H`.
+* `MBLieGroup.IsC0Regular.of_hom_of_rightInverse`: the same, when the local representative of `φ`
+  in the charts at the identities has a `C¹` right inverse `ρ` near `φ(1)`; then
+  `sec = dρ(φ(1))`.
 
 ## References
 
@@ -105,5 +108,36 @@ theorem IsC0Regular.of_hom (hG : IsC0Regular E G) (hφ : IsHom E F φ) (sec : F 
   rw [heq]
   exact SmoothMBM.comp (hφ : SmoothMBM E F φ) (hG.smooth.comp fun k ↦
     (contMDiffMBOn_iff_contDiffMBOn isOpen_univ).2 ((compLeftCLM sec).contDiffMBOn k univ))
+
+/-- **Regularity passes along morphisms with a smooth local right inverse in the charts**: if
+`ρ` is `C¹` near `φ(1)` in the chart of `H`, `ρ(φ(1)) = φ(1)` in the chart of `G`, and
+`localRep φ ∘ ρ = id` near `φ(1)`, then `L(φ)` is split by `dρ(φ(1))` and `IsC0Regular.of_hom`
+applies. -/
+theorem IsC0Regular.of_hom_of_rightInverse (hG : IsC0Regular E G) (hφ : IsHom E F φ)
+    {W : Set F} (hW : IsOpen W) (h1W : chartAt F (1 : H) 1 ∈ W) {ρ : F → E}
+    (hρ : ContDiffMBOn 1 ρ W) (hρ1 : ρ (chartAt F (1 : H) 1) = chartAt E (1 : G) 1)
+    (hρdom : MapsTo ρ W (IsHom.localRepDom (E := E) (F := F) φ))
+    (hinv : ∀ y ∈ W, IsHom.localRep (E := E) (F := F) φ (ρ y) = y) : IsC0Regular F H := by
+  set y₁ := chartAt F (1 : H) 1
+  have hc : Continuous fun y : F ↦ dMB ρ (y₁, y) := by
+    have h0 : ContinuousOn (dMB ρ) (W ×ˢ univ) := hρ.2.2
+    exact h0.comp_continuous (continuous_const.prodMk continuous_id)
+      fun y ↦ ⟨h1W, mem_univ _⟩
+  set sec : F →L[ℝ] E :=
+    { toFun := fun y ↦ dMB ρ (y₁, y)
+      map_add' := hρ.dMB_add hW h1W
+      map_smul' := hρ.dMB_smul h1W
+      cont := hc }
+  refine hG.of_hom hφ sec fun y ↦ ?_
+  have hd := hρ.hasDirDerivAt h1W y
+  have hcomp := ((hφ.smoothMBOn_localRep) 1).hasDirDerivAt_comp hφ.isOpen_localRepDom hd
+    (hρdom h1W)
+  rw [hρ1] at hcomp
+  have hid : HasDirDerivAt (IsHom.localRep (E := E) (F := F) φ ∘ ρ) y₁ y y := by
+    have h := (ContinuousLinearMap.id ℝ F).hasDirDerivAt y₁ y
+    refine h.congr_of_eventuallyEq ?_
+    filter_upwards [hW.mem_nhds h1W] with z hz
+    exact (hinv z hz).symm
+  exact tendsto_nhds_unique hcomp hid
 
 end LocallyConvex.LieGroups.MBLieGroup

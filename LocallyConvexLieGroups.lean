@@ -5,12 +5,15 @@ Authors: glaroton
 -/
 module
 
+public import LocallyConvexLieGroups.CircleCover.Covering
+public import LocallyConvexLieGroups.CircleCover.DiffCircleRegular
 public import LocallyConvexLieGroups.CircleCover.Exponential
 public import LocallyConvexLieGroups.CircleCover.Group
 public import LocallyConvexLieGroups.CircleCover.Inverse
 public import LocallyConvexLieGroups.CircleCover.LieGroup
 public import LocallyConvexLieGroups.CircleCover.Periodic
 public import LocallyConvexLieGroups.CircleCover.Regular
+public import LocallyConvexLieGroups.CircleCover.Rotation
 public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.Diffeomorphism.Circle
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra

@@ -268,6 +268,24 @@ available as locally convex spaces.
   $\xi$, and $\mathrm{evol}_H = \varphi\circ\mathrm{evol}_G\circ\sigma_*$ is smooth.
 \end{proof}
 
+\begin{lemma}
+  \label{lem:regular-hom-right-inverse}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsC0Regular.of_hom_of_rightInverse}
+  \leanok
+  \uses{prop:regular-hom}
+  Let $\varphi\colon G \to H$ be a morphism of Lie groups, with local representative
+  $\varphi_{loc}$ in the charts at the identities. If $G$ is $C^0$-regular and $\varphi_{loc}$ has a
+  $C^1$ right inverse $\rho$ on an open neighborhood of $\varphi_{loc}(0)$, with
+  $\rho(\varphi_{loc}(0)) = 0$, then $H$ is $C^0$-regular.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  Differentiating $\varphi_{loc}\circ\rho = \mathrm{id}$ at the base point,
+  $\sigma = d\rho(\varphi_{loc}(0))$ is a continuous linear right inverse of $\mathbf{L}(\varphi)$.
+  Apply Proposition~\ref{prop:regular-hom}.
+\end{proof}
+
 \begin{proposition}[Regularity lifts along local diffeomorphisms]
   \label{prop:regular-lift}
   \lean{LocallyConvex.LieGroups.MBLieGroup.scaleCurve,
@@ -336,6 +354,44 @@ available as locally convex spaces.
   $\zeta_{r \to t}(w) = (t - r)\,\xi(r + w(t - r))$; since $\zeta_{t + h \to t} = h Z_h$ with
   $Z_h \to -\xi(t)$ (constant), $\delta(\gamma)(t) = d\Psi(0, -\xi(t))$, and comparison with the
   exponential function gives $d\Psi(0, -x) = x$. The local criterion concludes.
+\end{proof}
+
+\begin{theorem}
+  \label{thm:diff-circle-regular}
+  \lean{LocallyConvex.LieGroups.CircleCover.rotU,
+    LocallyConvex.LieGroups.CircleCover.rotU_relAng,
+    LocallyConvex.LieGroups.CircleCover.coverHom,
+    LocallyConvex.LieGroups.CircleCover.isHom_coverHom,
+    LocallyConvex.LieGroups.CircleCover.rho,
+    LocallyConvex.LieGroups.CircleCover.coverHom_rho,
+    LocallyConvex.LieGroups.CircleCover.isC0Regular_diffCircle,
+    LocallyConvex.LieGroups.CircleCover.isC0Regular_diffPlusCircle,
+    LocallyConvex.LieGroups.CircleCover.isRegular_diffCircle,
+    LocallyConvex.LieGroups.CircleCover.isRegular_diffPlusCircle}
+  \leanok
+  \uses{thm:circle-cover-regular, lem:regular-hom-right-inverse, cor:regular-open-subgroup,
+    cor:diff-circle}
+  The map $u \mapsto \big(e^{2\pi i t} \mapsto e^{2\pi i(t + u(t))}\big)$ is a morphism of Lie
+  groups $\widetilde{\mathrm{Diff}}^+(S^1) \to \mathrm{Diff}(S^1)$, with a smooth local right
+  inverse in the chart at the identity. Hence $\mathrm{Diff}(S^1)$ and $\mathrm{Diff}^+(S^1)$ are
+  $C^0$-regular, and so regular.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Identify $\mathbb R^2$ with $\mathbb C$. The map
+  $\mathrm{rot}(u, z) = e^{2\pi i\,u(\arg z/2\pi)} z$ is well defined and smooth on
+  $C^\infty_{per} \times (\mathbb C \setminus 0)$, since $u$ is $1$-periodic, and restricts to the
+  action above on $S^1$. By the exponential law for $C^\infty(S^1, S^1)$ and the equivalence of
+  smoothness on products with $C^{k, \ell}$ for all $k, \ell$, $u \mapsto \mathrm{rot}(u, \cdot)$ is
+  smooth into $\mathrm{Diff}(S^1)$; it is a morphism because the group law of the cover is
+  composition of the lifts $\mathrm{id} + u$. In the chart $\phi$ at the identity, $\gamma =
+  \phi^{-1}(\sigma)$ satisfies $\langle p, \gamma(p)\rangle > 0$, so
+  $\rho(\sigma)(t) = \arg\big(\gamma(e^{2\pi i t})\,e^{-2\pi i t}\big)/2\pi$ uses the principal
+  branch of the argument, is periodic and smooth in $(\sigma, t)$, and the covering morphism maps
+  $\rho(\sigma)$ to $\gamma$. Lemma~\ref{lem:regular-hom-right-inverse} and
+  Theorem~\ref{thm:circle-cover-regular} give the $C^0$-regularity of $\mathrm{Diff}(S^1)$, and
+  Corollary~\ref{cor:regular-open-subgroup} that of $\mathrm{Diff}^+(S^1)$.
 \end{proof}
 
 \begin{proposition}
