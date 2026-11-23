@@ -93,6 +93,31 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   inversion.
 \end{proof}
 
+\section{Open subgroups}
+
+\begin{theorem}[Open subgroups and the identity component]
+  \label{thm:open-subgroup}
+  \lean{LocallyConvex.LieGroups.smoothMBM_subtype_val,
+    LocallyConvex.LieGroups.smoothMBM_of_val_comp,
+    LocallyConvex.LieGroups.OpenSubgroup.instMBLieGroup,
+    LocallyConvex.LieGroups.locallyConnectedSpace_of_locallyConvex,
+    LocallyConvex.LieGroups.MBLieGroup.isOpen_connectedComponent_one,
+    LocallyConvex.LieGroups.MBLieGroup.identityComponent}
+  \leanok
+  \uses{def:lie-group}
+  An open subgroup of a Lie group is a Lie group, with the restricted charts. Lie groups are
+  locally connected, so the identity component $G_0$ is an open subgroup, hence a Lie group.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the restricted charts the inclusion $U \to G$ is the identity, and a map into $U$ has the same
+  local representatives as its composite with the inclusion; so the group operations of $U$ are
+  smooth because those of $G$ are. Locally convex spaces are locally connected, since convex
+  neighborhoods form a basis and convex sets are connected; hence so are manifolds modeled on
+  them, and connected components are open.
+\end{proof}
+
 \section{Vector groups and products}
 
 \begin{proposition}[Vector groups]
@@ -192,4 +217,23 @@ subset $\mathrm{Diff}(K)$ of the manifold $C^\infty(K, K)$ \cite[Proposition 13.
   \cite[Proposition 13.1.2(a)]{GN26}, hence on the open subset $\mathrm{Diff}(K) \times
   \mathrm{Diff}(K)$, and the inversion is smooth by Theorem~\ref{thm:diff-inv}; both take values in
   $\mathrm{Diff}(K)$. Apply Theorem~\ref{thm:of-varying-atlas}.
+\end{proof}
+
+\begin{corollary}[$\mathrm{Diff}(S^1)$ and $\mathrm{Diff}^+(S^1)$]
+  \label{cor:diff-circle}
+  \lean{LocallyConvex.LieGroups.UnitCircle,
+    LocallyConvex.LieGroups.UnitCircle.localAddition,
+    LocallyConvex.LieGroups.DiffCircle,
+    LocallyConvex.LieGroups.DiffPlusCircle}
+  \leanok
+  \uses{thm:diff-lie, thm:open-subgroup}
+  The unit circle $S^1 \subseteq \mathbb{R}^2$ is a compact manifold with the normalized local
+  addition $\Sigma(p, w) = (p + w)/\|p + w\|$ (\cite{LCM}, \texttt{sphereLocalAddition}). Hence
+  $\mathrm{Diff}(S^1)$ is a Lie group, and so is its identity component $\mathrm{Diff}^+(S^1)$,
+  the group of orientation preserving diffeomorphisms \cite[\S 13.3]{GN26}.
+\end{corollary}
+
+\begin{proof}
+  \leanok
+  Theorems~\ref{thm:diff-lie} and \ref{thm:open-subgroup}.
 \end{proof}

@@ -50,6 +50,14 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
   the translates `x ↦ φ(g⁻¹ x)` of the chart `φ` at the identity form an atlas modeled on a single
   space, and `G` is then a Lie group (the charts of the proof of [GN26, Theorem 5.3.1]).
 
+### `LieGroup/OpenSubgroup.lean`
+
+* `smoothMBM_subtype_val`, `smoothMBM_of_val_comp`: smooth maps and open subsets of manifolds.
+* `OpenSubgroup.instMBLieGroup`: **open subgroups of Lie groups are Lie groups**;
+  `OpenSubgroup.lieEquiv`: `L(U) ≅ L(G)`.
+* `MBLieGroup.identityComponent`: the identity component `G₀` is an open subgroup, since Lie
+  groups are locally connected (`locallyConnectedSpace_of_locallyConvex`).
+
 ### `LieGroup/Vector.lean` and `LieGroup/Prod.lean`
 
 * `VectorGroup.instMBLieGroup`: **vector groups** `(E, +)` (as `Multiplicative E`, with the
@@ -148,10 +156,16 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   commutes with the derivatives, so the bracket is a mixed second derivative of
   `(s, t) ↦ (s x ∗ t y)(p)`, computed in a chart of `K` (`Diffeo.evalAt_dMB_xl`); the
   normalization makes the second derivative of the local addition drop out.
+* `UnitCircle`, `DiffCircle`, `DiffPlusCircle` (`Diffeomorphism/Circle.lean`): **`Diff(S¹)` and
+  its identity component `Diff⁺(S¹)` are Lie groups** [GN26, §13.3], with `S¹ ⊆ ℝ²` and the
+  normalized local addition of the sphere (lc-manifolds, `sphereLocalAddition`);
+  `DiffPlusCircle.toField_lie`: **`L(Diff⁺(S¹)) ≅ V(S¹)^op`**.
 
 ## Planned
 
-1. Examples: `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
+1. Examples: the universal covering group of `Diff⁺(S¹)` with the global chart
+   `u ↦ id + u` on `{u ∈ C^∞_per : u' > −1}` [GN26, §13.3] (lc-manifolds, `DiffCircle.Ω`), and
+   `Diff⁺(S¹)` as its quotient by `ℤ`. For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie

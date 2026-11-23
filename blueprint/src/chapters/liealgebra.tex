@@ -393,3 +393,22 @@ $\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second 
   $y$, hence $[x, y](p) = d\tilde x\cdot \tilde y - d\tilde y \cdot \tilde x = [Y, X](p)$.
   Glöckner and Neeb obtain the formula from the derived action of $\mathrm{Diff}(K)$ on $K$.
 \end{proof}
+
+\begin{corollary}[$\mathbf{L}(\mathrm{Diff}^+(S^1)) = \mathcal{V}(S^1)^{\mathrm{op}}$]
+  \label{cor:lie-diff-circle}
+  \lean{LocallyConvex.LieGroups.OpenSubgroup.lie_eq,
+    LocallyConvex.LieGroups.OpenSubgroup.lieEquiv,
+    LocallyConvex.LieGroups.DiffPlusCircle.toField_lie}
+  \leanok
+  \uses{thm:lie-diff, cor:diff-circle}
+  An open subgroup $U$ of a Lie group $G$ has $\mathbf{L}(U) \cong \mathbf{L}(G)$. In particular
+  $\mathbf{L}(\mathrm{Diff}^+(S^1))$ is the Lie algebra of vector fields on $S^1$ with the opposite
+  bracket.
+\end{corollary}
+
+\begin{proof}
+  \leanok
+  In the charts at the identity the multiplications of $U$ and $G$ agree near the identity, and
+  the bracket only depends on the multiplication near the identity. Then apply
+  Theorem~\ref{thm:lie-diff} to the normalized local addition of $S^1$.
+\end{proof}

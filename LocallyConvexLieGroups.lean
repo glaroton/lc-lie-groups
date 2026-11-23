@@ -6,6 +6,7 @@ Authors: glaroton
 module
 
 public import LocallyConvexLieGroups.Diffeomorphism.Basic
+public import LocallyConvexLieGroups.Diffeomorphism.Circle
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra
 public import LocallyConvexLieGroups.LieAlgebra.Basic
 public import LocallyConvexLieGroups.LieAlgebra.LeftInvariant
@@ -13,6 +14,7 @@ public import LocallyConvexLieGroups.LieAlgebra.Local
 public import LocallyConvexLieGroups.LieAlgebra.Taylor
 public import LocallyConvexLieGroups.LieGroup.Basic
 public import LocallyConvexLieGroups.LieGroup.OfVaryingAtlas
+public import LocallyConvexLieGroups.LieGroup.OpenSubgroup
 public import LocallyConvexLieGroups.LieGroup.Prod
 public import LocallyConvexLieGroups.LieGroup.Units
 public import LocallyConvexLieGroups.LieGroup.Vector

@@ -59,3 +59,8 @@ open LocallyConvex.LieGroups
 #print axioms MBLieGroup.instProd
 #print axioms LocalGroupLaw.bracket_prod
 #print axioms MBLieGroup.LieAlg.prodEquiv
+-- Open subgroups and `Diff⁺(S¹)` (`LieGroup/OpenSubgroup.lean`, `Diffeomorphism/Circle.lean`)
+#print axioms OpenSubgroup.instMBLieGroup
+#print axioms OpenSubgroup.lieEquiv
+#print axioms MBLieGroup.identityComponent
+#print axioms DiffPlusCircle.toField_lie
