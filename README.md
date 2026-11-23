@@ -281,6 +281,12 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `δ(φ ∘ γ) = L(φ) δ(γ)` for morphisms; **if `G` is `C⁰`-regular and `L(φ)` has a continuous
   linear right inverse `σ`, then `H` is `C⁰`-regular**, `evol_H(ξ) = φ(evol_G(σ ∘ ξ))` (one
   direction of [GN26, Proposition 6.1.5], for covering morphisms and more).
+* `MBLieGroup.IsC0Regular.of_localDiffeo` (`Regular/Lift.lean`): **`C⁰`-regularity lifts along
+  morphisms that are local diffeomorphisms at `1`** (the other direction of
+  [GN26, Proposition 6.1.5]). For `ξ` near `0`, the evolution `Γ` of `L(φ) ∘ ξ` stays in the
+  domain `V` of the local inverse `ρ` (`Γ(s) = evol(S(L(φ)ξ, s))` with `S(η, s)(t) = s η(st)`,
+  small for balanced neighborhoods), and `ρ ∘ Γ` is the evolution of `ξ`, since
+  `ρ(Γ t)⁻¹ ρ(Γ r) = ρ(Γ(t)⁻¹ Γ(r))` by injectivity of `φ` near `1` and `dρ(1) L(φ) = id`.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -325,7 +331,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
    inverse algebras [GN26, Example 5.6.9]. Regularity: `C^k`-regularity for `k ≥ 1` (needs the
-   spaces `C^k([0, 1], 𝔤)`), Prop 6.1.5 (coverings), and
+   spaces `C^k([0, 1], 𝔤)`), and
    groups and `\widetilde{Diff}⁺(S¹)` are regular [GN26, Theorem 6.3.4, Ch. 13], and the
    Fundamental Theorem for Lie group-valued functions [GN26, §6.1.2].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the

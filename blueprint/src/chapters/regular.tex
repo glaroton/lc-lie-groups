@@ -236,3 +236,27 @@ available as locally convex spaces.
   $\xi$, and $\mathrm{evol}_H = \varphi\circ\mathrm{evol}_G\circ\sigma_*$ is smooth.
 \end{proof}
 
+\begin{proposition}[Regularity lifts along local diffeomorphisms]
+  \label{prop:regular-lift}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.scaleCurve,
+    LocallyConvex.LieGroups.MBLieGroup.IsEvol.isEvolOn_scale,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Regular.of_localDiffeo}
+  \leanok
+  \uses{prop:regular-hom, lem:local-regularity, prop:regular-interval}
+  If $\varphi\colon G \to H$ is a morphism of Lie groups which is a local diffeomorphism at $1$
+  and $H$ is $C^0$-regular, then $G$ is $C^0$-regular \cite[Proposition 6.1.5]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Let $\rho\colon V \to U$ be the local inverse. For $\eta \in C([0, 1], \mathfrak h)$ with
+  values in a balanced $0$-neighborhood, the curves $S(\eta, s)(t) = s\,\eta(st)$ are small, and
+  $\Gamma(s) = \mathrm{evol}(S(\eta, s))$ for the evolution $\Gamma$ of $\eta$; so $\Gamma$ stays in
+  $V$ on $[0, 1]$ when $\eta = \mathbf{L}(\varphi)\circ\xi$ with $\xi$ small. Then $\rho\circ\Gamma$
+  is the evolution of $\xi$ on $[0, 1]$: near $t$,
+  $\rho(\Gamma(t))^{-1}\rho(\Gamma(r)) = \rho(\Gamma(t)^{-1}\Gamma(r))$, $\varphi$ being injective
+  on $U$, and $d\rho(1)\,\mathbf{L}(\varphi) = \mathrm{id}$. Small constant curves give
+  one-parameter groups, $\mathrm{evol}_G = \rho\circ\mathrm{evol}_H\circ\mathbf{L}(\varphi)_*$ near $0$,
+  and the local criterion concludes.
+\end{proof}
+
