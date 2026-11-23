@@ -34,6 +34,7 @@ public import LocallyConvexLieGroups.LieGroup.Vector
 public import LocallyConvexLieGroups.Regular.Banach
 public import LocallyConvexLieGroups.Regular.Basic
 public import LocallyConvexLieGroups.Regular.Evol
+public import LocallyConvexLieGroups.Regular.Hom
 public import LocallyConvexLieGroups.Regular.Interval
 public import LocallyConvexLieGroups.Regular.Local
 public import LocallyConvexLieGroups.Regular.Primitive

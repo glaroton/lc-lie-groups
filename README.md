@@ -277,6 +277,10 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   translation `b ↦ φ(g⁻¹ φ⁻¹(b))`, whose derivative inverts `x̃_l` at `φ(g)`. One-parameter groups
   come from small constant curves, and `MBLieGroup.isC0Regular_of_local'` (the local criterion
   with a `0`-neighborhood for each order `k`) concludes.
+* `MBLieGroup.HasLogDerivAt.map`, `MBLieGroup.IsC0Regular.of_hom` (`Regular/Hom.lean`):
+  `δ(φ ∘ γ) = L(φ) δ(γ)` for morphisms; **if `G` is `C⁰`-regular and `L(φ)` has a continuous
+  linear right inverse `σ`, then `H` is `C⁰`-regular**, `evol_H(ξ) = φ(evol_G(σ ∘ ξ))` (one
+  direction of [GN26, Proposition 6.1.5], for covering morphisms and more).
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with

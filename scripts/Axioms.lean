@@ -107,4 +107,5 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.isC0Regular_iff
 #print axioms UnitGroup.isC0Regular
 #print axioms MBLieGroup.isC0Regular_of_completeSpace
+#print axioms MBLieGroup.IsC0Regular.of_hom
 #print axioms VectorGroup.isC0Regular

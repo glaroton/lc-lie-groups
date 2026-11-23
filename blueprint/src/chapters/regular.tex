@@ -215,3 +215,24 @@ available as locally convex spaces.
   criterion concludes.
 \end{proof}
 
+\begin{proposition}[Regularity along morphisms]
+  \label{prop:regular-hom}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.HasLogDerivAt.map,
+    LocallyConvex.LieGroups.MBLieGroup.IsC0Regular.of_hom}
+  \leanok
+  \uses{def:c0-regular}
+  For a morphism of Lie groups $\varphi\colon G \to H$, $\delta(\varphi\circ\gamma) =
+  \mathbf{L}(\varphi)\,\delta(\gamma)$. If $G$ is $C^0$-regular and $\mathbf{L}(\varphi)$ has a
+  continuous linear right inverse $\sigma$, then $H$ is $C^0$-regular, with
+  $\mathrm{evol}_H(\xi) = \varphi(\mathrm{evol}_G(\sigma\circ\xi))$; this covers covering
+  morphisms \cite[Proposition 6.1.5]{GN26}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Near $t$, $\varphi(\gamma(t))^{-1}\varphi(\gamma(s)) = \varphi(\gamma(t)^{-1}\gamma(s))$, which in
+  the charts is the local representative of $\varphi$ applied to $\varphi_G(\gamma(t)^{-1}\gamma(s))$;
+  the chain rule gives the first claim. Then $\varphi\circ\gamma_{\sigma\circ\xi}$ is the evolution of
+  $\xi$, and $\mathrm{evol}_H = \varphi\circ\mathrm{evol}_G\circ\sigma_*$ is smooth.
+\end{proof}
+
