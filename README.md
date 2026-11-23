@@ -263,6 +263,11 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   one-sided derivatives at the endpoints. A solution on `[0, 1]` extends to `ℝ` by the
   one-parameter groups `P(t) = γ(1)^⌊t⌋ γ(t − ⌊t⌋)` of `ξ(0)` and `ξ(1)`, glued by one-sided
   logarithmic derivatives (`HasLogDerivWithinAt.hasLogDerivAt_of_Iic_Ici`).
+* `UnitGroup.isC0Regular` (`Regular/Units.lean`): **the unit group of a real Banach algebra `A` is
+  `C⁰`-regular** [GN26, Theorem 6.3.4, for unit groups]. The equation `γ' = γ ξ` is linear:
+  `γ = 1 + c` with `(1 − T_ξ) c = J ξ` in `X = C([0, 1], A)`, where `J η(t) = ∫₀ᵗ η` and
+  `T_ξ c = J(c ξ)`, `‖T_ξ‖ ≤ ‖ξ‖`; so `c = (1 − T_ξ)⁻¹ J ξ` is smooth in `ξ` by the smoothness of
+  the inversion of the Banach algebra `L(X)`, and the local regularity criterion applies.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -307,7 +312,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
    inverse algebras [GN26, Example 5.6.9]. Regularity: `C^k`-regularity for `k ≥ 1` (needs the
-   spaces `C^k([0, 1], 𝔤)`), Banach–Lie
+   spaces `C^k([0, 1], 𝔤)`), general Banach–Lie
    groups and `\widetilde{Diff}⁺(S¹)` are regular [GN26, Theorem 6.3.4, Ch. 13], and the
    Fundamental Theorem for Lie group-valued functions [GN26, §6.1.2].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the

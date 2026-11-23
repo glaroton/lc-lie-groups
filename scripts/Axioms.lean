@@ -105,4 +105,5 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.IsC0Regular.isExp
 #print axioms MBLieGroup.isC0Regular_of_nhds
 #print axioms MBLieGroup.isC0Regular_iff
+#print axioms UnitGroup.isC0Regular
 #print axioms VectorGroup.isC0Regular

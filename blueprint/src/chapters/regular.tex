@@ -159,3 +159,28 @@ available as locally convex spaces.
   Neeb cut $\xi$ into $N$ pieces at once.
 \end{proof}
 
+\begin{theorem}[Unit groups of Banach algebras]
+  \label{thm:units-regular}
+  \lean{LocallyConvex.LieGroups.UnitGroup.primitiveCLM,
+    LocallyConvex.LieGroups.UnitGroup.solCLM,
+    LocallyConvex.LieGroups.UnitGroup.sol,
+    LocallyConvex.LieGroups.UnitGroup.contDiffOn_sol,
+    LocallyConvex.LieGroups.UnitGroup.isEvolOn_solCurve,
+    LocallyConvex.LieGroups.UnitGroup.isC0Regular}
+  \leanok
+  \uses{lem:local-regularity, prop:regular-interval, thm:unit-group, prop:exp-examples}
+  The unit group of a real Banach algebra $A$ is $C^0$-regular (\cite[Theorem 6.3.4]{GN26}
+  for unit groups).
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the chart $u \mapsto u - 1$, the equation $\gamma' = \gamma\xi$, $\gamma(0) = 1$ reads
+  $c = J((1 + c)\xi)$ for $\gamma = 1 + c$, with $J\eta(t) = \int_0^t \eta$. In the Banach space
+  $X = C([0, 1], A)$ this is $(1 - T_\xi)c = J\xi$, $T_\xi c = J(c\xi)$, $\|T_\xi\| \leq \|\xi\|$.
+  For $\|\xi\| < 1$, $c_\xi = (1 - T_\xi)^{-1}J\xi$ is smooth in $\xi$, the inversion of the Banach
+  algebra $L(X)$ being smooth. For $\|\xi\| < 1/2$, $\|c_\xi\| < 1$, so $1 + c_\xi(t)$ is a unit,
+  and $1 + c_\xi$ solves the equation on $[0, 1]$; it extends to $\mathbb{R}$ by the exponential
+  series (Proposition~\ref{prop:regular-interval}). Lemma~\ref{lem:local-regularity} concludes.
+\end{proof}
+
