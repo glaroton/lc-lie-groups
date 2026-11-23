@@ -158,13 +158,20 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   \label{thm:semidirect}
   \lean{LocallyConvex.LieGroups.SDProd,
     LocallyConvex.LieGroups.SDProd.mbLieGroup,
+    LocallyConvex.LieGroups.SDProd.proj_comp_sec,
+    LocallyConvex.LieGroups.SDProd.range_incl,
+    LocallyConvex.LieGroups.SDProd.isHom_proj,
+    LocallyConvex.LieGroups.SDProd.isHom_sec,
+    LocallyConvex.LieGroups.SDProd.isHom_incl,
     LocallyConvex.LieGroups.MBLieGroup.isSmoothAction_AdMulAut,
     LocallyConvex.LieGroups.MBLieGroup.TangentGroup}
   \leanok
   \uses{def:lie-group, prop:prod-group, prop:Ad-smooth}
   If $\alpha\colon G \to \mathrm{Aut}(N)$ defines a smooth action of the Lie group $G$ on the Lie
   group $N$, then $N \times G$ with $(n, g)(n', g') = (n\,\alpha(g)(n'), gg')$ is a Lie group, the
-  semidirect product $N \rtimes_\alpha G$ \cite[Definition 5.2.7]{GN26}. In particular
+  semidirect product $N \rtimes_\alpha G$ \cite[Definition 5.2.7]{GN26}. The maps
+  $\pi(n, g) = g$, $\sigma(g) = (1, g)$ and $\iota(n) = (n, 1)$ are morphisms of Lie groups with
+  $\pi \circ \sigma = \mathrm{id}$ and $\iota(N) = \ker \pi$ \cite[Remark 5.2.10]{GN26}. In particular
   $\mathbf{L}(G) \rtimes_{\mathrm{Ad}} G$ is a Lie group, the tangent group of
   \cite[Example 5.2.12]{GN26}.
 \end{theorem}

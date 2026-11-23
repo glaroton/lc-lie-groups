@@ -22,6 +22,8 @@ Let `N`, `G` be Lie groups and `α : G → Aut(N)` a homomorphism defining a smo
 * `SDProd α`: the semidirect product `N ⋊_α G`, a type synonym for `N × G` with the group
   structure of Mathlib's `SemidirectProduct` and the product manifold structure.
 * `SDProd.mbLieGroup`: the semidirect product is a Lie group if the action is smooth.
+* `SDProd.proj`, `SDProd.sec`, `SDProd.incl`: the morphisms `π`, `σ`, `ι` of
+  [GN26, Remark 5.2.10], with `π ∘ σ = id` and `ι(N) = ker π`.
 * `MBLieGroup.AdMulAut`: the adjoint action of `G` on the vector group `L(G)`, and
   `MBLieGroup.TangentGroup G = L(G) ⋊_Ad G`, which [GN26, Example 5.2.12] identifies with the
   tangent group `T(G)`.
@@ -133,6 +135,71 @@ theorem mbLieGroup (hα : IsSmoothAction E F α) : MBLieGroup (ModelProd F E) (S
         (fun p : N × G ↦ (α p.2⁻¹ p.1⁻¹, p.2⁻¹)) :=
       fun k ↦ ContMDiffMBOn.prodMk isOpen_univ (hN k) (hi k)
     exact h
+
+/-! ### The canonical morphisms -/
+
+variable (α)
+
+/-- The projection `π : N ⋊_α G → G`, `(n, g) ↦ g`. -/
+def proj : SDProd α →* G where
+  toFun p := (toProd p).2
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+/-- The section `σ : G → N ⋊_α G`, `g ↦ (1, g)`. -/
+def sec : G →* SDProd α where
+  toFun g := ((1 : N), g)
+  map_one' := rfl
+  map_mul' g h := by
+    change ((1 : N), g * h) = ((1 : N) * α g (1 : N), g * h)
+    rw [map_one, one_mul]
+
+/-- The inclusion `ι : N → N ⋊_α G`, `n ↦ (n, 1)`. -/
+def incl : N →* SDProd α where
+  toFun n := (n, (1 : G))
+  map_one' := rfl
+  map_mul' n m := by
+    change (n * m, (1 : G)) = (n * α (1 : G) m, (1 : G) * 1)
+    rw [map_one, MulAut.one_apply, one_mul]
+
+omit [TopologicalSpace G] [TopologicalSpace N] in
+/-- `π ∘ σ = id`. -/
+theorem proj_comp_sec : (proj α).comp (sec α) = MonoidHom.id G := rfl
+
+omit [TopologicalSpace G] [TopologicalSpace N] in
+/-- `ι` is injective with image `ker π`. -/
+theorem range_incl : (incl α).range = (proj α).ker := by
+  ext p
+  constructor
+  · rintro ⟨n, rfl⟩; rfl
+  · intro hp
+    refine ⟨(toProd p).1, ?_⟩
+    change ((toProd p).1, (1 : G)) = p
+    have h : (toProd p).2 = 1 := hp
+    exact Prod.ext rfl h.symm
+
+omit [TopologicalSpace G] [TopologicalSpace N] in
+theorem incl_injective : Function.Injective (incl α) := fun _ _ h ↦ congrArg Prod.fst h
+
+variable {α}
+
+omit [MBLieGroup E G] [MBLieGroup F N] in
+/-- **The canonical morphisms of a semidirect product** ([GN26, Remark 5.2.10]): `π`, `σ` and `ι`
+are morphisms of Lie groups. -/
+theorem isHom_proj : MBLieGroup.IsHom (ModelProd F E) E (proj α) :=
+  smoothMBM_snd (M := N) (N := G)
+
+omit [IsTopologicalAddGroup F] [ContinuousSMul ℝ F] [LocallyConvexSpace ℝ F] [MBLieGroup E G]
+  [MBLieGroup F N] in
+theorem isHom_sec : MBLieGroup.IsHom E (ModelProd F E) (sec α) := fun k ↦
+  ContMDiffMBOn.prodMk (f := fun _ : G ↦ (1 : N)) (g := fun g : G ↦ g) isOpen_univ
+    (smoothMBMOn_const univ (1 : N) k) (smoothMBMOn_id isOpen_univ k)
+
+omit [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [LocallyConvexSpace ℝ E] [MBLieGroup E G]
+  [MBLieGroup F N] in
+theorem isHom_incl : MBLieGroup.IsHom F (ModelProd F E) (incl α) := fun k ↦
+  ContMDiffMBOn.prodMk (f := fun n : N ↦ n) (g := fun _ : N ↦ (1 : G)) isOpen_univ
+    (smoothMBMOn_id isOpen_univ k) (smoothMBMOn_const univ (1 : G) k)
 
 end SDProd
 

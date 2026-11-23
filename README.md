@@ -73,7 +73,9 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 
 * `SDProd α`, `SDProd.mbLieGroup`: **semidirect products** `N ⋊_α G` of Lie groups, for a smooth
   action `α` of `G` on `N` [GN26, Definition 5.2.7], on the product manifold `N × G` (a type
-  synonym, with the group structure of Mathlib's `SemidirectProduct`).
+  synonym, with the group structure of Mathlib's `SemidirectProduct`). `SDProd.isHom_proj`,
+  `SDProd.isHom_sec`, `SDProd.isHom_incl`: the canonical morphisms `π`, `σ`, `ι`, with
+  `π ∘ σ = id` and `ι(N) = ker π` [GN26, Remark 5.2.10].
 * `MBLieGroup.AdMulAut`, `MBLieGroup.isSmoothAction_AdMulAut`, `MBLieGroup.TangentGroup`: the
   adjoint action on the vector group `L(G)` is smooth, and `L(G) ⋊_Ad G` is a Lie group, the
   tangent group `T(G)` of [GN26, Example 5.2.12] (the identification with the tangent bundle is
