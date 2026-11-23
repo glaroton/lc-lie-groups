@@ -42,3 +42,10 @@ open LocallyConvex.LieGroups
 #print axioms MBLieGroup.lieBracket_leftField
 #print axioms MBLieGroup.lieBracket_leftField_one
 #print axioms MBLieGroup.tangentMap_leftField
+-- Taylor expansions (`LieAlgebra/Taylor.lean`)
+#print axioms LocalGroupLaw.dMB_dMB_mul_one
+#print axioms LocalGroupLaw.bracket_eq_b2_sub_b2
+#print axioms LocalGroupLaw.LocalInverse.dMB_dMB_inv_one
+#print axioms LocalGroupLaw.LocalInverse.dMB_dMB_conj_one
+#print axioms LocalGroupLaw.LocalInverse.dMB_dMB_commutator_one
+#print axioms MBLieGroup.LieAlg.dMB_dMB_commutator

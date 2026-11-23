@@ -196,6 +196,113 @@ needs the multiplication of $G$ near the identity, read in the chart.
   Proposition~\ref{prop:local-comm}.
 \end{proof}
 
+\section{Taylor expansions}
+
+Following \cite[Remark 5.1.8]{GN26}, we expand the multiplication of a local group law at
+$(1, 1)$: in a chart with $\varphi(e) = 0$ this is
+$x * y = b_1(x, y) + b_2(x, y) + \cdots$ with $b_k = \frac{1}{k!}\delta^k m$, where
+$\delta^2 f(v) = d^2 f(v, v)$. We state the expansions through first and second derivatives.
+
+\begin{lemma}[The multiplication to second order]
+  \label{lem:taylor-mul}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.dMB_mul_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.dMB_dMB_mul_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.b2_eq_mixed,
+    LocallyConvex.LieGroups.LocalGroupLaw.continuous_b2,
+    LocallyConvex.LieGroups.LocalGroupLaw.bracket_eq_b2_sub_b2}
+  \leanok
+  \uses{def:local-group-law}
+  Let $b_2(x, y) = d\tilde y_l(1)\,x$. Then $b_2$ is a continuous bilinear map,
+  $dm(1, 1)(x, y) = x + y$, $d^2 m(1, 1)\bigl((x, y), (x, y)\bigr) = 2\,b_2(x, y)$,
+  $b_2(x, y) = \partial_t \partial_s \bigl((1 + s x) * (1 + t y)\bigr)\big|_{s = t = 0}$, and
+  \[
+    [x, y] = b_2(x, y) - b_2(y, x) ,
+  \]
+  i.e.\ the bracket is the skew-symmetric part of $b_2$ \cite[Remark 5.1.8(a)]{GN26}.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  Since $m(\cdot, 1)$ and $m(1, \cdot)$ are the identity near $1$, $dm(1, 1)(x, 0) = x$,
+  $dm(1, 1)(0, y) = y$, and the pure second derivatives
+  $d^2 m(1, 1)((x, 0), (x', 0))$ and $d^2 m(1, 1)((0, y), (0, y'))$ vanish
+  \cite[Lemma 5.1.7]{GN26}. Expanding $d^2 m(1, 1)((x, y), (x, y))$ by bilinearity leaves the
+  two mixed terms, which agree by Schwarz's theorem and equal
+  $d^2 m(1, 1)((0, y), (x, 0)) = d\tilde y_l(1)\,x$. The last formula is the definition of the
+  bracket.
+\end{proof}
+
+\begin{definition}[Local inversions]
+  \label{def:local-inverse}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.conj,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.commutator}
+  \leanok
+  \uses{def:local-group-law}
+  A \emph{local inversion} of a local group law is a $C^2$ map $\iota$ on an open neighborhood
+  of $1$ with $a * \iota(a) = 1$. Its conjugation and commutator are
+  $(a, b) \mapsto (a * b) * \iota(a)$ and $(a, b) \mapsto ((a * b) * \iota(a)) * \iota(b)$,
+  wherever defined.
+\end{definition}
+
+\begin{theorem}[Inversion, conjugation and commutators]
+  \label{thm:taylor-inverse}
+  \lean{LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_inv_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_dMB_inv_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_conj_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_dMB_conj_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_commutator_one,
+    LocallyConvex.LieGroups.LocalGroupLaw.LocalInverse.dMB_dMB_commutator_one}
+  \leanok
+  \uses{lem:taylor-mul, def:local-inverse}
+  Let $\iota$ be a local inversion. Then:
+  \begin{enumerate}
+    \item $\iota(1) = 1$, $d\iota(1)\,x = -x$ and $d^2\iota(1)(x, x) = 2\,b_2(x, x)$, i.e.\
+      $s_1(x) = -x$ and $s_2(x) = b_2(x, x)$ \cite[(5.6)]{GN26};
+    \item the conjugation $c$ satisfies $dc(1, 1)(x, y) = y$ and
+      $d^2 c(1, 1)((x, y), (x, y)) = 2\,[x, y]$, i.e.\
+      $(x * y) * x^{-1} = y + [x, y] + \cdots$ \cite[(5.7)]{GN26};
+    \item the commutator $k$ satisfies $dk(1, 1) = 0$ and
+      $d^2 k(1, 1)((x, y), (x, y)) = 2\,[x, y]$, i.e.\
+      $x * y * x^{-1} * y^{-1} = [x, y] + \cdots$ \cite[(5.8)]{GN26}.
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  For a $C^2$ map $\tau$ with $\tau(p) = (1, 1)$, the second-order chain rule and
+  Lemma~\ref{lem:taylor-mul} give
+  \[
+    d^2(m \circ \tau)(p)(v, v) = 2\,b_2(d\tau_1 v, d\tau_2 v) + d^2\tau_1(v, v) + d^2\tau_2(v, v) .
+  \]
+  (1) Apply this to $\tau(a) = (a, \iota(a))$, for which $m \circ \tau$ is constant:
+  $x + d\iota(1)x = 0$ and $2\,b_2(x, -x) + d^2\iota(1)(x, x) = 0$. (2) Apply it to
+  $\tau(a, b) = (a * b, \iota(a))$, with $d\tau(1,1)(x, y) = (x + y, -x)$ and
+  $d^2\tau(1, 1)(v, v) = (2\,b_2(x, y), 2\,b_2(x, x))$:
+  $2\,b_2(x + y, -x) + 2\,b_2(x, y) + 2\,b_2(x, x) = 2\,(b_2(x, y) - b_2(y, x))$. (3) Apply it to
+  $\tau(a, b) = (c(a, b), \iota(b))$, with $d\tau(1, 1)(x, y) = (y, -y)$ and
+  $d^2\tau(1, 1)(v, v) = (2\,[x, y], 2\,b_2(y, y))$.
+\end{proof}
+
+\begin{corollary}[Commutators in a Lie group]
+  \label{cor:lie-commutator}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.localInverse,
+    LocallyConvex.LieGroups.MBLieGroup.localInverse_commutator,
+    LocallyConvex.LieGroups.MBLieGroup.LieAlg.dMB_dMB_commutator}
+  \leanok
+  \uses{thm:taylor-inverse, def:lie-algebra}
+  $z \mapsto \varphi(\varphi^{-1}(z)^{-1})$ is a local inversion of the multiplication of $G$
+  in the chart $\varphi$ at the identity. Hence the commutator
+  $(a, b) \mapsto \varphi\bigl(\varphi^{-1}(a)\,\varphi^{-1}(b)\,\varphi^{-1}(a)^{-1}\,
+  \varphi^{-1}(b)^{-1}\bigr)$ has vanishing derivative at $(\varphi(1), \varphi(1))$ and second
+  derivative $2\,[x, y]$ in the direction $(x, y)$, the bracket of $\mathbf{L}(G)$.
+\end{corollary}
+
+\begin{proof}
+  \leanok
+  The inversion of $G$ is smooth; apply Theorem~\ref{thm:taylor-inverse}.
+\end{proof}
+
 \section{The Lie algebra of \texorpdfstring{$\mathrm{Diff}(K)$}{Diff(K)}}
 
 \begin{lemma}[Evaluating the bracket]

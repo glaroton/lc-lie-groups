@@ -89,6 +89,21 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   by `g` relates the fields `x̃_l` of the chart at the identity to `x_l`, which is the related
   vector field lemma [GN26, Lemma 3.4.17] in the form needed.
 
+### `LieAlgebra/Taylor.lean`
+
+* `LocalGroupLaw.b2`: the second order term `b₂(x, y) = dỹ_l(1) x` of the multiplication;
+  `dMB_mul_one`, `dMB_dMB_mul_one`: `dm(1, 1)(x, y) = x + y` and
+  `d²m(1, 1)((x, y), (x, y)) = 2 b₂(x, y)`; `b2_eq_mixed`, `continuous_b2`; and
+  `bracket_eq_b2_sub_b2`: the bracket is the skew-symmetric part of `b₂`
+  [GN26, Remark 5.1.8(a), Lemma 5.1.7].
+* `LocalGroupLaw.LocalInverse`: a `C²` inversion `ι` near the identity. `dMB_inv_one`,
+  `dMB_dMB_inv_one`: `dι(1) x = −x` and `d²ι(1)(x, x) = 2 b₂(x, x)` [GN26, (5.6)];
+  `dMB_dMB_conj_one`, `dMB_dMB_commutator_one`: the conjugation `(x ∗ y) ∗ x⁻¹` and the
+  commutator `x ∗ y ∗ x⁻¹ ∗ y⁻¹` have second order terms `y + [x, y]` and `[x, y]`
+  [GN26, (5.7), (5.8)]. All from the second-order chain rule (lc-analysis, `dMB_dMB_comp`).
+* `MBLieGroup.localInverse`, `MBLieGroup.LieAlg.dMB_dMB_commutator`: the inversion of `G` in the
+  chart at the identity, and the commutator of `G` to second order.
+
 ### `Diffeomorphism/Basic.lean` and `Diffeomorphism/LieAlgebra.lean`
 
 * `diffeos H K`, `diffeoAtlas A`: `Diff(K)` as an open subset of `C^∞(K, K)`, with the restricted
@@ -115,9 +130,9 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    products, `Diff⁺(S¹)`. For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
-2. Lie algebras: the Taylor expansion of the multiplication [GN26, Remark 5.1.8];
-   unit groups of continuous inverse algebras [GN26, Example 5.1.9(b)]; `L(Diff(K))` as a Lie
-   algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie algebra type in lc-manifolds.
+2. Lie algebras: unit groups of continuous inverse algebras [GN26, Example 5.1.9(b)];
+   `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie algebra type
+   in lc-manifolds.
 3. Exponential functions [GN26, §5.6] and regular Lie groups [GN26, Ch. 6], with the
    completeness hypotheses they need.
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
