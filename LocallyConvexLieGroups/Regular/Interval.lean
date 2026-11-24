@@ -30,6 +30,10 @@ by constants. We show that the two notions of `C⁰`-semiregularity and `C⁰`-r
 * `MBLieGroup.IsEvolOn.exists_isEvol`: under `C⁰`-semiregularity on `[0, 1]`, every solution on
   `[0, 1]` extends to a solution on `ℝ`, continued by one-parameter groups beyond `[0, 1]`.
 * `MBLieGroup.isC0Semiregular_iff`, `MBLieGroup.isC0Regular_iff`: **the two notions agree.**
+* `MBLieGroup.isC0Semiregular_of_isEvolOn`, `MBLieGroup.isC0Regular_of_nhds_isEvolOn`: **the local
+  regularity criterion with solutions on `[0, 1]`** ([GN26, Lemma 6.1.4], `k = 0`): it suffices
+  that the curves near `0` have solutions on `[0, 1]`; one-parameter groups come from the constant
+  curves near `0`, rescaled.
 
 ## References
 
@@ -387,5 +391,43 @@ theorem isC0Regular_iff : IsC0RegularGN E G ↔ IsC0Regular E G := by
     refine ⟨hs, ?_⟩
     rw [evolGN_eq hs]
     exact h.2
+
+/-! ### The local criterion with solutions on `[0, 1]` -/
+
+/-- **One-parameter groups from solutions on `[0, 1]` near `0`**: if the constant curves with
+values in a `0`-neighborhood `W` have solutions on `[0, 1]`, every `x` has a one-parameter group
+(rescale `x = 2ᵐ w` with `w ∈ W`). -/
+theorem exists_isEvol_const_of_isEvolOn {W : Set E} (hW : W ∈ 𝓝 (0 : E))
+    (hsol : ∀ ξ ∈ valIn W, ∃ γ : ℝ → G, IsEvolOn E (extendCurve ξ) γ) (x : E) :
+    ∃ P : ℝ → G, IsEvol E (fun _ ↦ x) P := by
+  obtain ⟨m, hm⟩ := exists_mem_valIn hW (ContinuousMap.const I x)
+  obtain ⟨w, hw, hwe⟩ := Set.mem_smul_set.1 (hm 0)
+  obtain ⟨γ, hγ⟩ := hsol (ContinuousMap.const I w) fun _ ↦ hw
+  rw [extendCurve_const] at hγ
+  have h := hγ.oneParam.comp_mul ((2 : ℝ) ^ m)
+  rw [hwe] at h
+  exact ⟨_, h⟩
+
+/-- **The local existence criterion with solutions on `[0, 1]`** ([GN26, Lemma 6.1.4], `k = 0`). -/
+theorem isC0Semiregular_of_isEvolOn {W : Set E} (hW : W ∈ 𝓝 (0 : E))
+    (hsol : ∀ ξ ∈ valIn W, ∃ γ : ℝ → G, IsEvolOn E (extendCurve ξ) γ) : IsC0Semiregular E G :=
+  isC0Semiregular_of_local hW fun ξ hξ ↦ by
+    obtain ⟨γ, hγ⟩ := hsol ξ hξ
+    obtain ⟨Γ, hΓ, -⟩ := hγ.exists_isEvol (exists_isEvol_const_of_isEvolOn hW hsol)
+    exact ⟨Γ, hΓ⟩
+
+/-- **The local regularity criterion with solutions on `[0, 1]`** ([GN26, Lemma 6.1.4], `k = 0`):
+for an open `0`-neighborhood `U` of `C([0, 1], 𝔤)` whose curves have solutions on `[0, 1]`, and
+on which `evol` is smooth. -/
+theorem isC0Regular_of_nhds_isEvolOn {U : Set C(I, E)} (hU : IsOpen U) (h0 : (0 : C(I, E)) ∈ U)
+    (hsol : ∀ ξ ∈ U, ∃ γ : ℝ → G, IsEvolOn E (extendCurve ξ) γ)
+    (hsm : SmoothMBMOn C(I, E) E (evol E G) U) : IsC0Regular E G := by
+  have hb := (𝓝 (0 : E)).basis_sets.nhds_continuousMapConst (X := I)
+  obtain ⟨⟨K, W⟩, ⟨-, hW⟩, hsub⟩ := hb.mem_iff.1 (hU.mem_nhds h0)
+  have hWU : valIn (interior W) ⊆ U := fun ξ hξ ↦ hsub fun t _ ↦ interior_subset (hξ t)
+  have hW' : interior W ∈ 𝓝 (0 : E) := isOpen_interior.mem_nhds (mem_interior_iff_mem_nhds.2 hW)
+  exact isC0Regular_of_local' (isC0Semiregular_of_isEvolOn hW' fun ξ hξ ↦ hsol ξ (hWU hξ))
+    fun k ↦ ⟨interior W, isOpen_interior, mem_interior_iff_mem_nhds.2 hW,
+      ContMDiffMBOn.mono' (hsm k) hWU⟩
 
 end LocallyConvex.LieGroups.MBLieGroup
