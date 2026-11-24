@@ -94,6 +94,16 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms CircleCover.range_coverHom
 #print axioms CircleCover.isOpenMap_coverHom
 #print axioms CircleCover.quotientEquiv
+#print axioms CircleCover.isHom_quotientMulEquiv
+#print axioms CircleCover.isHom_quotientMulEquiv_symm
+#print axioms IsSmoothQuotientMap.mbManifold
+#print axioms IsSmoothQuotientMap.contMDiffMBOn_of_lift
+#print axioms IsSmoothQuotientMap.contMDiffMB_of_comp
+#print axioms MBLieGroup.isSmoothQuotientMap_mk
+#print axioms MBLieGroup.instMBLieGroupQuotient
+#print axioms MBLieGroup.isHom_mk
+#print axioms MBLieGroup.exists_smooth_local_inverse
+#print axioms MBLieGroup.smoothMBM_symm_of_local
 #print axioms VectorGroup.isCkRegular
 #print axioms VectorGroup.isRegular_of_mackeyComplete
 #print axioms MackeyConverse.mackeyComplete_of_integratesSmooth

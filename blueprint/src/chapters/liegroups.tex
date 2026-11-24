@@ -118,6 +118,60 @@ Groups of mappings carry atlases whose model spaces vary from chart to chart.
   them, and connected components are open.
 \end{proof}
 
+\section{Quotients by discrete normal subgroups}
+
+\begin{theorem}[Quotient manifolds by deck transformations]
+  \label{thm:smooth-quotient}
+  \lean{LocallyConvex.LieGroups.IsSmoothQuotientMap,
+    LocallyConvex.LieGroups.IsSmoothQuotientMap.chartedSpace,
+    LocallyConvex.LieGroups.IsSmoothQuotientMap.mbManifold,
+    LocallyConvex.LieGroups.IsSmoothQuotientMap.contMDiffMBOn_of_lift,
+    LocallyConvex.LieGroups.IsSmoothQuotientMap.contMDiffMBOn_sect_symm,
+    LocallyConvex.LieGroups.IsSmoothQuotientMap.contMDiffMB_of_comp}
+  \leanok
+  \uses{def:lie-group}
+  Let $\pi \colon M \to Q$ be a continuous, open, surjective and locally injective map from a
+  manifold onto a topological space, such that for $\pi(x) = \pi(y)$ there is a smooth
+  $\tau \colon M \to M$ with $\tau(x) = y$ and $\pi \circ \tau = \pi$. Then the maps
+  $c_x \circ (\pi|_U)^{-1}$, for $U$ a neighbourhood of $x$ on which $\pi$ is injective and $c_x$
+  a chart at $x$, form a smooth atlas of $Q$; $\pi$ is a local diffeomorphism, maps into $Q$ with
+  smooth lifts are smooth, and maps out of $Q$ are smooth if their composites with $\pi$ are.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Let $U$, $U'$ be such neighbourhoods and $z \in U$ with $\pi(z) \in \pi(U')$. Let $w \in U'$ with
+  $\pi(w) = \pi(z)$ and $\tau$ a deck transformation with $\tau(z) = w$. For $z'$ near $z$,
+  $\tau(z') \in U'$ and $\pi(\tau(z')) = \pi(z')$, so $(\pi|_{U'})^{-1}(\pi(z')) = \tau(z')$.
+  Hence near each point the transition maps, and the local representatives of maps with smooth
+  lifts, are local representatives of smooth maps of $M$ in charts of $M$.
+\end{proof}
+
+\begin{theorem}[Quotients by discrete normal subgroups]
+  \label{thm:quotient-lie}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.isSmoothQuotientMap_mk,
+    LocallyConvex.LieGroups.MBLieGroup.instMBLieGroupQuotient,
+    LocallyConvex.LieGroups.MBLieGroup.isHom_mk,
+    LocallyConvex.LieGroups.MBLieGroup.exists_smooth_local_inverse,
+    LocallyConvex.LieGroups.MBLieGroup.smoothMBM_of_comp_mk,
+    LocallyConvex.LieGroups.MBLieGroup.smoothMBM_symm_of_local}
+  \leanok
+  \uses{thm:smooth-quotient, prop:translations, prop:topological-group}
+  If $\Gamma$ is a discrete normal subgroup of a Lie group $G$, then $G/\Gamma$ is a Lie group
+  modeled on the model of $G$, and $G \to G/\Gamma$ is a morphism of Lie groups and a local
+  diffeomorphism \cite[Corollary 5.3.4]{GN26}. A bijective morphism of Lie groups with a smooth
+  local inverse near the identity is an isomorphism of Lie groups.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  If $V \cap \Gamma = \{1\}$ and $W^{-1} W \subseteq V$, then $\pi$ is injective on each $xW$; the
+  right translations by elements of $\Gamma$ are deck transformations. Near $(\pi(a), \pi(b))$ the
+  multiplication of $G/\Gamma$ lifts to $(p, p') \mapsto s(p)\,s'(p')$ for local inverses $s$, $s'$
+  of $\pi$, and similarly for the inversion. For the last statement, near $g_0$ the inverse is
+  $g \mapsto \varphi^{-1}(g_0)\,\sigma(g_0^{-1} g)$.
+\end{proof}
+
 \section{Vector groups and products}
 
 \begin{proposition}[Vector groups]

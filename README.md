@@ -58,6 +58,22 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 * `MBLieGroup.identityComponent`: the identity component `G₀` is an open subgroup, since Lie
   groups are locally connected (`locallyConnectedSpace_of_locallyConvex`).
 
+### `LieGroup/Quotient.lean`
+
+* `IsSmoothQuotientMap`, `IsSmoothQuotientMap.chartedSpace`, `IsSmoothQuotientMap.mbManifold`:
+  **quotient manifolds by smooth deck transformations**. If `π : M → Q` is continuous, open,
+  surjective and locally injective, and any two points of a fiber are related by a smooth
+  `τ : M → M` with `π ∘ τ = π`, then the charts `c_x ∘ (π|_U)⁻¹` make `Q` a manifold; near each
+  point `(π|_U)⁻¹ ∘ π` is a deck transformation, so the transition maps are smooth. Maps into `Q`
+  with smooth lifts are smooth, and maps out of `Q` are smooth if their composition with `π` is.
+* `MBLieGroup.instMBLieGroupQuotient`: **`G/Γ` is a Lie group for a discrete normal subgroup
+  `Γ`**, modeled on the model of `G`, with `G → G/Γ` a morphism of Lie groups and a local
+  diffeomorphism (`MBLieGroup.isHom_mk`, `MBLieGroup.exists_smooth_local_inverse`)
+  [GN26, Corollary 5.3.4]. The charts are written down directly rather than through
+  [GN26, Theorem 5.3.1].
+* `MBLieGroup.smoothMBM_symm_of_local`: a bijective morphism of Lie groups with a smooth local
+  inverse near the identity is an isomorphism of Lie groups.
+
 ### `LieGroup/Vector.lean` and `LieGroup/Prod.lean`
 
 * `VectorGroup.instMBLieGroup`: **vector groups** `(E, +)` (as `Multiplicative E`, with the
@@ -271,7 +287,9 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   `x ↦ x + n`, `n ∈ ℤ`; its image is the identity component, since the cover is convex and the
   image contains a neighbourhood of the identity (by the local section `ρ`); and `q` is an open
   map, so it induces an isomorphism of topological groups `\widetilde{Diff}⁺(S¹)/ker q ≅ Diff⁺(S¹)`.
-  The quotient is not given a Lie group structure of its own; `q` carries the smooth structure.
+  The kernel is discrete, so the quotient is a Lie group (`LieGroup/Quotient.lean`), and
+  `CircleCover.isHom_quotientMulEquiv`, `CircleCover.isHom_quotientMulEquiv_symm` make the
+  isomorphism one of Lie groups: its inverse is smooth by the local section `g ↦ ρ(φ(g))`.
 
 ### `Regular/Basic.lean`, `Regular/Evol.lean` and `Regular/Vector.lean`
 
@@ -392,8 +410,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: quotients of Lie groups by discrete normal subgroups as Lie groups (so that
-   `\widetilde{Diff}⁺(S¹)/ℤ ≅ Diff⁺(S¹)` becomes an isomorphism of Lie groups). For `Diff(K)`: the finite-order statements of
+1. Examples: for `Diff(K)`, the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie

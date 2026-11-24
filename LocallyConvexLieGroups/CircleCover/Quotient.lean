@@ -6,6 +6,8 @@ Authors: glaroton
 module
 
 public import LocallyConvexLieGroups.CircleCover.DiffCircleRegular
+public import LocallyConvexLieGroups.CircleCover.Exponential
+public import LocallyConvexLieGroups.LieGroup.Quotient
 
 /-!
 # `Diff⁺(S¹) = \widetilde{Diff}⁺(S¹)/ℤ`
@@ -23,12 +25,18 @@ open subgroup. Hence `q` induces an isomorphism of groups `\widetilde{Diff}⁺(S
 which is also a homeomorphism for the quotient topology, since `q` is an open map
 (`CircleCover.quotientEquiv`; [GN26, §13.3]).
 
+The kernel is discrete, so `\widetilde{Diff}⁺(S¹)/ℤ` is a Lie group
+(`MBLieGroup.instMBLieGroupQuotient`), and the isomorphism is an isomorphism of Lie groups: it is
+smooth because `q` is, and its inverse is smooth because `q` has the smooth local section
+`g ↦ ρ(φ(g))` near the identity (`MBLieGroup.smoothMBM_symm_of_local`).
+
 ## Main definitions
 
 * `CircleCover.intConst`: the constant function `n`, as an element of `\widetilde{Diff}⁺(S¹)`.
 * `CircleCover.intHom`: the morphism `ℤ → \widetilde{Diff}⁺(S¹)`, `n ↦ (x ↦ x + n)`.
 * `CircleCover.kerEquivInt`: **`ker q ≅ ℤ`**.
-* `CircleCover.quotientEquiv`: **`\widetilde{Diff}⁺(S¹)/ker q ≅ Diff⁺(S¹)`**, as topological groups.
+* `CircleCover.quotientMulEquiv`, `CircleCover.quotientEquiv`:
+  **`\widetilde{Diff}⁺(S¹)/ker q ≅ Diff⁺(S¹)`**, as groups and as topological groups.
 
 ## Main results
 
@@ -37,13 +45,8 @@ which is also a homeomorphism for the quotient topology, since `q` is an open ma
 * `CircleCover.ker_coverHom_le_center`: the kernel is central.
 * `CircleCover.range_coverHom`: **the image of `q` is `Diff⁺(S¹)`**.
 * `CircleCover.isOpenMap_coverHom`: `q` is an open map.
-
-## Implementation notes
-
-The quotient of a Lie group by a discrete normal subgroup is not constructed as a Lie group here,
-so `quotientEquiv` is an isomorphism of topological groups. The smooth structure is carried by
-`q` itself, a morphism of Lie groups (`CircleCover.isHom_coverHom`) with a smooth local right
-inverse at the identity (`CircleCover.coverHom_rho`).
+* `CircleCover.isHom_quotientMulEquiv`, `CircleCover.isHom_quotientMulEquiv_symm`:
+  **`\widetilde{Diff}⁺(S¹)/ℤ ≅ Diff⁺(S¹)` as Lie groups**.
 
 ## References
 
@@ -384,5 +387,82 @@ def quotientEquiv : CoverGroup ⧸ coverHom.ker ≃ₜ* DiffPlusCircle where
   continuous_invFun :=
     (quotientMulEquiv.toEquiv.toHomeomorphOfContinuousOpen continuous_quotientMulEquiv
       isOpenMap_quotientMulEquiv).symm.continuous
+
+/-! ### `Diff⁺(S¹) ≅ \widetilde{Diff}⁺(S¹)/ℤ` as Lie groups -/
+
+/-- **The kernel of `q` is discrete**: `|a(0)| < 1/2` only for `a = 0` in the kernel. -/
+instance : DiscreteTopology coverHom.ker := by
+  rw [discreteTopology_iff_isOpen_singleton_one]
+  set O : Set CoverGroup := {a | |(a : CInfPer) 0| < 1 / 2}
+  have hO : IsOpen O := isOpen_lt
+    (continuous_abs.comp ((evalCLM 0).continuous.comp continuous_subtype_val)) continuous_const
+  refine isOpen_induced_iff.2 ⟨O, hO, ?_⟩
+  ext x
+  simp only [mem_preimage, mem_singleton_iff]
+  constructor
+  · intro hx
+    obtain ⟨n, hn⟩ := (ker_coverHom ▸ x.2 : (x : CoverGroup) ∈ intHom.range)
+    have h0 : ((x : CoverGroup) : CInfPer) 0 = (n.toAdd : ℝ) := by
+      rw [← hn, intHom_apply, coe_intConst, intPer_apply]
+    change |((x : CoverGroup) : CInfPer) 0| < 1 / 2 at hx
+    rw [h0] at hx
+    have h1 : |n.toAdd| < 1 := by
+      have : |(n.toAdd : ℝ)| < 1 := lt_trans hx (by norm_num)
+      exact_mod_cast this
+    have h2 : n.toAdd = 0 := Int.abs_lt_one_iff.1 h1
+    refine Subtype.ext ?_
+    rw [← hn, intHom_apply, h2]
+    exact Subtype.ext (by ext; simp)
+  · rintro rfl
+    change |(0 : CInfPer) 0| < 1 / 2
+    norm_num
+
+/-- `q` as a smooth map into `Diff⁺(S¹)`. -/
+theorem smoothMBM_coverHomPlus :
+    SmoothMBM CInfPer (DiffeoModel UnitCircle.localAddition) coverHomPlus :=
+  smoothMBM_of_val_comp (DiffPlusCircle : Opens DiffCircle) isHom_coverHom
+
+/-- **The isomorphism `\widetilde{Diff}⁺(S¹)/ℤ ≅ Diff⁺(S¹)` is smooth.** -/
+theorem isHom_quotientMulEquiv : MBLieGroup.IsHom CInfPer (DiffeoModel UnitCircle.localAddition)
+    quotientMulEquiv.toMonoidHom :=
+  MBLieGroup.smoothMBM_of_comp_mk _ smoothMBM_coverHomPlus
+
+/-- The local section `sec` of `q` is smooth near the identity. -/
+theorem smoothMBMOn_sec : SmoothMBMOn (DiffeoModel UnitCircle.localAddition) CInfPer sec N1 := by
+  intro k
+  have hN1 : IsOpen N1 := c1.isOpen_inter_preimage isOpen_Wρ
+  have hc : ContMDiffMBOn (E := Mod) (F := Mod) k c1 N1 :=
+    contMDiffMBOn_mono (contMDiffMBOn_chart (chart_mem_atlas _ (1 : DiffCircle)))
+      inter_subset_left
+  have hr : ContMDiffMBOn (E := Mod) (F := CInfPer) k rho φ1.target :=
+    (contMDiffMBOn_iff_contDiffMBOn φ1.open_target).2 (smoothMBOn_rho k)
+  have hrc := ContMDiffMBOn.comp (g := rho) (f := c1) hN1 φ1.open_target hr hc
+    fun g hg ↦ hg.2.1
+  have hs : ContMDiffMBOn (E := CInfPer) (F := CInfPer) k
+      (chartAt CInfPer (1 : CoverGroup)).symm (chartAt CInfPer (1 : CoverGroup)).target :=
+    contMDiffMBOn_chart_symm (chart_mem_atlas CInfPer (1 : CoverGroup))
+  exact ContMDiffMBOn.comp (g := (chartAt CInfPer (1 : CoverGroup)).symm) (f := rho ∘ c1) hN1
+    (chartAt CInfPer (1 : CoverGroup)).open_target hs hrc fun g hg ↦
+      mem_chart_target CInfPer (⟨rho (c1 g), hg.2.2⟩ : CoverGroup)
+
+/-- **The inverse isomorphism `Diff⁺(S¹) → \widetilde{Diff}⁺(S¹)/ℤ` is smooth.** -/
+theorem isHom_quotientMulEquiv_symm :
+    MBLieGroup.IsHom (DiffeoModel UnitCircle.localAddition) CInfPer
+      quotientMulEquiv.symm.toMonoidHom := by
+  set N : Set DiffPlusCircle := Subtype.val ⁻¹' N1
+  have hN : IsOpen N := (c1.isOpen_inter_preimage isOpen_Wρ).preimage continuous_subtype_val
+  have h1 : (1 : DiffPlusCircle) ∈ N := ⟨mem_chart_source _ (1 : DiffCircle), c1_one_mem_Wρ⟩
+  refine MBLieGroup.smoothMBM_symm_of_local quotientMulEquiv hN h1
+    (σ := fun g ↦ ((sec g.1 : CoverGroup) : CoverGroup ⧸ coverHom.ker)) (fun k ↦ ?_)
+    fun g hg ↦ ?_
+  · have hv : ContMDiffMBOn (E := Mod) (F := Mod) k (Subtype.val : DiffPlusCircle → DiffCircle)
+        N := contMDiffMBOn_mono (smoothMBM_subtype_val (DiffPlusCircle : Opens DiffCircle) k)
+          (subset_univ _)
+    have h2 := ContMDiffMBOn.comp (g := sec) (f := Subtype.val) hN
+      (c1.isOpen_inter_preimage isOpen_Wρ) (smoothMBMOn_sec k) hv fun g hg ↦ hg
+    exact ContMDiffMBOn.comp (g := (QuotientGroup.mk : CoverGroup → CoverGroup ⧸ coverHom.ker))
+      (f := sec ∘ Subtype.val) hN isOpen_univ (MBLieGroup.smoothMBM_mk _ k) h2 (mapsTo_univ _ _)
+  · rw [MulEquiv.eq_symm_apply]
+    exact Subtype.ext (coverHom_sec hg)
 
 end LocallyConvex.LieGroups.CircleCover

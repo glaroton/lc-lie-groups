@@ -403,15 +403,17 @@ available as locally convex spaces.
     LocallyConvex.LieGroups.CircleCover.coverHom_eq_iff,
     LocallyConvex.LieGroups.CircleCover.range_coverHom,
     LocallyConvex.LieGroups.CircleCover.isOpenMap_coverHom,
-    LocallyConvex.LieGroups.CircleCover.quotientEquiv}
+    LocallyConvex.LieGroups.CircleCover.quotientEquiv,
+    LocallyConvex.LieGroups.CircleCover.isHom_quotientMulEquiv,
+    LocallyConvex.LieGroups.CircleCover.isHom_quotientMulEquiv_symm}
   \leanok
-  \uses{thm:diff-circle-regular}
+  \uses{thm:diff-circle-regular, thm:quotient-lie}
   The kernel of the covering morphism $q \colon \widetilde{\mathrm{Diff}}^+(S^1) \to
   \mathrm{Diff}(S^1)$ is the central subgroup of translations $x \mapsto x + n$, $n \in \mathbb Z$,
   isomorphic to $\mathbb Z$; its image is $\mathrm{Diff}^+(S^1)$, and $q$ is an open map. Hence $q$
   induces an isomorphism of topological groups
   $\widetilde{\mathrm{Diff}}^+(S^1)/\mathbb Z \cong \mathrm{Diff}^+(S^1)$
-  \cite[\S 13.3]{GN26}.
+  \cite[\S 13.3]{GN26}. The kernel is discrete, and this is an isomorphism of Lie groups.
 \end{theorem}
 
 \begin{proof}
@@ -424,7 +426,9 @@ available as locally convex spaces.
   containing $N$, hence open and closed, and it contains the identity component. The same section,
   translated, shows that $q$ is open: if $U$ is a neighbourhood of $a$, the points
   $g$ near $q(a)$ satisfy $g = q\big(a\,\rho(\phi(q(a)^{-1} g))\big)$ with
-  $a\,\rho(\phi(q(a)^{-1} g)) \in U$.
+  $a\,\rho(\phi(q(a)^{-1} g)) \in U$. The kernel meets $\{a : |a(0)| < 1/2\}$ only in $0$, so it is
+  discrete; the isomorphism is smooth because $q$ is, and its inverse is smooth by
+  Theorem~\ref{thm:quotient-lie}, with the smooth local section $g \mapsto \rho(\phi(g))$.
 \end{proof}
 
 \begin{proposition}
