@@ -614,3 +614,30 @@ available as locally convex spaces.
   Theorem~\ref{thm:fundamental} applies in the charts.
 \end{proof}
 
+\begin{theorem}[The period homomorphism]
+  \label{thm:period-map}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.PrimSystem.per,
+    LocallyConvex.LieGroups.MBLieGroup.PrimSystem.monodromy_lmul,
+    LocallyConvex.LieGroups.MBLieGroup.PrimSystem.exists_prim_univ_iff_per_eq_one,
+    LocallyConvex.LieGroups.MBLieGroup.perForm,
+    LocallyConvex.LieGroups.MBLieGroup.exists_logDeriv_eq_iff_perForm_eq_one}
+  \leanok
+  \uses{thm:fundamental-manifold}
+  Let $G$ be $C^0$-regular, $M$ a connected manifold and $\alpha$ a $\mathfrak g$-valued $1$-form
+  satisfying the Maurer--Cartan equation. Sending a loop at $x_0$ to the endpoint of its lift
+  through $(x_0, 1)$ to the germs of primitives of $\alpha$ defines a homomorphism
+  $\mathrm{per}_\alpha$ on $\pi_1(M, x_0)$, and $\alpha$ is the logarithmic derivative of a smooth
+  map $M \to G$ if and only if $\mathrm{per}_\alpha$ is trivial
+  \cite[Definition 6.1.12, Theorem 6.1.13(ii)(b)]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Left translation $(x, h) \mapsto (x, gh)$ of germs is continuous and commutes with the
+  projection, so it commutes with monodromy; hence $\mathrm{per}_\alpha$ is multiplicative. A global
+  primitive $f$ with $f(x_0) = 1$ gives the section $y \mapsto (y, f(y))$, so lifts of loops are
+  closed. Conversely, if all periods vanish, lifts of paths from $x_0$ with the same endpoint have
+  the same endpoint, so the identity of $M$ lifts to the germs and the second component of the
+  lift is a global primitive.
+\end{proof}
+

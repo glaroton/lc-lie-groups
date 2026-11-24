@@ -47,17 +47,30 @@ convex open subsets of chart ranges, where the Fundamental Theorem on convex set
 
 * `MBLieGroup.PrimSystem.exists_prim_univ`, `MBLieGroup.PrimSystem.eqOn_univ`: global primitives
   on simply connected spaces, unique up to left translation on connected ones.
+* `MBLieGroup.PrimSystem.per`, `MBLieGroup.PrimSystem.exists_prim_univ_iff_per_eq_one`: the
+  period homomorphism, and global primitives exist if and only if it is trivial.
 * `MBLieGroup.logDeriv_comp`: the chain rule for logarithmic derivatives.
 * `MBLieGroup.isMaurerCartan_of_logDeriv`: logarithmic derivatives satisfy the Maurer–Cartan
   equation.
 * `MBLieGroup.exists_logDeriv_eq_of_simplyConnected_manifold`: **the Fundamental Theorem on
   manifolds**; `MBLieGroup.eq_of_logDeriv_eq`: uniqueness up to left translation.
+* `MBLieGroup.perForm`, `MBLieGroup.exists_logDeriv_eq_iff_perForm_eq_one`: **`α` is integrable
+  if and only if its period homomorphism vanishes** ([GN26, Theorem 6.1.13(ii)(b)]).
+
+The period homomorphism `MBLieGroup.PrimSystem.per` is the monodromy of the covering of germs on
+the germ `(x₀, 1)`; it commutes with left translations of germs, hence is a homomorphism, and it is
+trivial exactly when the identity of `T` lifts to the germs (`exists_prim_univ_iff_per_eq_one`).
 
 ## Implementation notes
 
 The Maurer–Cartan equation `dα + ½[α, α] = 0` is stated in the preferred charts, in the form
-`∂_k α_c(z, h) − ∂_h α_c(z, k) = [α_c(z, h), α_c(z, k)]` used in `Regular/Fundamental.lean`. The
-period map of [GN26, Theorem 6.1.13(ii)(b)] is not formalized.
+`∂_k α_c(z, h) − ∂_h α_c(z, k) = [α_c(z, h), α_c(z, k)]` used in `Regular/Fundamental.lean`.
+
+[GN26, Definition 6.1.12] defines the period of a piecewise smooth loop `γ` as `evol_G(γ*α)`; here
+it is the endpoint of the lift of `γ` to the germs, defined for all continuous loops. For a smooth
+loop the two agree ([GN26, Lemma 6.1.11]), but this identification is not formalized. Mathlib's
+fundamental group composes loops in the opposite order (`p * q` is `q` followed by `p`), so the
+period map is a homomorphism into `Gᵐᵒᵖ`.
 
 ## References
 
@@ -182,13 +195,10 @@ theorem isCoveringMap_proj (hS : S.HasPrim) : IsCoveringMap S.proj := by
       exact (S.continuous_section hCo (S.mul_left (ofDisc g) hf)).subtype_mk _ }
   exact ⟨inferInstance, C, hxC, hCo, hCo.preimage hcp, H, fun _ ↦ rfl⟩
 
-/-- **Global primitives on simply connected spaces.** -/
-theorem exists_prim_univ (hS : S.HasPrim) [SimplyConnectedSpace T] [LocallyPathConnectedSpace T]
-    (x₀ : T) (g₀ : G) : ∃ f, S.prim univ f ∧ f x₀ = g₀ := by
-  obtain ⟨F, ⟨hF0, hFp⟩, -⟩ := (S.isCoveringMap_proj hS).existsUnique_continuousMap_lifts
-    (ContinuousMap.id T) x₀ (show S.Germs from (x₀, g₀)) rfl
-  have hF1 : ∀ a, (F a).1 = a := fun a ↦ congrFun hFp a
-  refine ⟨fun y ↦ (F y).2, S.of_local isOpen_univ fun y₀ _ ↦ ?_, by change (F x₀).2 = g₀; rw [hF0]⟩
+/-- **A continuous section of the germs gives a global primitive.** -/
+theorem prim_of_section (hS : S.HasPrim) (F : C(T, S.Germs)) (hF1 : ∀ a, (F a).1 = a) :
+    S.prim univ fun y ↦ (F y).2 := by
+  refine S.of_local isOpen_univ fun y₀ _ ↦ ?_
   obtain ⟨C₀, hC₀, hy₀C₀, -⟩ := S.exists_basic isOpen_univ (mem_univ y₀)
   obtain ⟨f₀, hf₀⟩ := hS C₀ hC₀
   set g := (F y₀).2 * (f₀ y₀)⁻¹
@@ -204,6 +214,13 @@ theorem exists_prim_univ (hS : S.HasPrim) [SimplyConnectedSpace T] [LocallyPathC
   · have h2 : (F y).2 = g * f₀ (F y).1 := hy.2
     rw [hF1] at h2
     exact h2
+
+/-- **Global primitives on simply connected spaces.** -/
+theorem exists_prim_univ (hS : S.HasPrim) [SimplyConnectedSpace T] [LocallyPathConnectedSpace T]
+    (x₀ : T) (g₀ : G) : ∃ f, S.prim univ f ∧ f x₀ = g₀ := by
+  obtain ⟨F, ⟨hF0, hFp⟩, -⟩ := (S.isCoveringMap_proj hS).existsUnique_continuousMap_lifts
+    (ContinuousMap.id T) x₀ (show S.Germs from (x₀, g₀)) rfl
+  exact ⟨_, S.prim_of_section hS F fun a ↦ congrFun hFp a, by rw [hF0]⟩
 
 /-- **Uniqueness of global primitives** on preconnected spaces, up to left translation. -/
 theorem eqOn_univ [PreconnectedSpace T] {f₁ f₂ : T → G} (h₁ : S.prim univ f₁)
@@ -238,6 +255,126 @@ theorem eqOn_univ [PreconnectedSpace T] {f₁ f₂ : T → G} (h₁ : S.prim uni
   funext x
   have hx : x ∈ A := this ▸ mem_univ x
   exact hx
+
+/-! ### The period homomorphism -/
+
+/-- Left translation of germs, `(x, h) ↦ (x, g h)`. -/
+def lmul (g : G) (p : S.Germs) : S.Germs := show T × G from (p.1, g * p.2)
+
+theorem continuous_lmul (g : G) : Continuous (S.lmul g) := by
+  refine continuous_generateFrom_iff.2 ?_
+  rintro _ ⟨V, f, hV, hf, rfl⟩
+  have : S.lmul g ⁻¹' S.sheet V f = S.sheet V (fun y ↦ g⁻¹ * f y) := by
+    ext p
+    change (p.1 ∈ V ∧ g * p.2 = f p.1) ↔ (p.1 ∈ V ∧ p.2 = g⁻¹ * f p.1)
+    rw [eq_inv_mul_iff_mul_eq]
+  rw [this]
+  exact S.isOpen_sheet hV (S.mul_left _ hf)
+
+/-- The germ `(x, 1)`, in the fiber over `x`. -/
+def base (x : T) : S.proj ⁻¹' {x} := ⟨show T × G from (x, 1), rfl⟩
+
+theorem fiber_eq_lmul {x : T} (m : S.proj ⁻¹' {x}) : (m : S.Germs) = S.lmul (m.1.2) (S.base x) :=
+  Prod.ext m.2 (mul_one _).symm
+
+/-- Monodromy commutes with left translations. -/
+theorem monodromy_lmul (hS : S.HasPrim) {x y : T} (γ : Path.Homotopic.Quotient x y)
+    (e : S.proj ⁻¹' {x}) (g : G) :
+    ((S.isCoveringMap_proj hS).monodromy γ ⟨S.lmul g e, e.2⟩ : S.Germs) =
+      S.lmul g ((S.isCoveringMap_proj hS).monodromy γ e) := by
+  set cov := S.isCoveringMap_proj hS
+  obtain ⟨γ⟩ := γ
+  set L := cov.liftPath γ e (γ.source.trans e.2.symm)
+  set Γ : C(unitInterval, S.Germs) := (⟨S.lmul g, S.continuous_lmul g⟩ : C(S.Germs, S.Germs)).comp L
+  have hpΓ : S.proj ∘ Γ = γ := by
+    funext t
+    exact congrFun (cov.liftPath_lifts γ e (γ.source.trans e.2.symm)) t
+  have hΓ0 : Γ 0 = (⟨S.lmul g e, e.2⟩ : S.proj ⁻¹' {x}) := by
+    change S.lmul g (L 0) = S.lmul g e
+    rw [cov.liftPath_zero]
+  have k2 := cov.coe_monodromy_mk γ e
+  calc _ = Γ 1 := cov.monodromy_eq_apply_one hpΓ hΓ0
+    _ = S.lmul g (L 1) := rfl
+    _ = _ := by rw [← k2]; rfl
+
+/-- **The period homomorphism** of a system of primitives with primitives on the basic sets: the
+monodromy of the germ covering on the germ `(x₀, 1)`. With Mathlib's convention for the
+fundamental group (`p * q` is `q` followed by `p`), it is a homomorphism into `Gᵐᵒᵖ`. -/
+def per (hS : S.HasPrim) (x₀ : T) : FundamentalGroup T x₀ →* Gᵐᵒᵖ where
+  toFun γ := MulOpposite.op ((S.isCoveringMap_proj hS).monodromy γ.asHom (S.base x₀) : S.Germs).2
+  map_one' := by
+    rw [FundamentalGroup.one_def]
+    change MulOpposite.op ((S.isCoveringMap_proj hS).monodromy (.refl x₀) (S.base x₀) :
+      S.Germs).2 = 1
+    rw [IsCoveringMap.monodromy_refl]
+    rfl
+  map_mul' p q := by
+    rw [FundamentalGroup.mul_def]
+    change MulOpposite.op ((S.isCoveringMap_proj hS).monodromy (q.asHom.trans p.asHom)
+      (S.base x₀) : S.Germs).2 = _
+    rw [IsCoveringMap.monodromy_trans_apply]
+    set m := (S.isCoveringMap_proj hS).monodromy q.asHom (S.base x₀)
+    have hm : m = ⟨S.lmul m.1.2 (S.base x₀), (S.base x₀).2⟩ := Subtype.ext (S.fiber_eq_lmul m)
+    rw [hm, S.monodromy_lmul hS]
+    change MulOpposite.op (m.1.2 * _) = _
+    rw [MulOpposite.op_mul, ← hm]
+
+theorem per_apply (hS : S.HasPrim) (x₀ : T) (γ : FundamentalGroup T x₀) :
+    (S.per hS x₀ γ).unop =
+      ((S.isCoveringMap_proj hS).monodromy γ.asHom (S.base x₀) : S.Germs).2 := rfl
+
+/-- **Global primitives exist if and only if the periods vanish**, on a path connected, locally
+path connected space ([GN26, Theorem 6.1.13(ii)(b)] in this setting). -/
+theorem exists_prim_univ_iff_per_eq_one (hS : S.HasPrim) [PathConnectedSpace T]
+    [LocallyPathConnectedSpace T] (x₀ : T) : (∃ f, S.prim univ f) ↔ S.per hS x₀ = 1 := by
+  set cov := S.isCoveringMap_proj hS
+  constructor
+  · rintro ⟨f, hf⟩
+    set f' : T → G := fun y ↦ (f x₀)⁻¹ * f y
+    have hf' : S.prim univ f' := S.mul_left _ hf
+    set s : C(T, S.Germs) := ⟨fun y ↦ show T × G from (y, f' y),
+      (S.continuous_section isOpen_univ hf').comp (continuous_id.subtype_mk fun y ↦ mem_univ y)⟩
+    have hloop : ∀ δ : Path.Homotopic.Quotient x₀ x₀,
+        (cov.monodromy δ (S.base x₀) : S.Germs).2 = 1 := by
+      rintro ⟨δ⟩
+      have hpΓ : S.proj ∘ s.comp δ.toContinuousMap = δ := rfl
+      have hΓ0 : s.comp δ.toContinuousMap 0 = S.base x₀ := by
+        change (show T × G from (δ 0, f' (δ 0))) = (x₀, 1)
+        rw [δ.source]
+        simp [f']
+      have key := cov.monodromy_eq_apply_one hpΓ hΓ0
+      change (cov.monodromy (Path.Homotopic.Quotient.mk δ) (S.base x₀) : S.Germs).2 = 1
+      rw [key]
+      change f' (δ 1) = 1
+      rw [δ.target]
+      simp [f']
+    refine MonoidHom.ext fun γ ↦ MulOpposite.unop_injective ?_
+    rw [per_apply]
+    exact hloop _
+  · intro hper
+    have hloop : ∀ δ : Path.Homotopic.Quotient x₀ x₀, cov.monodromy δ (S.base x₀) = S.base x₀ := by
+      intro δ
+      have h1 := congrArg MulOpposite.unop (DFunLike.congr_fun hper (FundamentalGroup.fromPath δ))
+      change (cov.monodromy δ (S.base x₀) : S.Germs).2 = 1 at h1
+      refine Subtype.ext ?_
+      rw [S.fiber_eq_lmul, h1]
+      exact Prod.ext rfl (one_mul _)
+    obtain ⟨F, ⟨-, hFp⟩, -⟩ := cov.isLocalHomeomorph.existsUnique_continuousMap_lifts
+      (ContinuousMap.id T) x₀ (S.base x₀).1 rfl
+      (fun γ γ_0 ↦ by
+        simpa [and_comm] using cov.exists_path_lifts ((ContinuousMap.id T).comp γ) (S.base x₀).1
+          (by simp [γ_0]; rfl))
+      fun γ γ' Γ Γ' γ_0 γ'_0 Γ_0 Γ'_0 Γ_lifts Γ'_lifts γγ'1 ↦ by
+        set P : Path x₀ (γ 1) := ⟨γ, γ_0, rfl⟩
+        set P' : Path x₀ (γ 1) := ⟨γ', γ'_0, γγ'1.symm⟩
+        have h1 := cov.monodromy_eq_apply_one (γ := P) (e := S.base x₀) (Γ := Γ) Γ_lifts Γ_0
+        have h2 := cov.monodromy_eq_apply_one (γ := P') (e := S.base x₀) (Γ := Γ') Γ'_lifts Γ'_0
+        rw [← h1, ← h2]
+        set δ := (Path.Homotopic.Quotient.mk P').trans (Path.Homotopic.Quotient.mk P).symm
+        have hδ : δ.trans (Path.Homotopic.Quotient.mk P) = Path.Homotopic.Quotient.mk P' := by
+          simp [δ, Path.Homotopic.Quotient.trans_assoc]
+        rw [← hδ, IsCoveringMap.monodromy_trans_apply, hloop]
+    exact ⟨_, S.prim_of_section hS F fun a ↦ congrFun hFp a⟩
 
 end PrimSystem
 
@@ -523,6 +660,29 @@ theorem eq_of_logDeriv_eq [PreconnectedSpace M] {f₁ f₂ : M → G}
       α x fun _ ↦ h) {x₀ : M} (h₀ : f₁ x₀ = f₂ x₀) : f₁ = f₂ :=
   (primSystem (G := G) α).eqOn_univ ⟨isOpen_univ, h₁, fun x _ h ↦ h₁' x h⟩
     ⟨isOpen_univ, h₂, fun x _ h ↦ h₂' x h⟩ h₀
+
+/-- **The period homomorphism of `α`** at `x₀` ([GN26, Definition 6.1.12]): the monodromy of the
+covering of germs of primitives of `α`, on the germ `(x₀, 1)`. With Mathlib's convention for the
+fundamental group, it takes values in `Gᵐᵒᵖ`. -/
+def perForm (hG : IsC0Regular E G) (hMC : IsMaurerCartan G α) (x₀ : M) :
+    FundamentalGroup M x₀ →* Gᵐᵒᵖ :=
+  (primSystem (G := G) α).per (hasPrim_primSystem α hG hMC) x₀
+
+/-- **`α` is integrable if and only if its periods vanish** ([GN26, Theorem 6.1.13(ii)(b)]), on a
+connected manifold, for `G` `C⁰`-regular and `α` satisfying the Maurer–Cartan equation. -/
+theorem exists_logDeriv_eq_iff_perForm_eq_one (hG : IsC0Regular E G) (hMC : IsMaurerCartan G α)
+    [ConnectedSpace M] (x₀ : M) :
+    (∃ f : M → G, SmoothMBM X E f ∧
+      ∀ x h, logDeriv E (f ∘ (chartAt X x).symm) (chartAt X x x) h = α x fun _ ↦ h) ↔
+      perForm α hG hMC x₀ = 1 := by
+  have : LocallyPathConnectedSpace M := ChartedSpace.locallyPathConnectedSpace X M
+  have : PathConnectedSpace M := pathConnectedSpace_iff_connectedSpace.2 ‹_›
+  rw [perForm, ← PrimSystem.exists_prim_univ_iff_per_eq_one]
+  constructor
+  · rintro ⟨f, hf, hδ⟩
+    exact ⟨f, isOpen_univ, hf, fun x _ h ↦ hδ x h⟩
+  · rintro ⟨f, -, hf⟩
+    exact ⟨f, hf.1, fun x h ↦ hf.2 x (mem_univ x) h⟩
 
 end Manifold
 

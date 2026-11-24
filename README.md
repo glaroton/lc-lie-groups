@@ -381,8 +381,13 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   unique up to left translation on connected `M`; conversely, logarithmic derivatives satisfy the
   Maurer–Cartan equation. The germ covering is abstracted to systems of primitives
   (`MBLieGroup.PrimSystem`); in charts, the logarithmic derivative and the local representatives of
-  `α` transform in the same way under transition maps (`MBLieGroup.logDeriv_comp`). The period map
-  [GN26, Theorem 6.1.13(ii)(b)] is not formalized.
+  `α` transform in the same way under transition maps (`MBLieGroup.logDeriv_comp`).
+* `MBLieGroup.perForm`, `MBLieGroup.exists_logDeriv_eq_iff_perForm_eq_one`: **the period
+  homomorphism, and `α` is integrable on a connected manifold if and only if its periods vanish**
+  [GN26, Definition 6.1.12, Theorem 6.1.13(ii)(b)]. The period of a loop is the endpoint of its
+  lift to the germs of primitives through `(x₀, 1)` (Mathlib's monodromy), a homomorphism into
+  `Gᵐᵒᵖ` with Mathlib's order of composition of loops. Its identification with `evol_G(γ*α)` for
+  piecewise smooth loops [GN26, Lemma 6.1.11] is not formalized.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -425,8 +430,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the period map
-   [GN26, Theorem 6.1.13(ii)(b)].
+   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the formula
+   `per[γ] = evol_G(γ*α)` for the period map [GN26, Lemma 6.1.11].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 
