@@ -87,6 +87,13 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms CircleCover.isC0Regular_diffPlusCircle
 #print axioms CircleCover.isRegular_diffCircle
 #print axioms CircleCover.isRegular_diffPlusCircle
+#print axioms CircleCover.ker_coverHom
+#print axioms CircleCover.kerEquivInt
+#print axioms CircleCover.ker_coverHom_le_center
+#print axioms CircleCover.coverHom_eq_iff
+#print axioms CircleCover.range_coverHom
+#print axioms CircleCover.isOpenMap_coverHom
+#print axioms CircleCover.quotientEquiv
 #print axioms VectorGroup.isCkRegular
 #print axioms VectorGroup.isRegular_of_mackeyComplete
 #print axioms MackeyConverse.mackeyComplete_of_integratesSmooth

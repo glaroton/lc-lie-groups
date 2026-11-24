@@ -265,6 +265,13 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   is a smooth local right inverse of the covering morphism (`CircleCover.coverHom_rho`), and
   `MBLieGroup.IsC0Regular.of_hom_of_rightInverse` (`Regular/Hom.lean`) transfers `C⁰`-regularity
   from the universal cover.
+* `CircleCover.ker_coverHom`, `CircleCover.kerEquivInt`, `CircleCover.range_coverHom`,
+  `CircleCover.quotientEquiv` (`CircleCover/Quotient.lean`): **`Diff⁺(S¹) = \widetilde{Diff}⁺(S¹)/ℤ`**
+  [GN26, §13.3]. The kernel of the covering morphism `q` is the central subgroup of translations
+  `x ↦ x + n`, `n ∈ ℤ`; its image is the identity component, since the cover is convex and the
+  image contains a neighbourhood of the identity (by the local section `ρ`); and `q` is an open
+  map, so it induces an isomorphism of topological groups `\widetilde{Diff}⁺(S¹)/ker q ≅ Diff⁺(S¹)`.
+  The quotient is not given a Lie group structure of its own; `q` carries the smooth structure.
 
 ### `Regular/Basic.lean`, `Regular/Evol.lean` and `Regular/Vector.lean`
 
@@ -385,9 +392,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 
 ## Planned
 
-1. Examples: `Diff⁺(S¹)` as the quotient of its universal cover by `ℤ` (the covering morphism is
-   built, as a Lie group morphism with a local right inverse; its kernel and the quotient are not).
-   For `Diff(K)`: the finite-order statements of
+1. Examples: quotients of Lie groups by discrete normal subgroups as Lie groups (so that
+   `\widetilde{Diff}⁺(S¹)/ℤ ≅ Diff⁺(S¹)` becomes an isomorphism of Lie groups). For `Diff(K)`: the finite-order statements of
    [GN26, Proposition 13.1.10(a), (b)] (`Diff_{C^{ℓ+k}}(K) → Diff_{C^ℓ}(K)` is `C^k`), and the
    compatibility of the translated atlas with the restricted atlas of `C^∞(K, K)`.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
