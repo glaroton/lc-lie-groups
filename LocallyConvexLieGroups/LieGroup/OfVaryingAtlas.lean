@@ -31,7 +31,8 @@ given on all of `G`, so the local hypotheses of that theorem are not needed.
 * `IsVaryingLieGroup.hasGroupoid`: the translated charts form a smooth atlas.
 * `IsVaryingLieGroup.mbLieGroup`: with this atlas, `G` is a Lie group.
 * `IsVaryingLieGroup.smoothMBM_of_smooth`: maps into `G` that are smooth for `A` are smooth for
-  the translated charts.
+  the translated charts; `IsVaryingLieGroup.smooth_ofChartedSpace_id`: the translated charts are
+  smooth for `A`.
 
 ## Implementation notes
 
@@ -210,6 +211,32 @@ theorem mbLieGroup :
       exact hs
     exact (hrep.mono hsub).congr_of_isOpen (isOpen_chartDomain isOpen_univ
       hA.continuous_inv.continuousOn _ _) fun _ _ ↦ rfl
+
+/-- **The translated charts are smooth for `A`**: the identity is smooth from the atlas of
+translated charts to `A`; its local representatives are local representatives of left
+translations. -/
+theorem smooth_ofChartedSpace_id :
+    letI := hA.chartedSpace
+    letI := hA.hasGroupoid
+    (VaryingAtlas.ofChartedSpace (A.model (A.chartAt 1)) G).Smooth A id := by
+  let := hA.chartedSpace
+  have := hA.hasGroupoid
+  intro k
+  refine ⟨continuousOn_id, fun i j ↦ ?_⟩
+  obtain ⟨_, g, rfl⟩ := i
+  change ContDiffMBOn k (A.chart j ∘ id ∘ (hA.transChart g).symm)
+    (chartDomain id univ (hA.transChart g) (A.chart j))
+  have hrep := (hA.smooth_mul_left g k).2 (A.chartAt 1) j
+  have hsub : chartDomain id univ (hA.transChart g) (A.chart j) ⊆
+      chartDomain (fun x ↦ g * x) univ (chartOne (A := A)) (A.chart j) := by
+    rintro a ⟨ha, -, hs⟩
+    refine ⟨hA.transChart_target_subset g ha, mem_univ _, ?_⟩
+    change (hA.transChart g).symm a ∈ (A.chart j).source at hs
+    rwa [transChart_symm_apply] at hs
+  refine (hrep.mono hsub).congr_of_isOpen
+    (isOpen_chartDomain isOpen_univ continuousOn_id _ _) fun a _ ↦ ?_
+  change A.chart j ((hA.transChart g).symm a) = A.chart j (g * (chartOne (A := A)).symm a)
+  rw [transChart_symm_apply]
 
 /-- **Maps that are smooth for `A` are smooth for the translated charts**: their local
 representatives in the translated chart `x ↦ φ(g⁻¹ x)` are local representatives, in `φ`, of

@@ -466,11 +466,14 @@ available as locally convex spaces.
     LocallyConvex.LieGroups.Diffeo.smooth_flowOne,
     LocallyConvex.LieGroups.Diffeo.dMB_Ψ,
     LocallyConvex.LieGroups.Diffeo.isEvolOn_flow,
-    LocallyConvex.LieGroups.Diffeo.isC0Regular}
+    LocallyConvex.LieGroups.Diffeo.isC0Regular,
+    LocallyConvex.LieGroups.IsVaryingLieGroup.smooth_ofChartedSpace_id,
+    LocallyConvex.LieGroups.Diffeo.isHom_idHom,
+    LocallyConvex.LieGroups.Diffeo.isC0Regular'}
   \leanok
   \uses{lem:evol-from-flow, thm:diff-lie}
-  Let $K$ be a nonempty compact manifold modeled on a normed space, with a normalized local
-  addition. Then $\mathrm{Diff}(K)$ is $C^0$-regular: the evolution of a curve $\xi$ of vector
+  Let $K$ be a nonempty compact manifold modeled on a normed space, with a local addition.
+  Then $\mathrm{Diff}(K)$ is $C^0$-regular: the evolution of a curve $\xi$ of vector
   fields is $t \mapsto \eta_t^{-1}$, where $\eta_t$ is the flow of $-\xi$ from $0$ to $t$
   (cf.\ \cite[Theorem 43.1]{KM97} in the convenient setting, \cite[Theorem III.3.1]{Nee06}).
 \end{theorem}
@@ -489,7 +492,10 @@ available as locally convex spaces.
   $d\Psi(0, -x) = x$ holds pointwise: $\Psi(-h x)(p) = \Theta_p(S(h))$, with $S(h)$ the time-one
   value of the solution of $\dot z = h\tilde x(z)$ from $\tilde p$ and $\Theta_p$ the inverse of
   $\Sigma(p, \cdot)$; $h^{-1}(S(h) - \tilde p) = \int_0^1 \tilde x(z_h(s))\,ds \to \tilde x(\tilde p)$,
-  and $d\Theta_p(\tilde p) = \mathrm{id}$. Lemma~\ref{lem:evol-from-flow} concludes.
+  and $d\Theta_p(\tilde p) = \mathrm{id}$ for a normalized local addition.
+  Lemma~\ref{lem:evol-from-flow} concludes. For an arbitrary local addition, normalize it: the
+  atlases of $C^\infty(K, K)$ given by two local additions both satisfy the exponential law, hence
+  are equivalent, and the identity of $\mathrm{Diff}(K)$ is an isomorphism of Lie groups.
 \end{proof}
 
 \begin{proposition}

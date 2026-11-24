@@ -454,7 +454,10 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   addition ([KM97, Theorem 43.1] in the convenient setting, [Nee06, Theorem III.3.1]; [GN26, §13.1]
   leaves it to be written). `dΨ(0, -x) = x` is checked pointwise, through the evaluations
   `u ↦ u(p)`: a difference quotient of the time-one values of the solutions, and `dΘ_p = id` for
-  the inverse `Θ_p` of `Σ(p, ·)`. The model space is in `Type` (the superposition operators of
+  the inverse `Θ_p` of `Σ(p, ·)`. `Diffeo.isHom_idHom`, `Diffeo.isC0Regular'`: the Lie group
+  structure does not depend on the local addition (both atlases of `C^∞(K, K)` satisfy the
+  exponential law, hence are equivalent), so **`Diff(K)` is `C⁰`-regular for every local
+  addition**. The model space is in `Type` (the superposition operators of
   lc-analysis on `C([0, 1], E)` are in a single universe).
 
 ## Planned
@@ -465,8 +468,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: `Diff(K)` for local additions that are not
-   normalized (through the independence of the Lie group structure from the local addition).
+   inverse algebras [GN26, Example 5.6.9].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

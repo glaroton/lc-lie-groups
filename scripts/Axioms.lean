@@ -50,6 +50,8 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms Diffeo.dMB_Ψ
 #print axioms Diffeo.isEvolOn_flow
 #print axioms Diffeo.isC0Regular
+#print axioms Diffeo.isHom_idHom
+#print axioms Diffeo.isC0Regular'
 #print axioms MBLieGroup.isEvolOn_of_flow
 #print axioms MBLieGroup.isC0Regular_of_nhds_isEvolOn
 -- Left invariant vector fields (`LieAlgebra/LeftInvariant.lean`)

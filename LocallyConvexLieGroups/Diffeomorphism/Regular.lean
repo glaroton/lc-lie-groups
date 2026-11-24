@@ -7,6 +7,7 @@ module
 
 public import LocallyConvexLieGroups.Diffeomorphism.FlowSmooth
 public import LocallyConvexLieGroups.LieGroup.OpenSubgroup
+public import LocallyConvexLieGroups.Regular.Lift
 public import Mathlib.Analysis.LocallyConvex.BalancedCoreHull
 
 /-!
@@ -43,14 +44,18 @@ fields near `0`, the evolution is `γ(t) = η_t⁻¹`, where `η_t` is the flow 
 ## Main results
 
 * `Diffeo.isEvolOn_flow`: the inverse flow is an evolution.
-* `Diffeo.isC0Regular`: **`Diff(K)` is `C⁰`-regular.**
+* `Diffeo.isC0Regular`: **`Diff(K)` is `C⁰`-regular**, for a normalized local addition.
+* `Diffeo.isHom_idHom`: the Lie group structure of `Diff(K)` does not depend on the local addition
+  (the atlases of `C^∞(K, K)` satisfy the exponential law, hence are equivalent);
+  `Diffeo.isC0Regular'`: **`Diff(K)` is `C⁰`-regular for every local addition.**
 
 ## Implementation notes
 
 * The model space of `K` is a normed space in `Type` (the superposition operators on
   `C([0, 1], E)` are in a single universe), finite-dimensional since `K` is compact and nonempty.
-* The local addition is normalized, as in `Diffeomorphism/LieAlgebra.lean`; every local addition
-  can be normalized (lc-manifolds, `LocalAddition.normalize`).
+* The construction uses a normalized local addition, as in `Diffeomorphism/LieAlgebra.lean`; every
+  local addition can be normalized (lc-manifolds, `LocalAddition.normalize`), and the identity of
+  `Diff(K)` is an isomorphism of Lie groups between the structures given by two local additions.
 
 ## References
 
@@ -502,5 +507,52 @@ theorem Diffeo.isC0Regular {H : Type} [NormedAddCommGroup H] [NormedSpace ℝ H]
     MBLieGroup.IsC0Regular (DiffeoModel A) (Diffeo A) :=
   have := finiteDimensional_of_compactSpace (H := H) K
   Diffeo.isC0Regular_of_finiteDimensional A hA
+
+/-! ### Independence of the local addition -/
+
+section Independence
+
+variable {H : Type} [NormedAddCommGroup H] [NormedSpace ℝ H]
+  {K : Type} [TopologicalSpace K] [ChartedSpace H K] [MBManifold H K] [CompactSpace K] [T2Space K]
+  (A₁ A₂ : LocalAddition H K)
+
+/-- The identity of `Diff(K)`, from the Lie group structure given by `A₁` to the one given by
+`A₂`. -/
+def Diffeo.idHom : Diffeo A₁ →* Diffeo A₂ where
+  toFun g := show diffeos H K from g
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+/-- **The Lie group structure of `Diff(K)` does not depend on the local addition**: the identity
+is a morphism of Lie groups `Diff(K)_{A₁} → Diff(K)_{A₂}`. The atlases of `C^∞(K, K)` given by
+`A₁` and `A₂` both satisfy the exponential law, hence are equivalent ([GN26, Theorem 4.2.2(a)]). -/
+theorem Diffeo.isHom_idHom :
+    MBLieGroup.IsHom (DiffeoModel A₁) (DiffeoModel A₂) (Diffeo.idHom A₁ A₂) := by
+  have he := A₂.equivalent_mappingAtlasSm_of_expLaw (H := H) (M := K)
+    (A₁.mappingAtlasSm (H := H) (M := K)) fun _ _ _ ↦ A₁.contMDiffOn_mappingAtlasSm_iff
+  have h1 : (diffeoAtlas A₁).Smooth (diffeoAtlas A₂) (fun g : diffeos H K ↦ g) := fun k ↦
+    ((A₂.mappingAtlasSm (H := H) (M := K)).contMDiffOn_restrict_iff
+      SmoothMap.isOpen_setOf_isDiffeo).2
+      ((he.1.comp (VaryingAtlas.smooth_val _ SmoothMap.isOpen_setOf_isDiffeo)) k)
+  exact (isVaryingLieGroup_diffeos A₂).smoothMBM_of_smooth
+    (h1.comp (isVaryingLieGroup_diffeos A₁).smooth_ofChartedSpace_id)
+
+/-- **Regularity of `Diff(K)` does not depend on the local addition.** -/
+theorem Diffeo.isC0Regular_of_isC0Regular
+    (h : MBLieGroup.IsC0Regular (DiffeoModel A₂) (Diffeo A₂)) :
+    MBLieGroup.IsC0Regular (DiffeoModel A₁) (Diffeo A₁) :=
+  MBLieGroup.IsC0Regular.of_localDiffeo h (Diffeo.isHom_idHom A₁ A₂) isOpen_univ isOpen_univ
+    (mem_univ _) (mem_univ _) (ρ := Diffeo.idHom A₂ A₁) (Diffeo.isHom_idHom A₂ A₁)
+    (mapsTo_univ _ _) (fun _ _ ↦ rfl) fun _ _ ↦ rfl
+
+/-- **`Diff(K)` is `C⁰`-regular** ([GN26, §13.1]), for a nonempty compact manifold `K` modeled on
+a normed space and any local addition on `K`: normalize it ([GN26, Remark 3.8.16]) and use the
+independence of the Lie group structure from the local addition. -/
+theorem Diffeo.isC0Regular' [Nonempty K] (A : LocalAddition H K) :
+    MBLieGroup.IsC0Regular (DiffeoModel A) (Diffeo A) :=
+  Diffeo.isC0Regular_of_isC0Regular A A.normalize
+    (Diffeo.isC0Regular A.normalize A.isNormalized_normalize)
+
+end Independence
 
 end LocallyConvex.LieGroups
