@@ -19,6 +19,7 @@ public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.Diffeomorphism.Circle
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra
 public import LocallyConvexLieGroups.Diffeomorphism.FieldRep
+public import LocallyConvexLieGroups.Diffeomorphism.Flow
 public import LocallyConvexLieGroups.Diffeomorphism.IntCurve
 public import LocallyConvexLieGroups.Diffeomorphism.ParamODE
 public import LocallyConvexLieGroups.Exponential.Basic
@@ -45,6 +46,7 @@ public import LocallyConvexLieGroups.Regular.Ck
 public import LocallyConvexLieGroups.Regular.Basic
 public import LocallyConvexLieGroups.Regular.Evol
 public import LocallyConvexLieGroups.Regular.Examples
+public import LocallyConvexLieGroups.Regular.FlowCriterion
 public import LocallyConvexLieGroups.Regular.Fundamental
 public import LocallyConvexLieGroups.Regular.FundamentalGlobal
 public import LocallyConvexLieGroups.Regular.FundamentalManifold
