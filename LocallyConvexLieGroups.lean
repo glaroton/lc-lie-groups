@@ -19,6 +19,7 @@ public import LocallyConvexLieGroups.Diffeomorphism.Basic
 public import LocallyConvexLieGroups.Diffeomorphism.Circle
 public import LocallyConvexLieGroups.Diffeomorphism.LieAlgebra
 public import LocallyConvexLieGroups.Diffeomorphism.FieldRep
+public import LocallyConvexLieGroups.Diffeomorphism.IntCurve
 public import LocallyConvexLieGroups.Diffeomorphism.ParamODE
 public import LocallyConvexLieGroups.Exponential.Basic
 public import LocallyConvexLieGroups.Exponential.Unique
