@@ -9,7 +9,7 @@ Blueprint: <https://glaroton.github.io/lc-lie-groups/blueprint/>
 (PDF: <https://glaroton.github.io/lc-lie-groups/blueprint.pdf>)
 
 > **Status.** Early stage: Lie groups, their Lie algebras and the Lie functor, and `Diff(K)` for
-> compact `K` as a Lie group. The library builds with no `sorry`, and its main theorems depend
+> compact `K` as a regular Lie group. The library builds with no `sorry`, and its main theorems depend
 > only on Lean's standard axioms. It is the third layer of a program on infinite-dimensional Lie
 > theory: [lc-analysis](https://github.com/glaroton/lc-analysis) provides the Michal–Bastiani
 > calculus, and [lc-manifolds](https://github.com/glaroton/lc-manifolds) the manifolds, the
@@ -425,6 +425,38 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   normalized local addition of the sphere (lc-manifolds, `sphereLocalAddition`);
   `DiffPlusCircle.toField_lie`: **`L(Diff⁺(S¹)) ≅ V(S¹)^op`**.
 
+### Regularity of `Diff(K)` (`Diffeomorphism/ParamODE.lean` … `Diffeomorphism/Regular.lean`)
+
+* `ParamODE.smoothMBOn_sol` (`Diffeomorphism/ParamODE.lean`): **differential equations driven by
+  continuous curves of fields**: for `f : W × F → F` smooth, small and `1/2`-Lipschitz in the
+  second variable on `N × B(z₀, 3r)` (`W` locally convex, `F` Banach), the solution of
+  `ż = f(ξ(t), z)`, `z(0) = y`, is smooth in `(ξ, y) ∈ C([0, 1], N) × B(z₀, r)`. The Picard
+  operator is a superposition operator followed by the primitive, a smooth uniform family of
+  contractions; the time dependence is only continuous, so this is not a case of
+  [GN26, Theorem 2.4.34].
+* `Diffeo.smoothMBOn_rep`, `Diffeo.rep_transition` (`Diffeomorphism/FieldRep.lean`): the local
+  representatives `ũ_i(z)` of `u ∈ Γ_id` in the charts of `K` are smooth in `(u, z)` (uncurrying,
+  [GN26, Theorem 1.7.30(a)]) and transform under the transition maps.
+* `Diffeo.IsIntCurve.eqOn` (`Diffeomorphism/IntCurve.lean`): **uniqueness of integral curves** of
+  time dependent vector fields on `K` (Gronwall in charts, connectedness of `[0, 1]`).
+* `Diffeo.flowCurve`, `Diffeo.flowCurve_shiftField` (`Diffeomorphism/Flow.lean`): **the flow of
+  `-ξ`** for `ξ` near `0`, glued from finitely many charts, and the flow property: the flow from
+  `r` to `t` is the time-one map of `ζ_{r → t}(w) = (t - r) ξ(r + w (t - r))`.
+* `Diffeo.smooth_flowOne` (`Diffeomorphism/FlowSmooth.lean`): the time-one map is `C^{k,ℓ}` in
+  `(ξ, y)`, hence smooth into `C^∞(K, K)` by the exponential law [GN26, Theorem 4.2.2(a)].
+* `MBLieGroup.isEvolOn_of_flow` (`Regular/FlowCriterion.lean`): **evolutions from flows**: if
+  `φ(η_t η_r⁻¹) = Ψ(ζ_{r → t})` with `Ψ` of class `C¹`, `Ψ(0) = 0` and `dΨ(0, -x) = x`, then
+  `t ↦ η_t⁻¹` is an evolution of `ξ`. `MBLieGroup.isC0Regular_of_nhds_isEvolOn`
+  (`Regular/Interval.lean`): the local criterion [GN26, Lemma 6.1.4] with solutions on `[0, 1]`
+  only.
+* `Diffeo.dMB_Ψ`, `Diffeo.isC0Regular` (`Diffeomorphism/Regular.lean`): **`Diff(K)` is
+  `C⁰`-regular**, for `K` nonempty, compact, modeled on a normed space, with a normalized local
+  addition ([KM97, Theorem 43.1] in the convenient setting, [Nee06, Theorem III.3.1]; [GN26, §13.1]
+  leaves it to be written). `dΨ(0, -x) = x` is checked pointwise, through the evaluations
+  `u ↦ u(p)`: a difference quotient of the time-one values of the solutions, and `dΘ_p = id` for
+  the inverse `Θ_p` of `Σ(p, ·)`. The model space is in `Type` (the superposition operators of
+  lc-analysis on `C([0, 1], E)` are in a single universe).
+
 ## Planned
 
 1. Examples: for `Diff(K)`, the finite-order statements of
@@ -433,7 +465,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`.
+   inverse algebras [GN26, Example 5.6.9]. Regularity: `Diff(K)` for local additions that are not
+   normalized (through the independence of the Lie group structure from the local addition).
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

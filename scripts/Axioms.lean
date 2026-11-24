@@ -38,6 +38,20 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms Diffeo.evalAt_dMB_xl
 #print axioms Diffeo.evalAt_lie
 #print axioms Diffeo.toField_lie
+-- Regularity of `Diff(K)` (`Diffeomorphism/ParamODE.lean` … `Diffeomorphism/Regular.lean`)
+#print axioms ParamODE.smoothMBOn_sol
+#print axioms ParamODE.hasDerivWithinAt_sol
+#print axioms Diffeo.smoothMBOn_rep
+#print axioms Diffeo.rep_transition
+#print axioms Diffeo.IsIntCurve.eqOn
+#print axioms Diffeo.flowCurve_eq_local
+#print axioms Diffeo.flowCurve_shiftField
+#print axioms Diffeo.smooth_flowOne
+#print axioms Diffeo.dMB_Ψ
+#print axioms Diffeo.isEvolOn_flow
+#print axioms Diffeo.isC0Regular
+#print axioms MBLieGroup.isEvolOn_of_flow
+#print axioms MBLieGroup.isC0Regular_of_nhds_isEvolOn
 -- Left invariant vector fields (`LieAlgebra/LeftInvariant.lean`)
 #print axioms MBLieGroup.lieBracket_leftField
 #print axioms MBLieGroup.lieBracket_leftField_one

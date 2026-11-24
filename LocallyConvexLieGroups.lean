@@ -23,6 +23,7 @@ public import LocallyConvexLieGroups.Diffeomorphism.Flow
 public import LocallyConvexLieGroups.Diffeomorphism.FlowSmooth
 public import LocallyConvexLieGroups.Diffeomorphism.IntCurve
 public import LocallyConvexLieGroups.Diffeomorphism.ParamODE
+public import LocallyConvexLieGroups.Diffeomorphism.Regular
 public import LocallyConvexLieGroups.Exponential.Basic
 public import LocallyConvexLieGroups.Exponential.Unique
 public import LocallyConvexLieGroups.LieAlgebra.Adjoint

@@ -431,6 +431,67 @@ available as locally convex spaces.
   Theorem~\ref{thm:quotient-lie}, with the smooth local section $g \mapsto \rho(\phi(g))$.
 \end{proof}
 
+\begin{lemma}[Evolutions from flows]
+  \label{lem:evol-from-flow}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.shiftField,
+    LocallyConvex.LieGroups.MBLieGroup.isEvolOn_of_flow,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Semiregular_of_isEvolOn,
+    LocallyConvex.LieGroups.MBLieGroup.isC0Regular_of_nhds_isEvolOn}
+  \leanok
+  Let $W$ be an open $0$-neighbourhood of $\mathfrak g$ and $\Psi$ a $C^1$ map on
+  $C([0, 1], W)$ with $\Psi(0) = 0$ and $d\Psi(0, -x) = x$ for the constant curves. If
+  $\eta \colon \mathbb R \to G$ satisfies $\eta_0 = 1$ and
+  $\phi(\eta_t \eta_r^{-1}) = \Psi(\zeta_{r \to t})$ for $r, t \in [0, 1]$, where
+  $\zeta_{r \to t}(w) = (t - r)\,\xi(r + w(t - r))$, then $t \mapsto \eta_t^{-1}$ is an evolution
+  of $\xi$ on $[0, 1]$. Moreover, if the curves near $0$ have evolutions on $[0, 1]$ and
+  $\mathrm{evol}$ is smooth near $0$, then $G$ is $C^0$-regular \cite[Lemma 6.1.4]{GN26}.
+\end{lemma}
+
+\begin{proof}
+  \leanok
+  $\gamma(t)^{-1}\gamma(r) = \eta_t\eta_r^{-1}$, and $\zeta_{t + h \to t} = h Z_h$ with
+  $Z_h \to -\xi(t)$ (constant), so $\delta(\gamma)(t) = d\Psi(0, -\xi(t)) = \xi(t)$. For the
+  second statement, the one-parameter groups come from the constant curves near $0$, rescaled.
+\end{proof}
+
+\begin{theorem}[$\mathrm{Diff}(K)$ is regular]
+  \label{thm:diff-regular}
+  \lean{LocallyConvex.LieGroups.ParamODE.smoothMBOn_sol,
+    LocallyConvex.LieGroups.Diffeo.smoothMBOn_rep,
+    LocallyConvex.LieGroups.Diffeo.rep_transition,
+    LocallyConvex.LieGroups.Diffeo.IsIntCurve.eqOn,
+    LocallyConvex.LieGroups.Diffeo.flowCurve_eq_local,
+    LocallyConvex.LieGroups.Diffeo.flowCurve_shiftField,
+    LocallyConvex.LieGroups.Diffeo.contMDiffMB₂_flowOne,
+    LocallyConvex.LieGroups.Diffeo.smooth_flowOne,
+    LocallyConvex.LieGroups.Diffeo.dMB_Ψ,
+    LocallyConvex.LieGroups.Diffeo.isEvolOn_flow,
+    LocallyConvex.LieGroups.Diffeo.isC0Regular}
+  \leanok
+  \uses{lem:evol-from-flow, thm:diff-lie}
+  Let $K$ be a nonempty compact manifold modeled on a normed space, with a normalized local
+  addition. Then $\mathrm{Diff}(K)$ is $C^0$-regular: the evolution of a curve $\xi$ of vector
+  fields is $t \mapsto \eta_t^{-1}$, where $\eta_t$ is the flow of $-\xi$ from $0$ to $t$
+  (cf.\ \cite[Theorem 43.1]{KM97} in the convenient setting, \cite[Theorem III.3.1]{Nee06}).
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In a chart of $K$, the equation $\dot z = -\tilde\xi(t)(z)$ has a time dependence which is only
+  continuous; its solution is the fixed point of the Picard operator on $C([0, 1], H)$, a smooth
+  uniform family of contractions for $\xi$ near $0$, so it is smooth in $(\xi, z)$ by the fixed
+  points with parameters. Integral curves on $K$ are unique (Gronwall in charts, and
+  connectedness of $[0, 1]$), so the chart solutions glue to the flow, and finitely many charts
+  suffice by compactness. The time-one map $\eta_\xi$ is $C^{k, \ell}$ in $(\xi, y)$, hence smooth
+  into $C^\infty(K, K)$ by the exponential law. Near $\xi = 0$ it is a diffeomorphism in the domain
+  of the chart $\phi$ at the identity; reparametrizing integral curves gives
+  $\eta_t\eta_r^{-1} = \eta_{\zeta_{r \to t}}$. For $\Psi(\zeta) = \phi(\eta_\zeta)$,
+  $d\Psi(0, -x) = x$ holds pointwise: $\Psi(-h x)(p) = \Theta_p(S(h))$, with $S(h)$ the time-one
+  value of the solution of $\dot z = h\tilde x(z)$ from $\tilde p$ and $\Theta_p$ the inverse of
+  $\Sigma(p, \cdot)$; $h^{-1}(S(h) - \tilde p) = \int_0^1 \tilde x(z_h(s))\,ds \to \tilde x(\tilde p)$,
+  and $d\Theta_p(\tilde p) = \mathrm{id}$. Lemma~\ref{lem:evol-from-flow} concludes.
+\end{proof}
+
 \begin{proposition}
   \label{prop:vector-mackey}
   \lean{LocallyConvex.LieGroups.MBLieGroup.CkCurve.isLipschitzCurve,
