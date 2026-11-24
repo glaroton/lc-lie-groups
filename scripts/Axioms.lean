@@ -114,6 +114,14 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.exists_logDeriv_eq
 #print axioms MBLieGroup.isCoveringMap_proj
 #print axioms MBLieGroup.exists_logDeriv_eq_of_simplyConnected
+#print axioms MBLieGroup.PrimSystem.exists_prim_univ
+#print axioms MBLieGroup.PrimSystem.eqOn_univ
+#print axioms MBLieGroup.logDeriv_comp
+#print axioms MBLieGroup.isLogPrimitiveM_comp
+#print axioms MBLieGroup.IsLogPrimitiveM.comp_symm
+#print axioms MBLieGroup.isMaurerCartan_of_logDeriv
+#print axioms MBLieGroup.exists_logDeriv_eq_of_simplyConnected_manifold
+#print axioms MBLieGroup.eq_of_logDeriv_eq
 #print axioms MBLieGroup.isRegular_of_completeSpace
 -- Exponential functions (`Exponential/Basic.lean`)
 #print axioms MBLieGroup.IsExp.exp_neg

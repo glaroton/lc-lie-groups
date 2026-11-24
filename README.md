@@ -372,8 +372,17 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   subsets of locally convex spaces. As in [GN26, Proposition 6.1.10], the space of germs of
   primitives over convex open sets (`MBLieGroup.Germs`) covers `U`
   (`MBLieGroup.isCoveringMap_proj`), and the identity of `U` lifts (Mathlib's lifting theorem for
-  simply connected, locally path connected spaces). The period map and `1`-forms on general
-  manifolds are not formalized.
+  simply connected, locally path connected spaces).
+* `MBLieGroup.exists_logDeriv_eq_of_simplyConnected_manifold`, `MBLieGroup.eq_of_logDeriv_eq`,
+  `MBLieGroup.isMaurerCartan_of_logDeriv` (`Regular/FundamentalManifold.lean`): **the Fundamental
+  Theorem on manifolds** [GN26, Theorem 6.1.13(i), (ii)(a)]. For `α` a `𝔤`-valued `1`-form on a
+  simply connected manifold `M` (lc-manifolds' `DifferentialForm`) satisfying the Maurer–Cartan
+  equation in the preferred charts, and `G` `C⁰`-regular, `α = δ(f)` for a smooth `f : M → G`,
+  unique up to left translation on connected `M`; conversely, logarithmic derivatives satisfy the
+  Maurer–Cartan equation. The germ covering is abstracted to systems of primitives
+  (`MBLieGroup.PrimSystem`); in charts, the logarithmic derivative and the local representatives of
+  `α` transform in the same way under transition maps (`MBLieGroup.logDeriv_comp`). The period map
+  [GN26, Theorem 6.1.13(ii)(b)] is not formalized.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -416,8 +425,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the Fundamental
-   Theorem for `1`-forms on manifolds and the period map [GN26, Theorem 6.1.13(ii)(b)].
+   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the period map
+   [GN26, Theorem 6.1.13(ii)(b)].
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

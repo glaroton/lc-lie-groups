@@ -579,3 +579,38 @@ available as locally convex spaces.
   translate of a primitive.
 \end{proof}
 
+\begin{theorem}[The Fundamental Theorem on manifolds]
+  \label{thm:fundamental-manifold}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.PrimSystem,
+    LocallyConvex.LieGroups.MBLieGroup.PrimSystem.isCoveringMap_proj,
+    LocallyConvex.LieGroups.MBLieGroup.PrimSystem.exists_prim_univ,
+    LocallyConvex.LieGroups.MBLieGroup.PrimSystem.eqOn_univ,
+    LocallyConvex.LieGroups.MBLieGroup.logDeriv_comp,
+    LocallyConvex.LieGroups.MBLieGroup.formRep,
+    LocallyConvex.LieGroups.MBLieGroup.IsMaurerCartan,
+    LocallyConvex.LieGroups.MBLieGroup.IsLogPrimitiveM,
+    LocallyConvex.LieGroups.MBLieGroup.isLogPrimitiveM_comp,
+    LocallyConvex.LieGroups.MBLieGroup.IsLogPrimitiveM.comp_symm,
+    LocallyConvex.LieGroups.MBLieGroup.isMaurerCartan_of_logDeriv,
+    LocallyConvex.LieGroups.MBLieGroup.exists_logDeriv_eq_of_simplyConnected_manifold,
+    LocallyConvex.LieGroups.MBLieGroup.eq_of_logDeriv_eq}
+  \leanok
+  \uses{thm:fundamental-global, lem:maurer-cartan}
+  Let $G$ be $C^0$-regular, $M$ a simply connected manifold and $\alpha$ a $\mathfrak g$-valued
+  $1$-form on $M$ satisfying the Maurer--Cartan equation. Then $\alpha = \delta(f)$ for a smooth
+  $f \colon M \to G$, unique up to left translation. Conversely, logarithmic derivatives satisfy the
+  Maurer--Cartan equation \cite[Theorem 6.1.13 (i), (ii)(a)]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  The proof of Theorem~\ref{thm:fundamental-global} only uses that primitives restrict, translate
+  and glue, and exist and are unique up to left translation on a basis of open sets; we state it in
+  that generality. On $M$ the basic open sets are the preimages $c^{-1}(C)$ of convex open subsets
+  of chart ranges. By the chain rule $\delta(F \circ \tau)(y)(v) = \delta F(\tau y)(d\tau(y) v)$,
+  and since the local representatives satisfy $\alpha_i(y, h) = \alpha_j(\tau y, d\tau(y) h)$ for
+  the transition maps $\tau$, $f$ is a primitive of $\alpha$ near a point if and only if
+  $f \circ c^{-1}$ is a primitive of $\alpha_c$ in a chart $c$; so
+  Theorem~\ref{thm:fundamental} applies in the charts.
+\end{proof}
+

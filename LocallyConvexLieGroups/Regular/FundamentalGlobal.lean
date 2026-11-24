@@ -40,8 +40,8 @@ The uniqueness lemma on intervals (`MBLieGroup.eqOn_of_hasLogDerivAt`) extends
 * `MBLieGroup.isCoveringMap_proj`: the space of germs covers `U`.
 * `MBLieGroup.exists_logDeriv_eq_of_simplyConnected`: **the Fundamental Theorem**.
 
-The period map of [GN26, Theorem 6.1.13(ii)(b)] and `1`-forms on general manifolds are not
-formalized.
+For `1`-forms on manifolds, see `Regular/FundamentalManifold.lean`. The period map of
+[GN26, Theorem 6.1.13(ii)(b)] is not formalized.
 
 ## References
 
