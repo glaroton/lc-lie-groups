@@ -641,3 +641,23 @@ available as locally convex spaces.
   lift is a global primitive.
 \end{proof}
 
+\begin{theorem}[Periods are evolutions]
+  \label{thm:period-evol}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsLogPrimitiveM.hasLogDerivAt_comp,
+    LocallyConvex.LieGroups.MBLieGroup.PrimSystem.per_fromPath,
+    LocallyConvex.LieGroups.MBLieGroup.perForm_eq_evol}
+  \leanok
+  \uses{thm:period-map}
+  In the setting of Theorem~\ref{thm:period-map}, let $\gamma$ be a $C^1$ loop at $x_0$. Then
+  $\mathrm{per}_\alpha[\gamma] = \mathrm{evol}_G(\gamma^*\alpha)$, where
+  $(\gamma^*\alpha)(t) = \alpha_{\gamma(t)}(\dot\gamma(t))$ \cite[Lemma 6.1.11]{GN26}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  Write the lift of $\gamma$ through $(x_0, 1)$ as $t \mapsto (\gamma(t), g(t))$. Near each time
+  $t$ the lift runs along the graph of a primitive $f$, so $g = f \circ \gamma$ there, and by the
+  chain rule $\delta(f \circ \gamma)(t) = \alpha_{\gamma(t)}(\dot\gamma(t))$. Hence $g$ is the
+  evolution of $\gamma^*\alpha$ on $[0, 1]$, and $\mathrm{per}_\alpha[\gamma] = g(1)$.
+\end{proof}
+

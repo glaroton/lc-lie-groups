@@ -126,6 +126,8 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.PrimSystem.exists_prim_univ_iff_per_eq_one
 #print axioms MBLieGroup.perForm
 #print axioms MBLieGroup.exists_logDeriv_eq_iff_perForm_eq_one
+#print axioms MBLieGroup.IsLogPrimitiveM.hasLogDerivAt_comp
+#print axioms MBLieGroup.perForm_eq_evol
 #print axioms MBLieGroup.isRegular_of_completeSpace
 -- Exponential functions (`Exponential/Basic.lean`)
 #print axioms MBLieGroup.IsExp.exp_neg

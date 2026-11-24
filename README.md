@@ -386,8 +386,11 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   homomorphism, and `α` is integrable on a connected manifold if and only if its periods vanish**
   [GN26, Definition 6.1.12, Theorem 6.1.13(ii)(b)]. The period of a loop is the endpoint of its
   lift to the germs of primitives through `(x₀, 1)` (Mathlib's monodromy), a homomorphism into
-  `Gᵐᵒᵖ` with Mathlib's order of composition of loops. Its identification with `evol_G(γ*α)` for
-  piecewise smooth loops [GN26, Lemma 6.1.11] is not formalized.
+  `Gᵐᵒᵖ` with Mathlib's order of composition of loops.
+* `MBLieGroup.perForm_eq_evol`: **periods are evolutions** [GN26, Lemma 6.1.11]: for a `C¹` loop
+  `γ` the period is `evol_G(γ*α)`, the evolution of `t ↦ α_{γ(t)}(γ̇(t))`. The second component of
+  the lift of `γ` to the germs solves the evolution equation, by the chain rule along curves
+  (`MBLieGroup.IsLogPrimitiveM.hasLogDerivAt_comp`). Piecewise `C¹` loops are not treated.
 * `MBLieGroup.IsC0Regular.isExp`: **regular Lie groups have exponential functions**
   [GN26, Remark 6.1.2(a)].
 * `VectorGroup.isC0Regular`: **`(E, +)` is `C⁰`-regular for `E` sequentially complete**, with
@@ -430,8 +433,7 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
 2. Lie algebras: `L(Diff(K))` as a Lie algebra isomorphism with `V(K)^op`, once `V(K)` is a Lie
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
-   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`, and the formula
-   `per[γ] = evol_G(γ*α)` for the period map [GN26, Lemma 6.1.11].
+   inverse algebras [GN26, Example 5.6.9]. Regularity: regularity of `Diff(K)`.
 4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
    Lie algebra (the general Finsler theory is in lc-manifolds).
 

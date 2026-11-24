@@ -56,6 +56,9 @@ convex open subsets of chart ranges, where the Fundamental Theorem on convex set
   manifolds**; `MBLieGroup.eq_of_logDeriv_eq`: uniqueness up to left translation.
 * `MBLieGroup.perForm`, `MBLieGroup.exists_logDeriv_eq_iff_perForm_eq_one`: **`α` is integrable
   if and only if its period homomorphism vanishes** ([GN26, Theorem 6.1.13(ii)(b)]).
+* `MBLieGroup.IsLogPrimitiveM.hasLogDerivAt_comp`: the chain rule along curves.
+* `MBLieGroup.perForm_eq_evol`: **the period of a `C¹` loop `γ` is `evol_G(γ*α)`** ([GN26, Lemma
+  6.1.11]).
 
 The period homomorphism `MBLieGroup.PrimSystem.per` is the monodromy of the covering of germs on
 the germ `(x₀, 1)`; it commutes with left translations of germs, hence is a homomorphism, and it is
@@ -67,10 +70,12 @@ The Maurer–Cartan equation `dα + ½[α, α] = 0` is stated in the preferred c
 `∂_k α_c(z, h) − ∂_h α_c(z, k) = [α_c(z, h), α_c(z, k)]` used in `Regular/Fundamental.lean`.
 
 [GN26, Definition 6.1.12] defines the period of a piecewise smooth loop `γ` as `evol_G(γ*α)`; here
-it is the endpoint of the lift of `γ` to the germs, defined for all continuous loops. For a smooth
-loop the two agree ([GN26, Lemma 6.1.11]), but this identification is not formalized. Mathlib's
-fundamental group composes loops in the opposite order (`p * q` is `q` followed by `p`), so the
-period map is a homomorphism into `Gᵐᵒᵖ`.
+it is the endpoint of the lift of `γ` to the germs, defined for all continuous loops. For a `C¹`
+loop the two agree (`MBLieGroup.perForm_eq_evol`): the second component of the lift solves the
+evolution equation of `γ*α`. Loops are given as maps `ℝ → M`, differentiable at the points of
+`[0, 1]` (with two-sided derivatives at the endpoints); piecewise `C¹` loops are not treated.
+Mathlib's fundamental group composes loops in the opposite order (`p * q` is `q` followed by `p`),
+so the period map is a homomorphism into `Gᵐᵒᵖ`.
 
 ## References
 
@@ -375,6 +380,22 @@ theorem exists_prim_univ_iff_per_eq_one (hS : S.HasPrim) [PathConnectedSpace T]
           simp [δ, Path.Homotopic.Quotient.trans_assoc]
         rw [← hδ, IsCoveringMap.monodromy_trans_apply, hloop]
     exact ⟨_, S.prim_of_section hS F fun a ↦ congrFun hFp a⟩
+
+/-- Near each time, a continuous curve of germs runs along the graph of one primitive. -/
+theorem eventually_mem_sheet (hS : S.HasPrim) (Γ : C(unitInterval, S.Germs)) (t : unitInterval) :
+    ∃ V ∈ S.basic, ∃ f, S.prim V f ∧ ∀ᶠ s in 𝓝 t, Γ s ∈ S.sheet V f := by
+  obtain ⟨V, hV, f, -, hf, hΓt⟩ := S.exists_sheet hS (Γ t) isOpen_univ (mem_univ _)
+  exact ⟨V, hV, f, hf, Γ.continuous.continuousAt.preimage_mem_nhds
+    ((S.isOpen_sheet hV hf).mem_nhds hΓt)⟩
+
+/-- The period of a loop `δ` is the endpoint of the lift of `δ` to the germs starting at
+`(x₀, 1)`. -/
+theorem per_fromPath (hS : S.HasPrim) {x₀ : T} (δ : Path x₀ x₀) {Γ : C(unitInterval, S.Germs)}
+    (hΓ : S.proj ∘ Γ = δ) (hΓ0 : Γ 0 = S.base x₀) :
+    (S.per hS x₀ (FundamentalGroup.fromPath (.mk δ))).unop = (Γ 1).2 := by
+  rw [per_apply]
+  change ((S.isCoveringMap_proj hS).monodromy (.mk δ) (S.base x₀) : S.Germs).2 = _
+  rw [(S.isCoveringMap_proj hS).monodromy_eq_apply_one hΓ hΓ0]
 
 end PrimSystem
 
@@ -683,6 +704,87 @@ theorem exists_logDeriv_eq_iff_perForm_eq_one (hG : IsC0Regular E G) (hMC : IsMa
     exact ⟨f, isOpen_univ, hf, fun x _ h ↦ hδ x h⟩
   · rintro ⟨f, -, hf⟩
     exact ⟨f, hf.1, fun x h ↦ hf.2 x (mem_univ x) h⟩
+
+/-- **The chain rule along curves**: if `f` is a primitive of `α` near `c(t)`, then the
+logarithmic derivative of `f ∘ c` at `t` is `α_{c(t)}(ċ(t))`, with the velocity `ċ(t)` read in the
+preferred chart at `c(t)`. -/
+theorem IsLogPrimitiveM.hasLogDerivAt_comp {f : M → G} {V : Set M} (hV : IsOpen V)
+    (hf : IsLogPrimitiveM E α f V) {c : ℝ → M} {t : ℝ} (hc : ContinuousAt c t) (hct : c t ∈ V)
+    {v : X} (hv : HasDirDerivAt (fun s ↦ chartAt X (c t) (c s)) t 1 v) :
+    HasLogDerivAt E (f ∘ c) (α (c t) fun _ ↦ v) t := by
+  set φ := chartAt X (c t)
+  have hsrc : c t ∈ φ.source := mem_chart_source X _
+  have hO : IsOpen (φ.target ∩ φ.symm ⁻¹' V) := φ.isOpen_inter_preimage_symm hV
+  have hF : SmoothMBMOn X E (f ∘ φ.symm) (φ.target ∩ φ.symm ⁻¹' V) :=
+    (hf.comp_symm α hV (prefChart (E := X) (c t))).1
+  have hσO : φ (c t) ∈ φ.target ∩ φ.symm ⁻¹' V := ⟨φ.map_source hsrc, by
+    change φ.symm (φ (c t)) ∈ V; rw [φ.left_inv hsrc]; exact hct⟩
+  have hd := ContDiffMBOn.hasDirDerivAt_comp (isOpen_relDom hO hF (φ (c t)))
+    (smoothMBOn_rel hO hF (φ (c t)) 1) hv (mem_relDom hσO)
+  have key : logDeriv E (f ∘ φ.symm) (φ (c t)) v = α (c t) fun _ ↦ v := hf.2 (c t) hct v
+  unfold logDeriv at key
+  rw [key] at hd
+  have hev : ∀ᶠ s in 𝓝 t, c s ∈ φ.source :=
+    hc.preimage_mem_nhds (φ.open_source.mem_nhds hsrc)
+  refine ⟨((hf.1 0).continuousOn.continuousAt (hV.mem_nhds hct)).comp hc,
+    hd.congr_of_eventuallyEq ?_⟩
+  filter_upwards [hev] with s hs
+  simp only [Function.comp_apply, φ.left_inv hs, φ.left_inv hsrc]
+
+/-- **Periods are evolutions** ([GN26, Lemma 6.1.11, Definition 6.1.12]): for a `C¹` loop `c`
+at `x₀`, with velocity `ċ(t)` read in the preferred chart at `c(t)`, the period of `c` is
+`evol_G(c*α)`, the evolution of the curve `t ↦ α_{c(t)}(ċ(t))` in `𝔤`. -/
+theorem perForm_eq_evol (hG : IsC0Regular E G) (hMC : IsMaurerCartan G α) {x₀ : M}
+    {c : ℝ → M} (hc : Continuous c) (h0 : c 0 = x₀) (h1 : c 1 = x₀) {v : ℝ → X}
+    (hv : ∀ t ∈ Icc (0 : ℝ) 1, HasDirDerivAt (fun s ↦ chartAt X (c t) (c s)) t 1 (v t))
+    {ξ : C(unitInterval, E)} (hξ : ∀ t : unitInterval, ξ t = α (c t) fun _ ↦ v t) :
+    (perForm α hG hMC x₀ (FundamentalGroup.fromPath (.mk
+      ⟨⟨fun t : unitInterval ↦ c t, hc.comp continuous_subtype_val⟩, h0, h1⟩))).unop =
+      evol E G ξ := by
+  set S := primSystem (G := G) α
+  have hS := hasPrim_primSystem α hG hMC
+  set δ : Path x₀ x₀ := ⟨⟨fun t : unitInterval ↦ c t, hc.comp continuous_subtype_val⟩, h0, h1⟩
+  set cov := S.isCoveringMap_proj hS
+  set L := cov.liftPath δ (S.base x₀) (δ.source.trans (S.base x₀).2.symm)
+  have hL : S.proj ∘ L = δ := cov.liftPath_lifts _ _ _
+  have hL1 : ∀ s, (L s).1 = c s := fun s ↦ congrFun hL s
+  rw [perForm, S.per_fromPath hS δ hL (cov.liftPath_zero _ _ _)]
+  set g : ℝ → G := fun s ↦ (L (projIcc 0 1 zero_le_one s)).2
+  have hP : ∀ x : E, ∃ P : ℝ → G, IsEvol E (fun _ ↦ x) P := fun x ↦ by
+    obtain ⟨P, hP⟩ := hG.semiregular (ContinuousMap.const unitInterval x)
+    rw [extendCurve_const] at hP
+    exact ⟨P, hP⟩
+  have hg : IsEvolOn E (extendCurve ξ) g := by
+    refine ⟨?_, fun t ht ↦ ?_⟩
+    · change (L (projIcc 0 1 zero_le_one 0)).2 = 1
+      rw [projIcc_left]
+      change (L 0).2 = 1
+      rw [cov.liftPath_zero]
+      rfl
+    obtain ⟨V, -, f, hf, hev⟩ := S.eventually_mem_sheet hS L ⟨t, ht⟩
+    have hev' : ∀ᶠ s in 𝓝 t, L (projIcc 0 1 zero_le_one s) ∈ S.sheet V f :=
+      ((continuous_projIcc (h := zero_le_one)).tendsto t).eventually
+        (by rwa [projIcc_of_mem _ ht])
+    have hct : c t ∈ V := by
+      have := hev'.self_of_nhds
+      rw [projIcc_of_mem _ ht] at this
+      have h' := this.1
+      rwa [hL1] at h'
+    have hd := hf.2.hasLogDerivAt_comp α hf.1 hc.continuousAt hct (hv t ht)
+    have hξt : extendCurve ξ t = α (c t) fun _ ↦ v t := by
+      rw [extendCurve, IccExtend_of_mem _ _ ht]; exact hξ _
+    rw [hξt]
+    refine (hd.hasLogDerivWithinAt _).congr ?_ ?_
+    · filter_upwards [nhdsWithin_le_nhds hev', self_mem_nhdsWithin] with s hs hsI
+      change (L (projIcc 0 1 zero_le_one s)).2 = f (c s)
+      rw [hs.2, hL1, projIcc_of_mem _ hsI]
+    · have := hev'.self_of_nhds
+      change (L (projIcc 0 1 zero_le_one t)).2 = f (c t)
+      rw [this.2, hL1, projIcc_of_mem _ ht]
+  rw [evol_eq_of_isEvolOn hP hg]
+  change _ = (L (projIcc 0 1 zero_le_one 1)).2
+  rw [projIcc_right]
+  rfl
 
 end Manifold
 
