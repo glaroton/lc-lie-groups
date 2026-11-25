@@ -183,3 +183,13 @@ open LocallyConvex.LieGroups LocallyConvex.Manifolds
 #print axioms MBLieGroup.isC0Regular_openSubgroup_iff
 #print axioms MBLieGroup.isC0Regular_identityComponent_iff
 #print axioms VectorGroup.isC0Regular
+-- Invariant Finsler metrics (`Metric/LeftInvariant.lean`, `Metric/Uniform.lean`)
+#print axioms MBLieGroup.continuous_leftTriv
+#print axioms MBLieGroup.leftFinsler
+#print axioms MBLieGroup.dist_mul_left
+#print axioms MBLieGroup.eq_leftFinsler
+#print axioms MBLieGroup.leftFinsler_isNondegenerate_iff
+#print axioms MBLieGroup.leftTriv_tangentMap_mul_right
+#print axioms MBLieGroup.dist_mul_right
+#print axioms MBLieGroup.tendsto_dist_mul
+#print axioms MBLieGroup.tendsto_dist_inv

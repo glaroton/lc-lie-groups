@@ -1,0 +1,145 @@
+\chapter{Invariant Finsler metrics}
+\label{chap:metrics}
+
+We follow \cite[\S2]{Lar19}. Finsler seminorms, Finsler metrics (continuous on the tangent
+bundle), lengths of piecewise $\Ck{1}$ curves and the induced distance are those of
+lc-manifolds \cite{LCM}. The Lie algebra $\mathfrak g$ is the model space read in the chart at
+the identity, so a Finsler seminorm on $\mathfrak g$ is a Finsler seminorm on the model space.
+
+\section{Left invariant metrics}
+
+\begin{definition}[Left trivialization]
+  \label{def:left-triv}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.leftTriv,
+    LocallyConvex.LieGroups.MBLieGroup.tangentMap_inv_mul,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_add,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_smul,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_one,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_injective}
+  \leanok
+  \uses{def:lie-algebra}
+  For $v \in T_g G$, $g^{-1}v = T_g(\lambda_{g^{-1}})v \in \mathfrak g$. It is linear and
+  injective in $v$, and $1^{-1} w = w$.
+\end{definition}
+
+\begin{theorem}[The left trivialization is continuous]
+  \label{thm:left-triv-continuous}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.continuous_leftTriv,
+    LocallyConvex.LieGroups.MBLieGroup.continuous_leftTriv_fiber}
+  \leanok
+  \uses{def:left-triv}
+  The map $TG \to \mathfrak g$, $(g, v) \mapsto g^{-1}v$, is continuous.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  In the chart $\psi$ at $g_0$, $g^{-1}v$ is the partial derivative $\partial_2 F((y, y), (0, w))$
+  of the local representative $F(a, b) = \varphi((\psi^{-1}a)^{-1}\psi^{-1}b)$ of
+  $(a, b) \mapsto a^{-1}b$, where $(y, w)$ are the coordinates of $(g, v)$. Since
+  $(a, b) \mapsto a^{-1}b$ is $\Ck{1}$ on $G \times G$, $dF$ is continuous.
+\end{proof}
+
+\begin{theorem}[Left invariant Finsler metrics]
+  \label{thm:left-finsler}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.leftFinsler,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_tangentMap_mul_left,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_leftField,
+    LocallyConvex.LieGroups.MBLieGroup.leftFinsler_leftField,
+    LocallyConvex.LieGroups.MBLieGroup.leftFinsler_tangentMap_mul_left,
+    LocallyConvex.LieGroups.MBLieGroup.length_mul_left,
+    LocallyConvex.LieGroups.MBLieGroup.dist_mul_left,
+    LocallyConvex.LieGroups.MBLieGroup.eq_leftFinsler,
+    LocallyConvex.LieGroups.MBLieGroup.leftFinsler_isReversible_iff,
+    LocallyConvex.LieGroups.MBLieGroup.leftFinsler_isNondegenerate_iff}
+  \leanok
+  \uses{thm:left-triv-continuous, thm:left-fields}
+  A Finsler seminorm $|\cdot|$ on $\mathfrak g$ defines a Finsler metric $|v|_g = |g^{-1}v|$ on
+  $G$, continuous on $TG$. It is left invariant, $|x_l(g)|_g = |x|$, left translations preserve
+  lengths and distances, and every left invariant field of Finsler seminorms arises in this
+  way \cite[Remark~2.5]{Lar19}. It is reversible, resp.\ nondegenerate, iff $|\cdot|$ is.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  $(hg)^{-1}(hv) = g^{-1}v$ by the chain rule, and $x_l(g) = T_1(\lambda_g)x$. For the last
+  assertion, $\mu(v) = \mu(T\lambda_{g^{-1}} v) = \mu_1(g^{-1}v)$.
+\end{proof}
+
+\section{Uniform and bi-invariant metrics}
+
+\begin{definition}[Uniform metrics]
+  \label{def:uniform}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsLUniform,
+    LocallyConvex.LieGroups.MBLieGroup.IsRUniform,
+    LocallyConvex.LieGroups.MBLieGroup.isLUniform_leftFinsler}
+  \leanok
+  \uses{thm:left-finsler}
+  A Finsler metric is L-uniform (resp.\ R-uniform) if $|gv|_{gh} \leq L(g)|v|_h$ (resp.\
+  $|vg|_{hg} \leq R(g)|v|_h$) for an upper semicontinuous $L$ (resp.\ $R$) with value $1$ at the
+  identity \cite[Def.~2.4]{Lar19}. Left invariant metrics are L-uniform with $L \equiv 1$.
+\end{definition}
+
+\begin{proposition}[Translations are Lipschitz]
+  \label{prop:uniform-lipschitz}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsLUniform.dist_mul_left_le,
+    LocallyConvex.LieGroups.MBLieGroup.IsRUniform.dist_mul_right_le}
+  \leanok
+  \uses{def:uniform}
+  For an L-uniform metric, $d(gx, gy) \leq L(g)\, d(x, y)$; for an R-uniform metric,
+  $d(xg, yg) \leq R(g)\, d(x, y)$ \cite[Prop.~2.10(3)]{Lar19}.
+\end{proposition}
+
+\begin{proof}
+  \leanok
+  Lipschitz maps between Finsler manifolds \cite{LCM}.
+\end{proof}
+
+\begin{theorem}[Right translations and the adjoint representation]
+  \label{thm:right-ad}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.tangentMap_conj_one,
+    LocallyConvex.LieGroups.MBLieGroup.leftTriv_tangentMap_mul_right,
+    LocallyConvex.LieGroups.MBLieGroup.leftFinsler_tangentMap_mul_right,
+    LocallyConvex.LieGroups.MBLieGroup.isRUniform_leftFinsler}
+  \leanok
+  \uses{thm:left-finsler, def:Ad, def:uniform}
+  $(xg)^{-1}(vg) = \operatorname{Ad}(g^{-1})(x^{-1}v)$. Hence the left invariant metric of $|\cdot|$ is
+  R-uniform with function $R$ when $|\operatorname{Ad}(g^{-1})v| \leq R(g)|v|$ \cite[Remark~2.5]{Lar19}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  $\lambda_{(xg)^{-1}} \circ \rho_g = c_{g^{-1}} \circ \lambda_{x^{-1}}$ and the chain rule.
+\end{proof}
+
+\begin{corollary}[Bi-invariant metrics]
+  \label{cor:bi-invariant}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.IsAdInvariant,
+    LocallyConvex.LieGroups.MBLieGroup.leftFinsler_tangentMap_mul_right_of_isAdInvariant,
+    LocallyConvex.LieGroups.MBLieGroup.length_mul_right,
+    LocallyConvex.LieGroups.MBLieGroup.dist_mul_right,
+    LocallyConvex.LieGroups.MBLieGroup.isRUniform_leftFinsler_of_isAdInvariant}
+  \leanok
+  \uses{thm:right-ad}
+  If $|\cdot|$ is $\operatorname{Ad}(G)$-invariant, its left invariant metric is bi-invariant: right
+  translations preserve lengths and distances too \cite[Remark~3.7]{Lar19}.
+\end{corollary}
+
+\begin{theorem}[Continuity of the group operations]
+  \label{thm:group-ops-continuous}
+  \lean{LocallyConvex.LieGroups.MBLieGroup.tendsto_dist_mul,
+    LocallyConvex.LieGroups.MBLieGroup.tendsto_dist_inv}
+  \leanok
+  \uses{prop:uniform-lipschitz, thm:left-finsler}
+  For a left invariant R-uniform metric with $R > 0$, if $d(a_i, g) \to 0$ and $d(b_i, h) \to 0$
+  then $d(a_ib_i, gh) \to 0$, and if $d(g, a_i) \to 0$ then $d(a_i^{-1}, g^{-1}) \to 0$
+  \cite[Prop.~2.10(4)]{Lar19}.
+\end{theorem}
+
+\begin{proof}
+  \leanok
+  $d(ab, gh) \leq d(ab, ah) + d(ah, gh) \leq d(b, h) + R(h)\, d(a, g)$, and
+  $d(a^{-1}, g^{-1}) = d(1, ag^{-1}) \leq R(g^{-1})\, d(g, a)$.
+\end{proof}
+
+Reversibility is not used: for a reversible metric these statements give the joint continuity
+of the group operations for the topology of the distance, as in \cite[Prop.~2.10(4)]{Lar19}.

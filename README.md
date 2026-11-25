@@ -29,6 +29,7 @@ maps, regularity, integration of Lie algebra homomorphisms) state it as a hypoth
 | `LieGroup/` | Lie groups and their morphisms |
 | `LieAlgebra/` | the Lie algebra of a Lie group and the Lie functor |
 | `Diffeomorphism/` | the Lie group `Diff(K)` of a compact manifold `K` |
+| `Metric/` | left invariant, uniform and bi-invariant Finsler metrics |
 
 ## Contents
 
@@ -460,6 +461,30 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
   addition**. The model space is in `Type` (the superposition operators of
   lc-analysis on `C([0, 1], E)` are in a single universe).
 
+### Invariant Finsler metrics (`Metric/`)
+
+Following [Lar19, §2]; Finsler metrics, lengths and distances are those of lc-manifolds.
+
+* `MBLieGroup.leftTriv`, `MBLieGroup.continuous_leftTriv` (`Metric/LeftInvariant.lean`): the
+  **left trivialization** `(g, v) ↦ g⁻¹ v`, `TG → L(G)`, is continuous. In charts it is a
+  partial derivative of `(a, b) ↦ a⁻¹ b`.
+* `MBLieGroup.leftFinsler`: **the left invariant Finsler metric** `|v|_g = |g⁻¹ v|` of a Finsler
+  seminorm on `L(G)`, continuous on `TG` [Lar19, Remark 2.5]. `dist_mul_left`: left translations
+  are isometries. `eq_leftFinsler`: every left invariant field of Finsler seminorms is of this
+  form. `leftFinsler_isReversible_iff`, `leftFinsler_isNondegenerate_iff`.
+* `MBLieGroup.IsLUniform`, `MBLieGroup.IsRUniform` (`Metric/Uniform.lean`): **uniform metrics**
+  [Lar19, Def. 2.4]; translations are Lipschitz [Lar19, Prop. 2.10(3)].
+* `MBLieGroup.leftTriv_tangentMap_mul_right`: `(x g)⁻¹ (v g) = Ad(g⁻¹)(x⁻¹ v)`, so the left
+  invariant metric is R-uniform when `Ad` is bounded, and **bi-invariant when the seminorm is
+  `Ad`-invariant** (`dist_mul_right`) [Lar19, Remark 3.7].
+* `MBLieGroup.tendsto_dist_mul`, `MBLieGroup.tendsto_dist_inv`: for a left invariant R-uniform
+  metric the group operations are continuous for the distance [Lar19, Prop. 2.10(4)].
+
+In lc-manifolds (`Metric/FinslerTopology.lean`): for any Finsler metric on a manifold modeled
+on a locally convex space, `d(x₀, y) → 0` and `d(y, x₀) → 0` as `y → x₀`, so the distance is
+continuous and its topology is coarser than that of the manifold [Lar19, Prop. 2.10(1), (2)]
+(where it is said to be finer; the proof there gives coarser).
+
 ## Planned
 
 1. Examples: for `Diff(K)`, the finite-order statements of
@@ -469,8 +494,8 @@ brackets (`localBracket_transition`, `localBracket_jacobi`) do the rest.
    algebra type in lc-manifolds.
 3. Exponential functions: the exponential function of unit groups of Mackey complete continuous
    inverse algebras [GN26, Example 5.6.9].
-4. Invariant metrics on Lie groups: left and right invariant Finsler metrics from a norm on the
-   Lie algebra (the general Finsler theory is in lc-manifolds).
+4. Invariant metrics: the local structure [Lar19, Lemma 2.13] and the bi-invariant metrics of
+   [Lar19, §4] (one-parameter groups are short paths).
 
 ## Building
 
@@ -486,6 +511,8 @@ from source on the first `lake build`.
 
 * [GN26] H. Glöckner, K.-H. Neeb, *Infinite-Dimensional Lie Groups*, book manuscript,
   [arXiv:2602.12362](https://arxiv.org/abs/2602.12362) (2026).
+* [Lar19] G. Larotonda, The metric geometry of infinite dimensional Lie groups and their
+  homogeneous spaces, Forum Math. 31 (2019), 1567–1605.
 * [Nee06] K.-H. Neeb, Towards a Lie theory of locally convex groups, Jpn. J. Math. 1 (2006),
   291–468.
 

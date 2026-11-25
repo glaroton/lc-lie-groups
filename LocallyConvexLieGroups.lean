@@ -43,6 +43,8 @@ public import LocallyConvexLieGroups.LieGroup.Quotient
 public import LocallyConvexLieGroups.LieGroup.Semidirect
 public import LocallyConvexLieGroups.LieGroup.Units
 public import LocallyConvexLieGroups.LieGroup.Vector
+public import LocallyConvexLieGroups.Metric.LeftInvariant
+public import LocallyConvexLieGroups.Metric.Uniform
 public import LocallyConvexLieGroups.Regular.Banach
 public import LocallyConvexLieGroups.Regular.Ck
 public import LocallyConvexLieGroups.Regular.Basic
